@@ -1,0 +1,33 @@
+baseURL = "https://blog.rogs.me"
+languageCode = "en-us"
+title = "rogs | Blog"
+theme = "m10c"
+staticDir = ["static"]
+
+[permalinks]
+  posts = "/:year/:month/:title/"
+
+[params]
+  author = "Roger Gonzalez"
+  description = "my blog, thoughts and other stuff"
+  avatar = "avatar.png"
+  [[params.social]]
+    name = "website"
+    url = "https://rogs.me"
+  [[params.social]]
+    name = "github"
+    url = "https://git.rogs.me/me"
+  [[params.social]]
+    name = "linkedin"
+    url = "https://linkedin.com/in/rogergonzalez21"
+  [[params.social]]
+    name = "twitter"
+    url = "https://twitter.com/rogergonzalez21"
+  [[params.social]]
+    name = "rss"
+    url = "https://blog.rogs.me/index.xml"
+
+[params.style]
+  darkestColor = "#38761d"
+  darkColor = "#212121"
+  lightColor = "#fafafa"

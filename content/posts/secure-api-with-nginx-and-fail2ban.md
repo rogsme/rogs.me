@@ -3,6 +3,7 @@ title: "Secure your Django API from DDoS attacks with NGINX and fail2ban"
 date: 2020-04-26T11:36:39-03:00
 lastmod: 2020-04-26T11:36:39-03:00
 tags : [ "devops", "nginx", "django" ]
+draft : true
 ---
 
 Hello everyone!
@@ -209,7 +210,7 @@ $ sudo fail2ban-client set man-ban unbanip 1.2.3.4
 
 # Conclusion
 
-In this days, DDoS attacks are very common on the internet, so it is common sense to
+In these days, DDoS attacks are very common on the internet, so it is common sense to
 be prepared to defend against them. 
 
 In the next delivery we will create a status page for our API, that will let us

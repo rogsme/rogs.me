@@ -3,7 +3,6 @@ title: "Secure your Django API from DDoS attacks with NGINX and fail2ban"
 date: 2020-04-26T11:36:39-03:00
 lastmod: 2020-04-26T11:36:39-03:00
 tags : [ "devops", "nginx", "django" ]
-draft : true
 ---
 
 Hello everyone!
@@ -161,6 +160,13 @@ And it will return something like:
 
 And that's it! It is fully working, you are now protected from DDoS attacks
 dynamically.
+
+# Django configuration
+
+For Django things are easy. There is no configuration needed, but if you use the Admin
+or REST viewer in any form, you might want to run a separate instance just for that.
+In our experience, we got blocked a bunch of times so now we are running the admin and
+some cron jobs on a second medium EC2 instance.
 
 # Bonus
 

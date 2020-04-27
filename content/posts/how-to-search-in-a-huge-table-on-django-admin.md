@@ -19,15 +19,15 @@ Wow. **523.803.417 records**.
 At least the model was not that complex:
 
 On `models.py`:
+```python
+class HugeTable(models.Model):
+    """Huge table information"""
+    search_field = models.CharField(max_length=10, db_index=True, unique=True)
+    is_valid = models.BooleanField(default=True)
 
-    class HugeTable(models.Model):
-        """Huge table information"""
-        search_field = models.CharField(max_length=10, db_index=True, unique=True)
-        is_valid = models.BooleanField(default=True)
-
-        def __str__(self):
-            return self.search_field
-
+    def __str__(self):
+        return self.search_field
+```
 So for Django admin, it should be a breeze, right? **WRONG.**
 
 ## The process
@@ -35,11 +35,12 @@ So for Django admin, it should be a breeze, right? **WRONG.**
 First, I just added the search field on the admin.py:
 
 On `admin.py`:
+```python
+class HugeTableAdmin(admin.ModelAdmin):
+    search_fields = ('search_field', )
 
-    class HugeTableAdmin(admin.ModelAdmin):
-        search_fields = ('search_field', )
-
-    admin.site.register(HugeTable, HugeTableAdmin)
+admin.site.register(HugeTable, HugeTableAdmin)
+```
 
 And it worked! I had a functioning search field on my admin.  
 ![2020-02-14-154646](/2020-02-14-154646.png)
@@ -66,36 +67,38 @@ A quick look at the Django docs told me how to deactivate the "see more" query:
 > Set show_full_result_count to control whether the full count of objects should be displayed on a filtered admin page (e.g. 99 results (103 total)). If this option is set to False, a text like 99 results (Show all) is displayed instead.
 
 On `admin.py`:
+```python
+class HugeTableAdmin(admin.ModelAdmin):
+    search_fields = ('search_field', )
+    show_full_result_count = False
 
-    class HugeTableAdmin(admin.ModelAdmin):
-        search_fields = ('search_field', )
-        show_full_result_count = False
-
-    admin.site.register(HugeTable, HugeTableAdmin)
+admin.site.register(HugeTable, HugeTableAdmin)
+```
 
 That fixed one problem, but how about the other? It seemed I needed to do my paginator.
 
 Thankfully, I found an _awesome_ post by Haki Benita called ["Optimizing the Django Admin Paginator"](https://hakibenita.com/optimizing-the-django-admin-paginator) that explained exactly that. Since I didn't need to know the records count, I went with the "Dumb" approach:
 
 On `admin.py`:
+```python
+from django.core.paginator import Paginator
+from Django.utils.functional import cached_property
 
-    from django.core.paginator import Paginator
-    from Django.utils.functional import cached_property
+class DumbPaginator(Paginator):
+    """
+    Paginator that does not count the rows in the table.
+    """
+    @cached_property
+    def count(self):
+        return 9999999999
 
-    class DumbPaginator(Paginator):
-        """
-        Paginator that does not count the rows in the table.
-        """
-        @cached_property
-        def count(self):
-            return 9999999999
+class HugeTableAdmin(admin.ModelAdmin):
+    search_fields = ('search_field', )
+    show_full_result_count = False
+    paginator = DumbPaginator
 
-    class HugeTableAdmin(admin.ModelAdmin):
-        search_fields = ('search_field', )
-        show_full_result_count = False
-        paginator = DumbPaginator
-
-    admin.site.register(HugeTable, HugeTableAdmin)
+admin.site.register(HugeTable, HugeTableAdmin)
+```
 
 And it worked! The page was loading blazingly fast :) But the search was still **ultra slow**. So let's fix that.  
 ![2020-02-14-153840](/2020-02-14-153840.png)
@@ -105,36 +108,39 @@ And it worked! The page was loading blazingly fast :) But the search was still *
 I checked A LOT of options. I almost went with [Haystack](https://haystacksearch.org/), but it seemed a bit overkill for what I needed. I finally found this super cool tool: [djangoql](https://github.com/ivelum/djangoql/). It allowed me to search the table by using _sql like_ operations, so I could search by `search_field` and make use of the indexation. So I installed it:
 
 On `settings.py`:
-
-    INSTALLED_APPS = [
-        ...
-        'djangoql',
-        ...
-    ]
+```python
+INSTALLED_APPS = [
+    ...
+    'djangoql',
+    ...
+]
+```
 
 On `admin.py`:
+```python
+from django.core.paginator import Paginator
+from django.utils.functional import cached_property
+from djangoql.admin import DjangoQLSearchMixin
 
-    from django.core.paginator import Paginator
-    from django.utils.functional import cached_property
-    from djangoql.admin import DjangoQLSearchMixin
+class DumbPaginator(Paginator):
+    """
+    Paginator that does not count the rows in the table.
+    """
+    @cached_property
+    def count(self):
+        return 9999999999
 
-    class DumbPaginator(Paginator):
-        """
-        Paginator that does not count the rows in the table.
-        """
-        @cached_property
-        def count(self):
-            return 9999999999
+class HugeTableAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
+    show_full_result_count = False
+    paginator = DumbPaginator
 
-    class HugeTableAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
-        show_full_result_count = False
-        paginator = DumbPaginator
-
-    admin.site.register(HugeTable, HugeTableAdmin)
+admin.site.register(HugeTable, HugeTableAdmin)
+```
 
 And it worked! By performing the query:
-
-    search_field = "my search query"
+```python
+search_field = "my search query"
+```
 
 I get my results in around 1 second.
 

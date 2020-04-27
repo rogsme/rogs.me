@@ -18,53 +18,53 @@ On this post, we get to the fun part: What am I going to do to improve my online
 [Ghost](https://ghost.org/) is an open source, headless blogging platform made in NodeJS. The community is quite large and most importantly, it fitted all my requirements (Open source and runs in a docker container).
 
 For the installation, I kept it simple. I went to the [DockerHub page for Ghost](https://hub.docker.com/_/ghost/) and used their base `docker-compose` config for myself. This is what I came up with:
+```yaml
+version: '3.1'
 
-    version: '3.1'
+services:
 
-    services:
+    ghost:
+    image: ghost:1-alpine
+    restart: always
+    ports:
+        - 7000:2368
+    environment:
+        database__client: mysql
+        database__connection__host: db
+        database__connection__user: root
+        database__connection__password: my_super_secure_mysql_password
+        database__connection__database: ghost
+        url: https://blog.rogs.me
 
-      ghost:
-        image: ghost:1-alpine
-        restart: always
-        ports:
-          - 7000:2368
-        environment:
-          database__client: mysql
-          database__connection__host: db
-          database__connection__user: root
-          database__connection__password: my_super_secure_mysql_password
-          database__connection__database: ghost
-          url: https://blog.rogs.me
-
-      db:
-        image: mysql:5.7
-        restart: always
-        environment:
-          MYSQL_ROOT_PASSWORD: my_super_secure_mysql_password
-
+    db:
+    image: mysql:5.7
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: my_super_secure_mysql_password
+```
 Simple enough. The base ghost image and a MySQL db image. Simple, readable, functional.
 
 For the NGINX configuration I used a simple proxy:
+```nginx
+server {
+    listen 80;
+    listen [::]:80;
+    server_name blog.rogs.me;
+    add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
 
-    server {
-        listen 80;
-        listen [::]:80;
-        server_name blog.rogs.me;
-        add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
-
-        location / {
-            proxy_pass http://127.0.0.1:7000;
-            proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forward-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto https;
-            proxy_redirect off;
-            proxy_read_timeout 5m;
-        }
-        client_max_body_size 10M;
+    location / {
+        proxy_pass http://127.0.0.1:7000;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forward-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_redirect off;
+        proxy_read_timeout 5m;
     }
-
+    client_max_body_size 10M;
+}
+```
 What does this mean? This config is just "Hey NGINX! proxy port 7000 through port 80 please, thanks"
 
 And that was it. So simple, there's nothing much to say. Just like the title of the series,`¯\_(ツ)_/¯`
@@ -80,15 +80,15 @@ I have always admired tech people that have their own wikis. It's like a place w
 While doing research, I found [Dokuwiki](https://www.dokuwiki.org/dokuwiki), which is not only open source, but it uses no database! Everything is kept in files which compose your wiki. P R E T T Y N I C E.
 
 On this one, DockerHub had no oficial Dokuwiki image, but I used a very good one from the user [mprasil](https://hub.docker.com/r/mprasil/dokuwiki). I used his recommended configuration (no `docker-compose` needed since it was a single docker image):
-
-    docker run -d -p 8000:80 --name my_wiki \
-        -v /data/docker/dokuwiki/data:/dokuwiki/data \
-        -v /data/docker/dokuwiki/conf:/dokuwiki/conf \
-        -v /data/docker/dokuwiki/lib/plugins:/dokuwiki/lib/plugins \
-        -v /data/docker/dokuwiki/lib/tpl:/dokuwiki/lib/tpl \
-        -v /data/docker/dokuwiki/logs:/var/log \
-        mprasil/dokuwiki
-
+```bash
+docker run -d -p 8000:80 --name my_wiki \
+    -v /data/docker/dokuwiki/data:/dokuwiki/data \
+    -v /data/docker/dokuwiki/conf:/dokuwiki/conf \
+    -v /data/docker/dokuwiki/lib/plugins:/dokuwiki/lib/plugins \
+    -v /data/docker/dokuwiki/lib/tpl:/dokuwiki/lib/tpl \
+    -v /data/docker/dokuwiki/logs:/var/log \
+    mprasil/dokuwiki
+```
 **Some mistakes were made, again**  
 I was following instructions blindly, I'm dumb. I mounted the Dokuwiki files on the /data/docker directory, which is not what I wanted. In the process of working on this project, I have learned one big thing:
 
@@ -97,26 +97,26 @@ _Always. check. installation. folders and/or mounting points_
 Just like the last one, I didn't want to fix this just for the posts, I'm writing about my experience and of course it wasn't perfect.
 
 Let's continue. Once the docker container was running, I configured NGINX with another simple proxy redirect:
+```nginx
+server {
+    listen 80;
+    listen [::]:80;
+    server_name wiki.rogs.me;
+    add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
 
-    server {
-        listen 80;
-        listen [::]:80;
-        server_name wiki.rogs.me;
-        add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
-
-        location / {
-            proxy_pass http://127.0.0.1:8000;
-            proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forward-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto https;
-            proxy_redirect off;
-            proxy_read_timeout 5m;
-        }
-        client_max_body_size 10M;
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forward-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_redirect off;
+        proxy_read_timeout 5m;
     }
-
+    client_max_body_size 10M;
+}
+```
 Just as the other one: "Hey NGINX! Foward port 8000 to port 80 please :) Thanks!"
 
 ![Captura-de-pantalla-de-2019-11-16-20-15-35](/Captura-de-pantalla-de-2019-11-16-20-15-35.png)  

@@ -34,59 +34,59 @@ So, by using GPG I can encrypt my files before uploading to Wasabi, so if for an
 # Script
 
 ## Nextcloud
+```bash
+#!/bin/sh
 
-    #!/bin/sh
+# Nextcloud
+echo "======================================"
+echo "Backing up Nextcloud"
+cd /var/lib/docker/volumes/nextcloud_nextcloud/_data/data/roger
 
-    # Nextcloud
-    echo "======================================"
-    echo "Backing up Nextcloud"
-    cd /var/lib/docker/volumes/nextcloud_nextcloud/_data/data/roger
+NEXTCLOUD_FILE_NAME=$(date +"%Y_%m_%d")_nextcloud_backup
+echo $NEXTCLOUD_FILE_NAME
 
-    NEXTCLOUD_FILE_NAME=$(date +"%Y_%m_%d")_nextcloud_backup
-    echo $NEXTCLOUD_FILE_NAME
+echo "Compressing"
+tar czf /root/$NEXTCLOUD_FILE_NAME.tar.gz files/
 
-    echo "Compressing"
-    tar czf /root/$NEXTCLOUD_FILE_NAME.tar.gz files/
+echo "Encrypting"
+gpg --passphrase-file the/location/of/my/passphrase --batch -c /root/$NEXTCLOUD_FILE_NAME.tar.gz 
 
-    echo "Encrypting"
-    gpg --passphrase-file the/location/of/my/passphrase --batch -c /root/$NEXTCLOUD_FILE_NAME.tar.gz 
+echo "Uploading"
+aws s3 cp /root/$NEXTCLOUD_FILE_NAME.tar.gz.gpg s3://backups-cloud/Nextcloud/$NEXTCLOUD_FILE_NAME.tar.gz.gpg --endpoint-url=https://s3.wasabisys.com
 
-    echo "Uploading"
-    aws s3 cp /root/$NEXTCLOUD_FILE_NAME.tar.gz.gpg s3://backups-cloud/Nextcloud/$NEXTCLOUD_FILE_NAME.tar.gz.gpg --endpoint-url=https://s3.wasabisys.com
-
-    echo "Deleting"
-    rm /root/$NEXTCLOUD_FILE_NAME.tar.gz /root/$NEXTCLOUD_FILE_NAME.tar.gz.gpg
-
+echo "Deleting"
+rm /root/$NEXTCLOUD_FILE_NAME.tar.gz /root/$NEXTCLOUD_FILE_NAME.tar.gz.gpg
+```
 ### A breakdown
-
-    #!/bin/sh
-
+```bash
+#!/bin/sh
+```
 This is to specify this is a shell script. The standard for this type of scripts.
+```bash
+# Nextcloud
+echo "======================================"
+echo "Backing up Nextcloud"
+cd /var/lib/docker/volumes/nextcloud_nextcloud/_data/data/roger
 
-    # Nextcloud
-    echo "======================================"
-    echo "Backing up Nextcloud"
-    cd /var/lib/docker/volumes/nextcloud_nextcloud/_data/data/roger
-
-    NEXTCLOUD_FILE_NAME=$(date +"%Y_%m_%d")_nextcloud_backup
-    echo $NEXTCLOUD_FILE_NAME
-
+NEXTCLOUD_FILE_NAME=$(date +"%Y_%m_%d")_nextcloud_backup
+echo $NEXTCLOUD_FILE_NAME
+```
 Here, I `cd`ed to where my Nextcloud files are located. On [De-Google my life part 3](https://blog.rogs.me/2019/03/29/de-google-my-life-part-3-of-_-tu-_-nextcloud-collabora/) I talk about my mistake of not setting my volumes correctly, that's why I have to go to this location. I also create a new filename for my backup file using the current date information.
+```bash
+echo "Compressing"
+tar czf /root/$NEXTCLOUD_FILE_NAME.tar.gz files/
 
-    echo "Compressing"
-    tar czf /root/$NEXTCLOUD_FILE_NAME.tar.gz files/
-
-    echo "Encrypting"
-    gpg --passphrase-file the/location/of/my/passphrase --batch -c /root/$NEXTCLOUD_FILE_NAME.tar.gz 
-
+echo "Encrypting"
+gpg --passphrase-file the/location/of/my/passphrase --batch -c /root/$NEXTCLOUD_FILE_NAME.tar.gz 
+```
 Then, I compress the file into a `tar.gz` file. After, it is where the encryption happens. I have a file located somewhere in my server with my GPG password, it is used to encrypt my files using the `gpg` command. The command then returns a "filename.tar.gz.gpg" file, which is then uploaded to Wasabi.
+```bash
+echo "Uploading"
+aws s3 cp /root/$NEXTCLOUD_FILE_NAME.tar.gz.gpg s3://backups-cloud/Nextcloud/$NEXTCLOUD_FILE_NAME.tar.gz.gpg --endpoint-url=https://s3.wasabisys.com
 
-    echo "Uploading"
-    aws s3 cp /root/$NEXTCLOUD_FILE_NAME.tar.gz.gpg s3://backups-cloud/Nextcloud/$NEXTCLOUD_FILE_NAME.tar.gz.gpg --endpoint-url=https://s3.wasabisys.com
-
-    echo "Deleting"
-    rm /root/$NEXTCLOUD_FILE_NAME.tar.gz /root/$NEXTCLOUD_FILE_NAME.tar.gz.gpg
-
+echo "Deleting"
+rm /root/$NEXTCLOUD_FILE_NAME.tar.gz /root/$NEXTCLOUD_FILE_NAME.tar.gz.gpg
+```
 Finally, I upload everything to Wasabi using `awscli` and delete the file, so I keep my filesystem clean.
 
 ## Is that it?
@@ -94,26 +94,26 @@ Finally, I upload everything to Wasabi using `awscli` and delete the file, so I 
 This is the basic setup for backups, and it is repeated among all my apps, with few variations
 
 ## Dokuwiki
+```bash
+# Dokuwiki
+echo "======================================"
+echo "Backing up Dokuwiki"
+cd /data/docker
 
-    # Dokuwiki
-    echo "======================================"
-    echo "Backing up Dokuwiki"
-    cd /data/docker
+DOKUWIKI_FILE_NAME=$(date +"%Y_%m_%d")_dokuwiki_backup
 
-    DOKUWIKI_FILE_NAME=$(date +"%Y_%m_%d")_dokuwiki_backup
+echo "Compressing"
+tar czf /root/$DOKUWIKI_FILE_NAME.tar.gz dokuwiki/
 
-    echo "Compressing"
-    tar czf /root/$DOKUWIKI_FILE_NAME.tar.gz dokuwiki/
+echo "Encrypting"
+gpg --passphrase-file the/location/of/my/passphrase --batch -c /root/$DOKUWIKI_FILE_NAME.tar.gz 
 
-    echo "Encrypting"
-    gpg --passphrase-file the/location/of/my/passphrase --batch -c /root/$DOKUWIKI_FILE_NAME.tar.gz 
+echo "Uploading"
+aws s3 cp /root/$DOKUWIKI_FILE_NAME.tar.gz.gpg s3://backups-cloud/Dokuwiki/$DOKUWIKI_FILE_NAME.tar.gz.gpg --endpoint-url=https://s3.wasabisys.com
 
-    echo "Uploading"
-    aws s3 cp /root/$DOKUWIKI_FILE_NAME.tar.gz.gpg s3://backups-cloud/Dokuwiki/$DOKUWIKI_FILE_NAME.tar.gz.gpg --endpoint-url=https://s3.wasabisys.com
-
-    echo "Deleting"
-    rm /root/$DOKUWIKI_FILE_NAME.tar.gz /root/$DOKUWIKI_FILE_NAME.tar.gz.gpg
-
+echo "Deleting"
+rm /root/$DOKUWIKI_FILE_NAME.tar.gz /root/$DOKUWIKI_FILE_NAME.tar.gz.gpg
+```
 Pretty much the same as the last one, so here is a quick explanation:
 
 *   `cd` to a folder
@@ -123,42 +123,43 @@ Pretty much the same as the last one, so here is a quick explanation:
 *   delete the local files
 
 ## Ghost
+```bash
+# Ghost
+echo "======================================"
+echo "Backing up Ghost"
+cd /root
 
-    # Ghost
-    echo "======================================"
-    echo "Backing up Ghost"
-    cd /root
+GHOST_FILE_NAME=$(date +"%Y_%m_%d")_ghost_backup
 
-    GHOST_FILE_NAME=$(date +"%Y_%m_%d")_ghost_backup
+docker container cp ghost_ghost_1:/var/lib/ghost/ $GHOST_FILE_NAME
+docker exec ghost_db_1 /usr/bin/mysqldump -u root --password=my-secure-root-password ghost > /root/$GHOST_FILE_NAME/ghost.sql
 
-    docker container cp ghost_ghost_1:/var/lib/ghost/ $GHOST_FILE_NAME
-    docker exec ghost_db_1 /usr/bin/mysqldump -u root --password=my-secure-root-password ghost > /root/$GHOST_FILE_NAME/ghost.sql
+echo "Compressing"
+tar czf /root/$GHOST_FILE_NAME.tar.gz $GHOST_FILE_NAME/
 
-    echo "Compressing"
-    tar czf /root/$GHOST_FILE_NAME.tar.gz $GHOST_FILE_NAME/
+echo "Encrypting"
+gpg --passphrase-file the/location/of/my/passphrase --batch -c /root/$GHOST_FILE_NAME.tar.gz
 
-    echo "Encrypting"
-    gpg --passphrase-file the/location/of/my/passphrase --batch -c /root/$GHOST_FILE_NAME.tar.gz
+echo "Uploading"
+aws s3 cp /root/$GHOST_FILE_NAME.tar.gz.gpg s3://backups-cloud/Ghost/$GHOST_FILE_NAME.tar.gz.gpg --endpoint-url=https://s3.wasabisys.com
 
-    echo "Uploading"
-    aws s3 cp /root/$GHOST_FILE_NAME.tar.gz.gpg s3://backups-cloud/Ghost/$GHOST_FILE_NAME.tar.gz.gpg --endpoint-url=https://s3.wasabisys.com
-
-    echo "Deleting"
-    rm -r /root/$GHOST_FILE_NAME.tar.gz $GHOST_FILE_NAME /root/$GHOST_FILE_NAME.tar.gz.gpg
-
+echo "Deleting"
+rm -r /root/$GHOST_FILE_NAME.tar.gz $GHOST_FILE_NAME /root/$GHOST_FILE_NAME.tar.gz.gpg
+```
 ## A few differences!
-
-    docker container cp ghost_ghost_1:/var/lib/ghost/ $GHOST_FILE_NAME
-    docker exec ghost_db_1 /usr/bin/mysqldump -u root --password=my-secure-root-password ghost > /root/$GHOST_FILE_NAME/ghost.sql
+```bash
+docker container cp ghost_ghost_1:/var/lib/ghost/ $GHOST_FILE_NAME
+docker exec ghost_db_1 /usr/bin/mysqldump -u root --password=my-secure-root-password ghost > /root/$GHOST_FILE_NAME/ghost.sql
+```
 
 Something new! Since on Ghost I didn't mount any volumes, I had to get the files directly from the docker container and then get a DB dump for safekeeping. Nothing too groundbreaking, but worth explaining.
 
 # All done! How do I run it automatically?
 
 Almost done! I just need to run everything automatically, so I can just set it and forget it. Just like before, whenever I want to run something programatically, I will use a cronjob:
-
-    0 0 * * 1 sh /opt/backup.sh
-
+```bash
+0 0 * * 1 sh /opt/backup.sh
+```
 This means:  
 _Please, can you run this script every Monday at 0:00? Thanks, server :_*
 

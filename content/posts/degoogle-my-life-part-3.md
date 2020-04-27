@@ -28,43 +28,44 @@ The first step is to set up the server. I'm not going to explain that again, but
 ## Installation
 
 For my Nextcloud installation I went straight to the [official docker documentation](https://github.com/nextcloud/docker) and extracted this docker compose:
+```yaml
+version: '2'
 
-    version: '2'
+volumes:
+    nextcloud:
+    db:
 
+services:
+    db:
+    image: mariadb
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    restart: always
     volumes:
-      nextcloud:
-      db:
+        - db:/var/lib/mysql
+    environment:
+        - MYSQL_ROOT_PASSWORD=my_super_secure_root_password
+        - MYSQL_PASSWORD=my_super_secure_password
+        - MYSQL_DATABASE=nextcloud
+        - MYSQL_USER=nextcloud
 
-    services:
-      db:
-        image: mariadb
-        command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
-        restart: always
-        volumes:
-          - db:/var/lib/mysql
-        environment:
-          - MYSQL_ROOT_PASSWORD=my_super_secure_root_password
-          - MYSQL_PASSWORD=my_super_secure_password
-          - MYSQL_DATABASE=nextcloud
-          - MYSQL_USER=nextcloud
-
-      app:
-        image: nextcloud
-        ports:
-          - 8080:80
-        links:
-          - db
-        volumes:
-          - nextcloud:/var/www/html
-        restart: always
-
+    app:
+    image: nextcloud
+    ports:
+        - 8080:80
+    links:
+        - db
+    volumes:
+        - nextcloud:/var/www/html
+    restart: always
+```
 **Some mistakes were made**  
 I forgot to mount the volumes and Docker automatically mounted them in /var/lib/docker/volumes/. This was a small problem I haven't solved yet because it hasn't bringed any serious issues. If someone knows if this is going to be problematic in the long run, please let me know. I didn't wanted to fix this just for the posts, I'm writing about my experience and of course it wasn't perfect.
 
 I created the route `/opt/nextcloud` to keep my docker-compose file and finally ran:
-
-    docker-compose pull
-    docker-compose up -d
+```bash
+docker-compose pull
+docker-compose up -d
+```
 
 It was that simple! The app was running on port 8080! But that is not what I wanted. I wanted it running on port 80 and 443\. For that I used a reverse proxy with NGINX and Let's Encrypt
 
@@ -73,7 +74,7 @@ It was that simple! The app was running on port 8080! But that is not what I wan
 Configuring NGINX is dead simple. Here is my configuration
 
 `/etc/nginx/sites-available/nextcloud:`
-
+```nginx
     server {
         listen 80 default_server;
         listen [::]:80 default_server;
@@ -110,11 +111,11 @@ Configuring NGINX is dead simple. Here is my configuration
        # Set the client_max_body_size to 1000M so NGINX doesn't cut uploads
         client_max_body_size 1000M; 
     }
-
+```
 Then I created a soft link from the configuration file to the "sites enabled" folder:
-
-    ln -s /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled
-
+```bash
+ln -s /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled
+```
 and that was it!
 
 In this configuration you will see that I'm already referencing the SSL certificates even though they don't exist yet. We are going to create them on the next step.
@@ -122,15 +123,16 @@ In this configuration you will see that I'm already referencing the SSL certific
 ## Let's Encrypt configuration
 
 To generate the SSL certificates first you need to point your domain/subdomain to your server. Every DNS manager is different, so you will have to figure that out. The command I will use throught this blog series to create certificates is the following:
-
-    sudo -H certbot certonly --nginx-d mydomain.com
+```bash
+sudo -H certbot certonly --nginx-d mydomain.com
+```
 
 The first time you run Let's Encrypt, you have to configure some stuff. They will ask you for your email and some questions. Input that information and finish the process.
 
 To enable automatic SSL certificates renovation, create a new cron job (`crontab -e`) with the following information:
-
-    0 3 * * * certbot renew -q
-
+```bash
+0 3 * * * certbot renew -q
+```
 This will run every morning at 3AM and check if any of your domains needs to be renewed. If they do, it will renew it.
 
 At the end, you should be able to visit [https://myclouddomain.com](https://myclouddomain.com) and be greeted with a nice NextCloud screen:
@@ -149,9 +151,9 @@ Once that was fixed, Nextcloud was 100% ready to be used!
 ![Captura-de-pantalla-de-2019-03-28-16-19-13](/Captura-de-pantalla-de-2019-03-28-16-19-13.png)
 
 After that I went straight to "Settings/Basic settings" and noticed that my background jobs were set to "Ajax". That's not good, because if I don't open the site, the tasks will never run. I changed it to "Cron" and created a new cron on my server with the following information:
-
-    */15 * * * * /usr/bin/docker exec --user www-data nextcloud_app_1 php cron.php
-
+```bash
+*/15 * * * * /usr/bin/docker exec --user www-data nextcloud_app_1 php cron.php
+```
 This will run the Nextcloud cronjob in the docker machine every 15 mins.
 
 Then, in "Settings/Overview" I noticed a bunch of errors on the "Security & setup warnings" part. Those were very easy to fix, but since all installations aren't the same I won't go deep into this. [DuckDuckGo](https://duckduckgo.com/) is your friend.
@@ -178,13 +180,13 @@ Now that NextCloud was up and running, I needed my "Google Docs" part. Enter Col
 If you don't know what it is, Collabora is like Google Docs / Sheets / Slides but free and open source. You can check more about the project [here](https://nextcloud.com/collaboraonline/)
 
 This was a very easy installation. I ran it directly with docker:
-
-    docker run -t -d -p 127.0.0.1:9980:9980 -e 'domain=mynextclouddomain.com' --restart always --cap-add MKNOD collabora/code
-
+```bash
+docker run -t -d -p 127.0.0.1:9980:9980 -e 'domain=mynextclouddomain.com' --restart always --cap-add MKNOD collabora/code
+```
 Created a new NGINX reverse proxy
 
 `/etc/nginx/sites-available/collabora`:
-
+```nginx
     # Taken from https://icewind.nl/entry/collabora-online/
     server {
         listen       443 ssl;
@@ -229,15 +231,15 @@ Created a new NGINX reverse proxy
            proxy_read_timeout 36000s;
        }
     }
-
+```
 Created the SSL certificate for the collabora installation:
-
-    sudo -H certbot certonly --nginx-d office.mydomain.com
-
+```bash
+sudo -H certbot certonly --nginx-d office.mydomain.com
+```
 And finally I created a soft link from the configuration file to the "sites enabled" folder:
-
-    ln -s /etc/nginx/sites-available/collabora /etc/nginx/sites-enabled
-
+```bash
+ln -s /etc/nginx/sites-available/collabora /etc/nginx/sites-enabled
+```
 Pretty easy stuff.
 
 ## Nextcloud configuration

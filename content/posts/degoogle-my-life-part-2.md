@@ -22,60 +22,64 @@ To start, I'm using their $5 server which at the time of this writing includes:
 ## Installation
 
 On my first SSH to the server I perform basic tasks such as updating and upgrading the server:
-
-    sudo apt update && sudo apt ugrade - y
+```bash
+sudo apt update && sudo apt ugrade - y
+```
 
 Then I install some essentials like Ubuntu Common Properties (used to add new repositories using `add-apt-repository`) NGINX, HTOP, GIT and Emacs, the best text editor in this planet <small>vim sucks</small>
-
-    sudo apt install software-properties-common nginx htop git emacs
+```bash
+sudo apt install software-properties-common nginx htop git emacs
+```
 
 For SSL certificates I'm going to use Certbot because it is the most simple and usefull tool for it. This one requires some extra steps:
-
-    sudo add-apt-repository ppa:certbot/certbot -y
-    sudo apt update
-    sudo apt install python-certbot-nginx -y
-
+```bash
+sudo add-apt-repository ppa:certbot/certbot -y
+sudo apt update
+sudo apt install python-certbot-nginx -y
+```
 By default DigitalOcean servers have no `swap`, so I'll add it by pasting some [DigitalOcean boilerplate](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-18-04) on to the terminal:
-
-    sudo fallocate -l 2G /swapfile
-    sudo chmod 600 /swapfile
-    sudo mkswap /swapfile
-    sudo swapon /swapfile
-    sudo cp /etc/fstab /etc/fstab.bak
-    echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
-    sudo sysctl vm.swappiness=10
-    sudo sysctl vm.vfs_cache_pressure=50
-    sudo echo "vm.swappiness=10" >> /etc/sysctl.conf
-    sudo echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf
+```bash
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo cp /etc/fstab /etc/fstab.bak
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+sudo sysctl vm.swappiness=10
+sudo sysctl vm.vfs_cache_pressure=50
+sudo echo "vm.swappiness=10" >> /etc/sysctl.conf
+sudo echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf
+```
 
 This adds 2GB of `swap`
 
 Then I set up my firewall with UFW:
+```bash
+sudo ufw allow 22 #SSH
+sudo ufw allow 80 #HTTP
+sudo ufw allow 443 #HTTPS
+sudo ufw allow 25 #IMAP 
+sudo ufw allow 143 #IMAP 
+sudo ufw allow 993 #IMAPS
+sudo ufw allow 110 #POP3 
+sudo ufw allow 995 #POP3S
+sudo ufw allow 587 #SMTP
+sudo ufw allow 465 #SMTPS
+sudo ufw allow 4190 #Manage Sieve
 
-    sudo ufw allow 22 #SSH
-    sudo ufw allow 80 #HTTP
-    sudo ufw allow 443 #HTTPS
-    sudo ufw allow 25 #IMAP 
-    sudo ufw allow 143 #IMAP 
-    sudo ufw allow 993 #IMAPS
-    sudo ufw allow 110 #POP3 
-    sudo ufw allow 995 #POP3S
-    sudo ufw allow 587 #SMTP
-    sudo ufw allow 465 #SMTPS
-    sudo ufw allow 4190 #Manage Sieve
-
-    sudo ufw enable
-
+sudo ufw enable
+```
 Finally, I install `docker` and `docker-compose`, which are going to be the main software running on both servers.
+```bash
+# Docker
+curl -sSL https://get.docker.com/ | CHANNEL=stable sh
+systemctl enable docker.service
+systemctl start docker.service
 
-    # Docker
-    curl -sSL https://get.docker.com/ | CHANNEL=stable sh
-    systemctl enable docker.service
-    systemctl start docker.service
-
-    # Docker compose
-    curl -L https://github.com/docker/compose/releases/download/$(curl -Ls https://www.servercow.de/docker-compose/latest.php)/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
-    chmod +x /usr/local/bin/docker-compose
+# Docker compose
+curl -L https://github.com/docker/compose/releases/download/$(curl -Ls https://www.servercow.de/docker-compose/latest.php)/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+```
 
 Now that everything is done, we can continue configuring the first server!
 
@@ -90,14 +94,14 @@ For my email I chose Mailcow. Why?
 ## Installation & Setup
 
 Installation was simple, first I followed the instructions on their [official documentation](https://mailcow.github.io/mailcow-dockerized-docs/i_u_m_install/)
-
-    cd /opt
-    git clone https://github.com/mailcow/mailcow-dockerized
-    cd mailcow-dockerized
-    ./generate_config.sh
-    # The process will ask you for your FQDN to automatically configure NGINX.
-    # Mine is mail.rogs.me, but yours might be whatever you want
-
+```bash
+cd /opt
+git clone https://github.com/mailcow/mailcow-dockerized
+cd mailcow-dockerized
+./generate_config.sh
+# The process will ask you for your FQDN to automatically configure NGINX.
+# Mine is mail.rogs.me, but yours might be whatever you want
+```
 I pointed my subdomain (an A record in Cloudflare) and I finally opened my browser and visited [https://mail.rogs.me](https://mail.rogs.me) and there it was, beautiful as I was expecting.
 
 ![Captura-de-pantalla-de-2019-03-20-17-20-49](/Captura-de-pantalla-de-2019-03-20-17-20-49.png)  

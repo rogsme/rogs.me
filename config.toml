@@ -15,6 +15,9 @@ staticDir = ["static"]
     name = "website"
     url = "https://rogs.me"
   [[params.social]]
+    name = "mail"
+    url = "mailto:roger@rogs.me"
+  [[params.social]]
     name = "github"
     url = "https://git.rogs.me/me"
   [[params.social]]

@@ -11,6 +11,9 @@ Right now I have Google almost completely out of my life, but some of the top co
 posts in [/r/degoogle](https://reddit.com/r/degoogle) and [/r/selfhosted](https://reddit.com/r/selfhosted) were "Your blog still uses google for resources lol", 
 so I needed to change that.
 
+![2020-05-25-115855](/2020-05-25-115855.png)
+*Shame.*
+
 In my old blog, the features that used Google where:
   1) Disquss comments
   2) The Ghost theme

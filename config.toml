@@ -12,23 +12,35 @@ staticDir = ["static"]
   description = "my blog, thoughts and other stuff"
   avatar = "avatar.png"
   [[params.social]]
-    name = "website"
+    name = "fas fa-globe"
     url = "https://rogs.me"
   [[params.social]]
-    name = "mail"
+    name = "fas fa-envelope"
     url = "mailto:roger@rogs.me"
   [[params.social]]
-    name = "github"
+    name = "fab fa-github"
     url = "https://git.rogs.me/me"
   [[params.social]]
-    name = "linkedin"
+    name = "fab fa-linkedin"
     url = "https://linkedin.com/in/rogergonzalez21"
   [[params.social]]
-    name = "twitter"
+    name = "fab fa-twitter"
     url = "https://twitter.com/rogergonzalez21"
   [[params.social]]
-    name = "rss"
+    name = "fab fa-keybase"
+    url = "https://keybase.io/rogs"
+  [[params.social]]
+    name = "fas fa-rss"
     url = "https://blog.rogs.me/index.xml"
+  [[params.donations]]
+    name = "fab fa-bitcoin"
+    url = "btc.txt"
+  [[params.donations]]
+    name = "fab fa-ethereum"
+    url = "eth.txt"
+  [[params.donations]]
+    name = "fab fa-paypal"
+    url = "https://www.paypal.me/rogsme21"
 
 [params.style]
   darkestColor = "#38761d"

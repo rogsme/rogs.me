@@ -18,7 +18,7 @@ staticDir = ["static"]
     name = "fas fa-envelope"
     url = "mailto:roger@rogs.me"
   [[params.social]]
-    name = "fab fa-github"
+    name = "fab fa-git"
     url = "https://git.rogs.me/me"
   [[params.social]]
     name = "fab fa-linkedin"

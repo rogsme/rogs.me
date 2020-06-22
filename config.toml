@@ -21,7 +21,7 @@ staticDir = ["static"]
     name = "fab fa-git"
     url = "https://git.rogs.me/me"
   [[params.social]]
-    name = "fab fa-linkedin"
+    name = "fab fa-linkedin-in"
     url = "https://linkedin.com/in/rogergonzalez21"
   [[params.social]]
     name = "fab fa-twitter"

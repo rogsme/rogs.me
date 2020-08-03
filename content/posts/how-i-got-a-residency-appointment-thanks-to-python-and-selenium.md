@@ -2,7 +2,7 @@
 title = "How I got a residency appointment thanks to Python, Selenium and Telegram"
 author = ["Roger Gonzalez"]
 date = 2020-08-02
-lastmod = 2020-08-02T18:00:39-03:00
+lastmod = 2020-08-03T11:44:38-03:00
 tags = ["python", "selenium", "telegram"]
 categories = ["programming"]
 draft = false
@@ -18,7 +18,7 @@ quarantine they added a new appointment system. Before, there were no
 appointments, you just had to get there early and wait for the secretary to
 review your files and assign someone to attend you. But now, they had
 implemented an appointment system that you could do from the comfort of your own
-home/office. There was just one issue: **there where never appointments available**.
+home/office. There was just one issue: **there were never appointments available**.
 
 That was a little stressful. I was developing a small _tick_ by checking the
 site multiple times a day, with no luck. But then, I decided I wanted to do a

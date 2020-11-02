@@ -1,0 +1,11 @@
+<header>
+	<div class="main">
+		<img style="width:100px" src="{{ .Site.Params.avatar | default "avatar.jpg" | relURL }}">
+		<a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
+	</div>
+	<nav>
+		{{ range .Site.Menus.main }}
+		<a href="{{ .URL }}">{{ .Name }}</a>
+		{{ end }}
+	</nav>
+</header>

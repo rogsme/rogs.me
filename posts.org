@@ -1,4 +1,4 @@
-#+hugo_base_dir: ../
+#+hugo_base_dir: ./
 #+hugo_section: ./posts
 
 #+hugo_weight: auto
@@ -12,6 +12,7 @@ All posts in here will have the category set to /programming/.
 :PROPERTIES:
 :EXPORT_FILE_NAME: how-i-got-a-residency-appointment-thanks-to-python-and-selenium
 :EXPORT_DATE: 2020-08-02
+:TLDR: keklol
 :END:
 Hello everyone!
 

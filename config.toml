@@ -1,19 +1,21 @@
-baseURL = "https://blog.rogs.me"
+baseURL = "https://rogs.me/"
 languageCode = "en-us"
 title = "rogs | Blog"
-theme = "m10c"
+theme = "archie"
 staticDir = ["static"]
+paginate=3 # articles per page
+copyright = "© Rogs"
+
 
 [permalinks]
   posts = "/:year/:month/:title/"
 
 [params]
   author = "Roger Gonzalez"
-  description = "my blog, thoughts and other stuff"
+  subtitle = "my blog, thoughts and other stuff"
   avatar = "avatar.png"
-  [[params.social]]
-    name = "fas fa-globe"
-    url = "https://rogs.me"
+  mode = "dark"
+
   [[params.social]]
     name = "fas fa-envelope"
     url = "mailto:roger@rogs.me"
@@ -23,9 +25,6 @@ staticDir = ["static"]
   [[params.social]]
     name = "fab fa-linkedin-in"
     url = "https://linkedin.com/in/rogergonzalez21"
-  [[params.social]]
-    name = "fab fa-twitter"
-    url = "https://twitter.com/rogergonzalez21"
   [[params.social]]
     name = "fab fa-keybase"
     url = "https://keybase.io/rogs"
@@ -42,7 +41,17 @@ staticDir = ["static"]
     name = "fab fa-paypal"
     url = "https://www.paypal.me/rogsme21"
 
-[params.style]
-  darkestColor = "#38761d"
-  darkColor = "#212121"
-  lightColor = "#fafafa"
+[[menu.main]]
+name = "About"
+url = "/"
+weight = 1
+
+[[menu.main]]
+name = "Blog"
+url = "/posts"
+weight = 2
+
+[[menu.main]]
+name = "Tags"
+url = "/tags"
+weight = 3

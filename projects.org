@@ -1,0 +1,173 @@
+#+hugo_base_dir: ./
+#+hugo_section: ./projects
+
+#+hugo_weight: auto
+#+hugo_auto_set_lastmod: t
+
+#+author: Roger Gonzalez
+
+* Certn - ADA DINER (Adverse Data Aggregator Data INgestER)
+:PROPERTIES:
+:EXPORT_FILE_NAME: certn-ada-diner
+:EXPORT_DATE: 2020-10-01
+:END:
+** About the project
+[[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
+records, education, employment verification, credit reports, etc. On
+ADA DINER we are working on an app that triggers crawls on demand, to check
+criminal records for a certain person.
+** Tech Stack
+- Python
+- Django
+- Django REST Framework
+- Celery
+- PostgreSQL
+- Docker-docker/compose
+- Swagger
+- Github Actions
+- Scrapy/Scrapyd
+** What did I work on?
+- Dockerized the old app so the development could be more streamlined
+- Refactor of old Django code to DRF
+- This app is still in development, so I'm still adding new features
+* Certn - International framework
+:PROPERTIES:
+:EXPORT_FILE_NAME: certn-intl-framework
+:EXPORT_DATE: 2020-09-01
+:END:
+** About the project
+[[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
+records, education, employment verification, credit reports, etc. On
+International Framework, we worked on an app that acts like a bridge between our
+main app and criminal background check providers (like the [[https://rcmp-grc.gc.ca][RCMP]]).
+** Tech Stack
+- Python
+- Django
+- Django REST Framework
+- Celery
+- PostgreSQL
+- Docker/docker-compose
+- Swagger
+- Sentry.io
+- Github Actions
+- Jenkins
+** What did I work on?
+- Database design.
+- Models and endpoints design.
+- Github Actions configurations.
+- Jenkins configuration.
+- Standardized the code with [[https://flake8.pycqa.org/en/latest/][Flake]], [[https://www.pylint.org/][pylint]] and [[https://black.readthedocs.io/en/stable/][Black]].
+
+* Volition
+:PROPERTIES:
+:EXPORT_FILE_NAME: volition
+:EXPORT_DATE: 2020-07-01
+:END:
+** About the project
+Volition is an app that wants to be the top selling place for a certain kind of
+product. In order to achieve that, we had to develop a series of crawlers for
+different vendors, in order to get all the data so the storefront could be
+created .
+** Tech Stack
+- JavaScript
+- TypeScript
+- NodeJS
+- PuppeteerJS
+- Docker/docker-compose
+- PostgreSQL
+- Google Cloud
+- Kubernetes
+- Bash
+- ELK (ElasticSearch, LogStash, Kibana)
+** What did I work on?
+- Team lead
+- Moved the entire project to docker and docker-compose. Before it, the
+  development environment has pretty tricky to setup. 
+- Improved the old code, introducing standards with esLint and smoke tests.
+- Configured a VPN and an Ubuntu VNC session in docker to help with the proxy
+  and the non-headless browser.
+- Created new crawlers for the new vendors.
+- Configured the new Kibana dashboard.
+- Created a gatekeeper to check the crawlers status before going out to the
+  internet. 
+- Monitored and ran many crawlers.
+* CocaCola - Tus Tapas Valen
+:PROPERTIES:
+:EXPORT_FILE_NAME: tus-tapas-valen
+:EXPORT_DATE: 2019-04-01
+:END:
+** About the project
+"Tus Tapas Valen" is an application that will allow clients to participate in
+promotions and auctions, and win prizes. We are expecting 5 million users for
+January 2020. First I worked FrontEnd with ReactJS, Redux and redux-observable,
+but now I'm working in the Backend. I had to plan a big refactor while still
+working on new Backend functionalities. The Backend is built using Python,
+Django, PostgreSQL, AWS, and AWS S3 
+
+[[/cocacola-01.jpg]]
+[[/cocacola-02.jpg]]
+[[/cocacola-03.jpg]]
+[[/cocacola-04.jpg]]
+[[/cocacola-05.jpg]]
+[[/cocacola-06.jpg]]
+
+** What did I work on?
+*** FrontEnd
+- Part of the development team using ReactJS
+*** Backend
+- Refactoring planning
+- New database design
+- Complete backend development
+- CI setup
+- AWS EC2 servers setup
+- Parsed and imported 476 million records in a RDS
+- Various DB optimizations
+* Axelerist
+:PROPERTIES:
+:EXPORT_FILE_NAME: axelerist
+:EXPORT_DATE: 2018-06-01
+:END:
+** About the project
+Axelerist is a web app that connects to an external API and displays the
+client’s inventory in a more friendly and ergonomic way. I worked on the
+backend, managing the API connection, working on an API wrapper and user
+management. 
+
+[[/axelerist-01.jpg]]
+[[/axelerist-02.jpg]]
+[[/axelerist-03.jpg]]
+
+** What did I work on?
+*** Backend
+- Team leader
+- Database design
+- Backend REST design
+- Complete Backend development
+- Regular meetings with the client
+
+* Knac
+:PROPERTIES:
+:EXPORT_FILE_NAME: knac
+:EXPORT_DATE: 2019-02-01
+:END:
+** About the project
+Knac is a job application startup, empathizing on assessments to recommend
+candidates to a specific job. 
+
+[[/knac-01.jpg]]
+[[/knac-02.jpg]]
+
+** What did I work on?
+*** Backend
+- Team leader
+- Servers setup (Linux, NGINX)
+- Database design
+- Backend REST design
+- Complete Backend development
+- Regular meetings with the client
+* COMMENT Local Variables
+# Local Variables:
+# eval: (org-hugo-auto-export-mode)
+# End:
+
+

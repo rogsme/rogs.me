@@ -19,8 +19,7 @@ I love Open Source projects. Knowledge should be available to everyone who wants
 it.
 
 You can check my resume in a more traditional format here:
-[English](https://cloud.rogs.me/s/7Gyc9KmC7pxcmmG)|
-[Spanish](https://cloud.rogs.me/s/4zHoy4Nd3SNgNKQ). 
+[English](https://cloud.rogs.me/s/7Gyc9KmC7pxcmmG)
 
 # Experience
 
@@ -29,19 +28,21 @@ You can check my resume in a more traditional format here:
 
 In Lazer Technologies we are working for [Certn](https://certn.co/). Certn is an
 app that looks to ease the employers jobs of doing criminal background checks
-for their employees. First, we built an app that acts as a bridge between our
+for their employees. First, we built an app called [International Framework](/projects/certn-intl-framework/) that acts as a bridge between our
 main app and criminal background check providers (like the
-[RCMP](https://www.rcmp-grc.gc.ca/)). Now we are working on a scraper for
-multiple providers that don't have an API. In this project we are using Django,
-Django REST Framework, Docker, PostgreSQL, Github Actions and Jenkins.
+[RCMP](https://www.rcmp-grc.gc.ca/)). Now we are working on [ADA
+DINER](/projects/certn-ada-diner/) a scraper for multiple providers that don't
+have an API. In this project we are using Django, Django REST Framework, Docker,
+PostgreSQL, Github Actions and Jenkins.
 
 ## [Tarmac](https://tarmac.io)
 > July 2020
 
-I'm currently working on Tarmac on a project called "Volition". In Volition we
-are developing a crawler that extracts information from different pages in order
-to build a "super market place" for a specific product. In this project we are
-using Docker, TypeScript, NodeJS, PostgreSQL, Google Cloud, and Kubernetes.
+I'm currently working on Tarmac on a project called
+[Volition](/projects/volition/). In Volition we are developing a crawler that
+extracts information from different pages in order to build a "super market
+place" for a specific product. In this project we are using Docker, TypeScript,
+NodeJS, PostgreSQL, Google Cloud, and Kubernetes.
 
 ## [Massive](https://massive.ag)
 Senior Backend Developer
@@ -49,12 +50,13 @@ Senior Backend Developer
 > April 2019 - August 2020
 
 I worked for Massive from April 2019 to August 2020. On my time in Massive, I
-worked on one big project for Coca-Cola Mexico, called Tus Tapas Valen. "Tus
-Tapas Valen" is an application that allowed clients to participate in promotions
-and auctions, and win prizes. First I worked FrontEnd with ReactJS, Redux and
-redux-observable, but now I'm working in the Backend. I had to plan a big
-refactor while still working on new Backend functionalities. The Backend was
-built using Python, Django, PostgreSQL, AWS, and AWS S3
+worked on one big project for Coca-Cola Mexico, called [Tus Tapas
+Valen](/projects/tus-tapas-valen). "Tus Tapas Valen" is an application that
+allowed clients to participate in promotions and auctions, and win prizes. First
+I worked FrontEnd with ReactJS, Redux and redux-observable, but now I'm working
+in the Backend. I had to plan a big refactor while still working on new Backend
+functionalities. The Backend was built using Python, Django, PostgreSQL, AWS,
+and AWS S3 
 
 ## [Vascar Solutions](https://vascarsolutions.com/)
 Backend Developer
@@ -62,13 +64,14 @@ Backend Developer
 > December 2016 - June 2019
 
 On my time in Vascar Solutions, I have been in many projects, most recently on
-Knac and Axelerist. "Knac" is a job application startup, empathizing on
+Knac and Axelerist. [Knac](/projects/knac) is a job application startup, empathizing on
 assessments to recommend candidates to a specific job. I worked on the backend
-with NodeJS, Express, MongoDB, Mocha, CircleCI, Heroku and AWS. "Axelerist" is a
-web app that connects to an external API and displays the client’s inventory in
-a more friendly and ergonomic way. I worked on the backend, managing the API
-connection, working on an API wrapper and user management. The app was made with
-NodeJS, Express, MongoDB, Mocha, CircleCI, Heroku and AWS. 
+with NodeJS, Express, MongoDB, Mocha, CircleCI, Heroku and AWS.
+[Axelerist](/projects/axelerist) is a web app that connects to an external API
+and displays the client’s inventory in a more friendly and ergonomic way. I
+worked on the backend, managing the API connection, working on an API wrapper
+and user management. The app was made with NodeJS, Express, MongoDB, Mocha,
+CircleCI, Heroku and AWS.
 
 # Education
 

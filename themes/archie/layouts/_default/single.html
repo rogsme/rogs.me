@@ -14,7 +14,6 @@
 		<section class="body">
 			{{ .Content }}
 		</section>
-
 		<div class="post-tags">
 			{{ if ne .Type "page" }}
 			{{ if gt .Params.tags 0 }}
@@ -29,5 +28,11 @@
 			{{ end }}
 		</div>
 	</article>
+	<script defer
+					src="https://commento.rogs.me/js/commento.js"
+					data-css-override="/commento-new.css"
+					data-auto-init="true">
+	</script>
+	<div id="commento"></div>
 </main>
 {{ end }}

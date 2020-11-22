@@ -51,12 +51,12 @@ Senior Backend Developer
 
 I worked for Massive from April 2019 to August 2020. On my time in Massive, I
 worked on one big project for Coca-Cola Mexico, called [Tus Tapas
-Valen](/projects/tus-tapas-valen). "Tus Tapas Valen" is an application that
-allowed clients to participate in promotions and auctions, and win prizes. First
-I worked FrontEnd with ReactJS, Redux and redux-observable, but now I'm working
-in the Backend. I had to plan a big refactor while still working on new Backend
-functionalities. The Backend was built using Python, Django, PostgreSQL, AWS,
-and AWS S3 
+Valen](/projects/tus-tapas-valen). "Tus Tapas Valen" was an application that
+allowed clients to participate in promotions and auctions, and win prizes. We
+got to 400.000 users in the time the app was online. First I worked FrontEnd
+with ReactJS, Redux and redux-observable, but then I moved to the Backend. I had
+to plan a big refactor while still working on new Backend functionalities. The
+Backend is built using Python, Django, PostgreSQL, AWS, and AWS S3
 
 ## [Vascar Solutions](https://vascarsolutions.com/)
 Backend Developer

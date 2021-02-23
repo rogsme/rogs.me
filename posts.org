@@ -8,11 +8,842 @@
 
 * Programming :@programming:
 All posts in here will have the category set to /programming/.
+** Using MinIO to upload to a local S3 bucket in Django :python::django::minio::docker::dockercompose:
+:PROPERTIES:
+:EXPORT_FILE_NAME: using-minio-to-upload-to-a-local-s3-bucket-in-django
+:EXPORT_DATE: 2021-01-10T11:30:48-03:00
+:END:
+
+Hi everyone!
+
+Some weeks ago I was doing a demo to my teammates, and one of the things that
+was more suprising for them was that I was able to do S3 uploads locally using
+"MinIO".
+
+Let me set the stage:
+
+Imagine you have a Django ImageField which uploads a picture to a AWS S3 bucket.
+
+How do you setup your local development environment without using a
+"development" AWS S3 Bucket? For that, we use MinIO.
+
+*** What is MinIO?
+According to their [[https://github.com/minio/minio][GitHub README]]:
+> MinIO is a High Performance Object Storage released under Apache License v2.0.
+It is API compatible with Amazon S3 cloud storage service. 
+
+So MinIO its an object storage that uses the same API as S3, which means that we
+can  use the same S3 compatible libraries in Python, like [[https://pypi.org/project/boto3/][Boto3]] and
+[[https://pypi.org/project/django-storages/][django-storages]].
+
+*** The setup
+
+Here's the docker-compose configuration for my django app:
+
+#+begin_src yaml
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - ./app:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - minio
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  minio:
+    image: minio/minio
+    ports:
+      - 9000:9000
+    environment:
+      - MINIO_ACCESS_KEY=access-key
+      - MINIO_SECRET_KEY=secret-key
+    command: server /export
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      apk add nc &&
+      while ! nc -z minio 9000; do echo 'Wait minio to startup...' && sleep 0.1; done; sleep 5 &&
+      /usr/bin/mc config host add myminio http://minio:9000 access-key secret-key;
+      /usr/bin/mc mb myminio/my-local-bucket;
+      /usr/bin/mc policy download myminio/my-local-bucket;
+      exit 0;
+      "
+#+end_src
+
+- ~app~ is my Django app. Nothing new here.
+- ~minio~ is the MinIO instance.
+- ~createbuckets~ is a quick instance that creates a new bucket on startup, that
+  way we don't need to create the bucket manually.
+
+On my app, in ~settings.py~:
+
+#+begin_src python
+# S3 configuration
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "access-key")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "secret-key")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "my-local-bucket")
+
+if DEBUG:
+    AWS_S3_ENDPOINT_URL = "http://minio:9000"
+#+end_src
+
+If we were in a production environment, the ~AWS_ACCESS_KEY_ID~,
+~AWS_SECRET_ACCESS_KEY~ and ~AWS_STORAGE_BUCKET_NAME~ would be read from the
+environmental variables, but since we haven't set those up and we have
+~DEBUG=True~, we are going to use the default ones, which point directly to
+MinIO.
+
+
+And that's it! That's everything you need to have your local S3 development environment. 
+
+*** Testing
+
+First, let's create our model. This is a simple mock model for testing purposes:
+
+#+begin_src python
+from django.db import models
+
+
+class Person(models.Model):
+    """This is a demo person model"""
+
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    date_of_birth = models.DateField()
+    picture = models.ImageField()
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} {str(self.date_of_birth)}"
+#+end_src
+
+Then, in the Django admin we can interact with our new model:
+
+[[/2021-01-10-135111.png]]
+
+[[/2021-01-10-135130.png]]
+
+
+If we go to the URL and change the domain to ~localhost~, we should be able to
+see the picture we uploaded.
+
+[[/2021-01-10-140016.png]]
+
+*** Bonus: The MinIO browser
+MinIO has a local objects browser. If you want to check it out you just need to
+go to http://localhost:9000. With my docker-compose configuration, the
+credentials are:
+
+#+begin_src bash
+username: access-key
+password: secret-key
+#+end_src
+
+[[/2021-01-10-140236.png]]
+
+On the browser, you can see your uploads, delete them, add new ones, etc.
+
+[[/2021-01-10-140337.png]]
+
+*** Conclusion
+
+Now you can have a simple configuration for your local and production
+environments to work seamlessly, using local resources instead of remote
+resources that might generate costs for the development.
+
+If you want to check out the project code, you can go to my git server here: https://git.rogs.me/me/minio-example or
+in Gitlab here: https://gitlab.com/rogs/minio-example
+
+See you in the next one!
+
+** How to create a celery task that fills out fields using Django :python::celery::django::docker::dockercompose:
+:PROPERTIES:
+:EXPORT_FILE_NAME: how-to-create-a-celery-task-that-fills-out-fields-using-django
+:EXPORT_DATE: 2020-11-29T15:48:48-03:00
+:END:
+
+Hi everyone!
+
+It's been way too long, I know. In this oportunity, I wanted to talk about
+asynchronicity in Django, but first, lets set up the stage: 
+
+Imagine you are working in a library and you have to develop an app that allows
+users to register new books using a barcode scanner. The system has to read the
+ISBN code and use an external resource to fill in the information (title, pages,
+authors, etc.). You don't need the complete book information to continue, so the
+external resource can't hold the request.
+
+*How can you process the external request asynchronously?* 🤔 
+
+For that, we need Celery.
+
+*** What is Celery?
+[[https://docs.celeryproject.org/en/stable/][Celery]] is a "distributed task queue". Fron their website:
+
+> Celery is a simple, flexible, and reliable distributed system to process vast
+amounts of messages, while providing operations with the tools required to
+maintain such a system. 
+
+So Celery can get messages from external processes via a broker (like [[https://redis.io/][Redis]]),
+and process them.
+
+The best thing is: Django can connect to Celery very easily, and Celery can
+access Django models without any problem. Sweet!
+
+*** Lets code!
+Let's assume our project structure is the following:
+#+begin_src 
+- app/
+  - manage.py
+  - app/
+    - __init__.py
+    - settings.py
+    - urls.py
+#+end_src
+
+**** Celery
+First, we need to set up Celery in Django. Thankfully, [[https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html#using-celery-with-django][Celery has an excellent
+documentation]], but the entire process can be summarized to this:
+
+In ~app/app/celery.py~:
+#+begin_src python
+import os
+
+from celery import Celery
+
+# set the default Django settings module for the 'celery' program.
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
+
+app = Celery("app")
+
+# Using a string here means the worker doesn't have to serialize
+# the configuration object to child processes.
+# - namespace='CELERY' means all celery-related configuration keys
+#   should have a `CELERY_` prefix.
+app.config_from_object("django.conf:settings", namespace="CELERY")
+
+# Load task modules from all registered Django app configs.
+app.autodiscover_tasks()
+
+
+@app.task(bind=True)
+def debug_task(self):
+    """A debug celery task"""
+    print(f"Request: {self.request!r}")
+#+end_src
+
+What's going on here?
+- First, we set the ~DJANGO_SETTINGS_MODULE~ environment variable
+- Then, we instantiate our Celery app using the ~app~ variable.
+- Then, we tell Celery to look for celery configurations in the Django settings
+  with the ~CELERY~ prefix. We will see this later in the post.
+- Finally, we start Celery's ~autodiscover_tasks~. Celery is now going to look for
+  ~tasks.py~ files in the Django apps.
+
+In ~/app/app/__init__.py~:
+#+begin_src python
+# This will make sure the app is always imported when
+# Django starts so that shared_task will use this app.
+from .celery import app as celery_app
+
+__all__ = ("celery_app",)
+#+end_src
+
+Finally in ~/app/app/settings.py~:
+#+begin_src python
+...
+# Celery
+CELERY_BROKER_URL = env.str("CELERY_BROKER_URL")
+CELERY_TIMEZONE = env.str("CELERY_TIMEZONE", "America/Montevideo")
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_CACHE_BACKEND = "django-cache"
+...
+#+end_src
+
+Here, we can see that the ~CELERY~ prefix is used for all Celery configurations,
+because on ~celery.py~ we told Celery the prefix was ~CELERY~
+
+With this, Celery is fully configured. 🎉 
+
+**** Django
+
+First, let's create a ~core~ app. This is going to be used for everything common
+in the app
+#+begin_src bash
+$ python manage.py startapp core
+#+end_src
+
+On ~core/models.py~, lets set the following models:
+#+begin_src python
+"""
+Models
+"""
+import uuid
+
+from django.db import models
+
+
+class TimeStampMixin(models.Model):
+    """
+    A base model that all the other models inherit from.
+    This is to add created_at and updated_at to every model.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        """Setting up the abstract model class"""
+
+        abstract = True
+
+
+class BaseAttributesModel(TimeStampMixin):
+    """
+    A base model that sets up all the attibutes models
+    """
+
+    name = models.CharField(max_length=255)
+    outside_url = models.URLField()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        abstract = True
+#+end_src
+
+Then, let's create a new app for our books:
+#+begin_src bash
+python manage.py startapp books
+#+end_src
+
+And on ~books/models.py~, let's create the following models:
+#+begin_src python
+"""
+Books models
+"""
+from django.db import models
+
+from core.models import TimeStampMixin, BaseAttributesModel
+
+
+class Author(BaseAttributesModel):
+    """Defines the Author model"""
+
+
+class People(BaseAttributesModel):
+    """Defines the People model"""
+
+
+class Subject(BaseAttributesModel):
+    """Defines the Subject model"""
+
+
+class Book(TimeStampMixin):
+    """Defines the Book model"""
+
+    isbn = models.CharField(max_length=13, unique=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    pages = models.IntegerField(default=0)
+    publish_date = models.CharField(max_length=255, blank=True, null=True)
+    outside_id = models.CharField(max_length=255, blank=True, null=True)
+    outside_url = models.URLField(blank=True, null=True)
+    author = models.ManyToManyField(Author, related_name="books")
+    person = models.ManyToManyField(People, related_name="books")
+    subject = models.ManyToManyField(Subject, related_name="books")
+
+    def __str__(self):
+        return f"{self.title} - {self.isbn}"
+#+end_src
+
+~Author~, ~People~, and ~Subject~ are all ~BaseAttributesModel~, so their fields
+come from the class we defined on ~core/models.py~.
+
+For ~Book~ we add all the fields we need, plus a ~many_to_many~ with Author,
+People and Subjects. Because:
+
+- /Books can have many authors, and many authors can have many books/
+Example: [[https://www.epicreads.com/blog/ya-books-multiple-authors/][27 Books by Multiple Authors That Prove the More, the Merrier]]
+- /Books can have many persons, and many persons can have many books/
+Example: Ron Weasley is in several /Harry Potter/ books
+- /Books can have many subjects, and many subjects can have many books/
+Example: A book can be a /comedy/, /fiction/, and /mystery/ at the same time
+
+Let's create ~books/serializers.py~:
+#+begin_src python
+"""
+Serializers for the Books
+"""
+from django.db.utils import IntegrityError
+from rest_framework import serializers
+
+from books.models import Book, Author, People, Subject
+from books.tasks import get_books_information
+
+
+class AuthorInBookSerializer(serializers.ModelSerializer):
+    """Serializer for the Author objects inside Book"""
+
+    class Meta:
+        model = Author
+        fields = ("id", "name")
+
+
+class PeopleInBookSerializer(serializers.ModelSerializer):
+    """Serializer for the People objects inside Book"""
+
+    class Meta:
+        model = People
+        fields = ("id", "name")
+
+
+class SubjectInBookSerializer(serializers.ModelSerializer):
+    """Serializer for the Subject objects inside Book"""
+
+    class Meta:
+        model = Subject
+        fields = ("id", "name")
+
+
+class BookSerializer(serializers.ModelSerializer):
+    """Serializer for the Book objects"""
+
+    author = AuthorInBookSerializer(many=True, read_only=True)
+    person = PeopleInBookSerializer(many=True, read_only=True)
+    subject = SubjectInBookSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Book
+        fields = "__all__"
+
+
+class BulkBookSerializer(serializers.Serializer):
+    """Serializer for bulk book creating"""
+
+    isbn = serializers.ListField()
+
+    def create(self, validated_data):
+        return_dict = {"isbn": []}
+        for isbn in validated_data["isbn"]:
+            try:
+                Book.objects.create(isbn=isbn)
+                return_dict["isbn"].append(isbn)
+            except IntegrityError as error:
+                pass
+
+        return return_dict
+
+    def update(self, instance, validated_data):
+        """The update method needs to be overwritten on
+        serializers.Serializer. Since we don't need it, let's just
+        pass it"""
+        pass
+
+
+class BaseAttributesSerializer(serializers.ModelSerializer):
+    """A base serializer for the attributes objects"""
+
+    books = BookSerializer(many=True, read_only=True)
+
+
+class AuthorSerializer(BaseAttributesSerializer):
+    """Serializer for the Author objects"""
+
+    class Meta:
+        model = Author
+        fields = ("id", "name", "outside_url", "books")
+
+
+class PeopleSerializer(BaseAttributesSerializer):
+    """Serializer for the Author objects"""
+
+    class Meta:
+        model = People
+        fields = ("id", "name", "outside_url", "books")
+
+
+class SubjectSerializer(BaseAttributesSerializer):
+    """Serializer for the Author objects"""
+
+    class Meta:
+        model = Subject
+        fields = ("id", "name", "outside_url", "books")
+
+#+end_src
+The most important serializer here is ~BulkBookSerializer~. It's going to get an
+ISBN list and then bulk create them in the DB.
+
+On ~books/views.py~, we can set the following views:
+#+begin_src python
+"""
+Views for the Books
+"""
+from rest_framework import viewsets, mixins, generics
+from rest_framework.permissions import AllowAny
+
+from books.models import Book, Author, People, Subject
+from books.serializers import (
+    BookSerializer,
+    BulkBookSerializer,
+    AuthorSerializer,
+    PeopleSerializer,
+    SubjectSerializer,
+)
+
+
+class BookViewSet(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    """
+    A view to list Books and retrieve books by ID
+    """
+
+    permission_classes = (AllowAny,)
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+
+class AuthorViewSet(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    """
+    A view to list Authors and retrieve authors by ID
+    """
+
+    permission_classes = (AllowAny,)
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+
+class PeopleViewSet(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    """
+    A view to list People and retrieve people by ID
+    """
+
+    permission_classes = (AllowAny,)
+    queryset = People.objects.all()
+    serializer_class = PeopleSerializer
+
+
+class SubjectViewSet(
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+):
+    """
+    A view to list Subject and retrieve subject by ID
+    """
+
+    permission_classes = (AllowAny,)
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
+
+
+class BulkCreateBook(generics.CreateAPIView):
+    """A view to bulk create books"""
+
+    permission_classes = (AllowAny,)
+    queryset = Book.objects.all()
+    serializer_class = BulkBookSerializer
+#+end_src
+
+Easy enough, endpoints for getting books, authors, people and subjects and an
+endpoint to post ISBN codes in a list.
+
+We can check swagger to see all the endpoints created:
+
+[[/2020-11-29-115634.png]]
+
+Now, *how are we going to get all the data?* 🤔 
+
+*** Creating a Celery task
+Now that we have our project structure done, we need to create the asynchronous
+task Celery is going to run to populate our fields.
+
+To get the information, we are going to use the [[https://openlibrary.org/dev/docs/api/books"""][OpenLibrary API]].
+
+First, we need to create ~books/tasks.py~:
+#+begin_src python
+"""
+Celery tasks
+"""
+import requests
+from celery import shared_task
+
+from books.models import Book, Author, People, Subject
+
+
+def get_book_info(isbn):
+    """Gets a book information by using its ISBN.
+    More info here https://openlibrary.org/dev/docs/api/books"""
+    return requests.get(
+        f"https://openlibrary.org/api/books?jscmd=data&format=json&bibkeys=ISBN:{isbn}"
+    ).json()
+
+
+def generate_many_to_many(model, iterable):
+    """Generates the many to many relationships to books"""
+    return_items = []
+    for item in iterable:
+        relation = model.objects.get_or_create(
+            name=item["name"], outside_url=item["url"]
+        )
+        return_items.append(relation)
+    return return_items
+
+
+@shared_task
+def get_books_information(isbn):
+    """Gets a book information"""
+
+    # First, we get the book information by its isbn
+    book_info = get_book_info(isbn)
+
+    if len(book_info) > 0:
+        # Then, we need to access the json itself. Since the first key is dynamic,
+        # we get it by accessing the json keys
+        key = list(book_info.keys())[0]
+        book_info = book_info[key]
+
+        # Since the book was created on the Serializer, we get the book to edit
+        book = Book.objects.get(isbn=isbn)
+
+        # Set the fields we want from the API into the Book
+        book.title = book_info["title"]
+        book.publish_date = book_info["publish_date"]
+        book.outside_id = book_info["key"]
+        book.outside_url = book_info["url"]
+
+        # For the optional fields, we try to get them first
+        try:
+            book.pages = book_info["number_of_pages"]
+        except:
+            book.pages = 0
+
+        try:
+            authors = book_info["authors"]
+        except:
+            authors = []
+
+        try:
+            people = book_info["subject_people"]
+        except:
+            people = []
+
+        try:
+            subjects = book_info["subjects"]
+        except:
+            subjects = []
+
+        # And generate the appropiate many_to_many relationships
+        authors_info = generate_many_to_many(Author, authors)
+        people_info = generate_many_to_many(People, people)
+        subjects_info = generate_many_to_many(Subject, subjects)
+
+        # Once the relationships are generated, we save them in the book instance
+        for author in authors_info:
+            book.author.add(author[0])
+
+        for person in people_info:
+            book.person.add(person[0])
+
+        for subject in subjects_info:
+            book.subject.add(subject[0])
+
+        # Finally, we save the Book
+        book.save()
+
+    else:
+        raise ValueError("Book not found")
+#+end_src
+
+So when are we going to run this task? We need to run it in the *serializer*.
+
+On ~books/serializers.py~:
+#+begin_src python
+from books.tasks import get_books_information
+...
+class BulkBookSerializer(serializers.Serializer):
+    """Serializer for bulk book creating"""
+
+    isbn = serializers.ListField()
+
+    def create(self, validated_data):
+        return_dict = {"isbn": []}
+        for isbn in validated_data["isbn"]:
+            try:
+                Book.objects.create(isbn=isbn)
+                # We need to add this line
+                get_books_information.delay(isbn)
+                #################################
+                return_dict["isbn"].append(isbn)
+            except IntegrityError as error:
+                pass
+
+        return return_dict
+
+    def update(self, instance, validated_data):
+        pass
+#+end_src
+
+To trigger the Celery tasks, we need to call our function with the ~delay~
+function, which has been added by the ~shared_task~ decorator. This tells Celery
+to start running the task in the background since we don't need the result
+right now.
+
+*** Docker configuration
+There are a lot of moving parts we need for this to work, so I created a
+~docker-compose~ configuration to help with the stack. I'm using the package
+[[https://github.com/joke2k/django-environ][django-environ]] to handle all environment variables.
+
+On ~docker-compose.yml~:
+#+begin_src yaml
+version: "3.7"
+
+x-common-variables: &common-variables
+  DJANGO_SETTINGS_MODULE: "app.settings"
+  CELERY_BROKER_URL: "redis://redis:6379"
+  DEFAULT_DATABASE: "psql://postgres:postgres@db:5432/app"
+  DEBUG: "True"
+  ALLOWED_HOSTS: "*,test"
+  SECRET_KEY: "this-is-a-secret-key-shhhhh"
+
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - ./app:/app
+    environment:
+      <<: *common-variables
+    ports:
+      - 8000:8000
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
+      - redis
+
+  celery-worker:
+    build:
+      context: .
+    volumes:
+      - ./app:/app
+    environment:
+      <<: *common-variables
+    command: celery --app app worker -l info
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:12.4-alpine
+    environment:
+      - POSTGRES_DB=app
+      - POSRGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  redis:
+    image: redis:6.0.8-alpine
+
+#+end_src
+This is going to set our app, DB, Redis, and most importantly our celery-worker
+instance. To run Celery, we need to execute:
+#+begin_src bash
+$ celery --app app worker -l info
+#+end_src
+
+So we are going to run that command on a separate docker instance
+
+*** Testing it out
+If we run
+#+begin_src bash
+$ docker-compose up
+#+end_src
+
+on our project root folder, the project should come up as usual. You should be
+able to open http://localhost:8000/admin and enter the admin panel.
+
+To test the app, you can use a curl command from the terminal:
+#+begin_src bash
+curl -X POST "http://localhost:8000/books/bulk-create" -H  "accept: application/json" \
+    -H  "Content-Type: application/json" -d "{  \"isbn\": [ \"9780345418913\", \
+    \"9780451524935\", \"9780451526342\", \"9781101990322\", \"9780143133438\"   ]}"
+#+end_src
+[[/2020-11-29-124654.png]]
+
+This call lasted 147ms, according to my terminal.
+
+This should return instantly, creating 15 new books and 15 new Celery tasks, one
+for each book. You can also see tasks results in the Django admin using the
+~django-celery-results~ package, check its [[https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html#django-celery-results-using-the-django-orm-cache-as-a-result-backend][documentation]].
+
+[[/2020-11-29-124734.png]]
+
+Celery tasks list, using ~django-celery-results~
+
+[[/2020-11-29-124751.png]]
+
+Created and processed books list
+
+[[/2020-11-29-124813.png]]
+
+Single book information
+
+[[/2020-11-29-124834.png]]
+
+People in books
+
+[[/2020-11-29-124851.png]]
+
+Authors
+
+[[/2020-11-29-124906.png]]
+
+Themes
+
+And also, you can interact with the endpoints to search by author, theme,
+people, and book. This should change depending on how you created your URLs.
+
+*** That's it!
+This surely was a *LONG* one, but it has been a very good one in my opinion.
+I've used Celery in the past for multiple things, from sending emails in the
+background to triggering scraping jobs and [[https://docs.celeryproject.org/en/stable/userguide/periodic-tasks.html#using-custom-scheduler-classes][running scheduled tasks]] (like a [[https://en.wikipedia.org/wiki/Cron][unix
+cronjob]]) 
+
+You can check the complete project in my git instance here:
+https://git.rogs.me/me/books-app or in GitLab here:
+https://gitlab.com/rogs/books-app
+
+If you have any doubts, let me know! I always answer emails and/or messages.
 ** How I got a residency appointment thanks to Python, Selenium and Telegram :python::selenium:telegram:
 :PROPERTIES:
 :EXPORT_FILE_NAME: how-i-got-a-residency-appointment-thanks-to-python-and-selenium
 :EXPORT_DATE: 2020-08-02
-:TLDR: keklol
 :END:
 Hello everyone!
 
@@ -202,7 +1033,6 @@ Redis, peewee, and Postgres, so stay tuned if you want to know more about that.
 In the meantime, if you want to check the complete script, you can see it on my
 Git instance: https://git.rogs.me/me/registro-civil-scraper or Gitlab, if you
 prefer: https://gitlab.com/rogs/registro-civil-scraper
-
 * COMMENT Local Variables
 # Local Variables:
 # eval: (org-hugo-auto-export-mode)

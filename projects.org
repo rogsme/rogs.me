@@ -6,57 +6,57 @@
 
 #+author: Roger Gonzalez
 
-* Certn - ADA DINER (Adverse Data Aggregator Data INgestER)
-:PROPERTIES:
-:EXPORT_FILE_NAME: certn-ada-diner
-:EXPORT_DATE: 2020-10-01
-:END:
-** About the project
-[[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
-records, education, employment verification, credit reports, etc. On
-ADA DINER we are working on an app that triggers crawls on demand, to check
-criminal records for a certain person.
-** Tech Stack
-- Python
-- Django
-- Django REST Framework
-- Celery
-- PostgreSQL
-- Docker-docker/compose
-- Swagger
-- Github Actions
-- Scrapy/Scrapyd
-** What did I work on?
-- Dockerized the old app so the development could be more streamlined
-- Refactor of old Django code to DRF
-- This app is still in development, so I'm still adding new features
-* Certn - International framework
-:PROPERTIES:
-:EXPORT_FILE_NAME: certn-intl-framework
-:EXPORT_DATE: 2020-09-01
-:END:
-** About the project
-[[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
-records, education, employment verification, credit reports, etc. On
-International Framework, we worked on an app that acts like a bridge between our
-main app and criminal background check providers (like the [[https://rcmp-grc.gc.ca][RCMP]]).
-** Tech Stack
-- Python
-- Django
-- Django REST Framework
-- Celery
-- PostgreSQL
-- Docker/docker-compose
-- Swagger
-- Sentry.io
-- Github Actions
-- Jenkins
-** What did I work on?
-- Database design.
-- Models and endpoints design.
-- Github Actions configurations.
-- Jenkins configuration.
-- Standardized the code with [[https://flake8.pycqa.org/en/latest/][Flake]], [[https://www.pylint.org/][pylint]] and [[https://black.readthedocs.io/en/stable/][Black]].
+# * Certn - ADA DINER (Adverse Data Aggregator Data INgestER)
+# :PROPERTIES:
+# :EXPORT_FILE_NAME: certn-ada-diner
+# :EXPORT_DATE: 2020-10-01
+# :END:
+# ** About the project
+# [[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
+# records, education, employment verification, credit reports, etc. On
+# ADA DINER we are working on an app that triggers crawls on demand, to check
+# criminal records for a certain person.
+# ** Tech Stack
+# - Python
+# - Django
+# - Django REST Framework
+# - Celery
+# - PostgreSQL
+# - Docker-docker/compose
+# - Swagger
+# - Github Actions
+# - Scrapy/Scrapyd
+# ** What did I work on?
+# - Dockerized the old app so the development could be more streamlined
+# - Refactor of old Django code to DRF
+# - This app is still in development, so I'm still adding new features
+# * Certn - International framework
+# :PROPERTIES:
+# :EXPORT_FILE_NAME: certn-intl-framework
+# :EXPORT_DATE: 2020-09-01
+# :END:
+# ** About the project
+# [[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
+# records, education, employment verification, credit reports, etc. On
+# International Framework, we worked on an app that acts like a bridge between our
+# main app and criminal background check providers (like the [[https://rcmp-grc.gc.ca][RCMP]]).
+# ** Tech Stack
+# - Python
+# - Django
+# - Django REST Framework
+# - Celery
+# - PostgreSQL
+# - Docker/docker-compose
+# - Swagger
+# - Sentry.io
+# - Github Actions
+# - Jenkins
+# ** What did I work on?
+# - Database design.
+# - Models and endpoints design.
+# - Github Actions configurations.
+# - Jenkins configuration.
+# - Standardized the code with [[https://flake8.pycqa.org/en/latest/][Flake]], [[https://www.pylint.org/][pylint]] and [[https://black.readthedocs.io/en/stable/][Black]].
 
 * Volition
 :PROPERTIES:

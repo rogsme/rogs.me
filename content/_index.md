@@ -7,7 +7,7 @@ draft: false
 ---
 # Who am I?
 
-Hello world! I'm a Full-Stack web developer from Valencia, Venezuela, but now
+Hello world! I'm a Backend web developer from Valencia, Venezuela, but now
 living in [Montevideo, Uruguay](https://www.openstreetmap.org/relation/2929054).
 
 I have experience in front-end, back-end, and DevOps. New technologies fuel my
@@ -24,25 +24,20 @@ You can check my resume in a more traditional format here:
 # Experience
 
 ## [Lazer Technologies](https://lazertechnologies.com/)
-> September 2020
+> September 2020 - Currently
 
-In Lazer Technologies we are working for [Certn](https://certn.co/). Certn is an
-app that looks to ease the employers jobs of doing criminal background checks
-for their employees. First, we built an app called [International Framework](/projects/certn-intl-framework/) that acts as a bridge between our
-main app and criminal background check providers (like the
-[RCMP](https://www.rcmp-grc.gc.ca/)). Now we are working on [ADA
-DINER](/projects/certn-ada-diner/) a scraper for multiple providers that don't
-have an API. In this project we are using Django, Django REST Framework, Docker,
-PostgreSQL, Github Actions and Jenkins.
+In Lazer Technologies we are working on an app that looks to ease the employers
+jobs of doing criminal background checks for their employees. In this project we
+are using Django, Django REST Framework, Docker, PostgreSQL, Github Actions and
+Jenkins. 
 
 ## [Tarmac](https://tarmac.io)
-> July 2020
+> July 2020 - January 2021
 
-I'm currently working on Tarmac on a project called
-[Volition](/projects/volition/). In Volition we are developing a crawler that
-extracts information from different pages in order to build a "super market
-place" for a specific product. In this project we are using Docker, TypeScript,
-NodeJS, PostgreSQL, Google Cloud, and Kubernetes.
+In Tarmac I worked on a project called [Volition](/projects/volition/). In
+Volition we developed a crawler that extracts information from different pages
+in order to build a "super market place" for a specific product. In this project
+we used Docker, TypeScript, NodeJS, PostgreSQL, Google Cloud, and Kubernetes. 
 
 ## [Massive](https://massive.ag)
 Senior Backend Developer

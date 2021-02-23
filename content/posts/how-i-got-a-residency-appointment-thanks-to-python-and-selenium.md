@@ -2,11 +2,11 @@
 title = "How I got a residency appointment thanks to Python, Selenium and Telegram"
 author = ["Roger Gonzalez"]
 date = 2020-08-02
-lastmod = 2020-11-02T17:34:24-03:00
+lastmod = 2021-01-10T11:37:49-03:00
 tags = ["python", "selenium", "telegram"]
 categories = ["programming"]
 draft = false
-weight = 2001
+weight = 2003
 +++
 
 Hello everyone!

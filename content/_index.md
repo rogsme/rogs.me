@@ -23,13 +23,34 @@ You can check my resume in a more traditional format here:
 
 # Experience
 
-## [Lazer Technologies](https://lazertechnologies.com/)
-> September 2020 - Currently
+## [Prometeo OpenBanking](https://prometeoapi.com/)
+> September 2021 - Currently
 
-In Lazer Technologies we are working on an app that looks to ease the employers
-jobs of doing criminal background checks for their employees. In this project we
-are using Django, Django REST Framework, Docker, PostgreSQL, Github Actions and
-Jenkins. 
+In Prometeo I'm currently working as a Tech Lead, managing a team of 5
+developers and working on a few migrations to improve the development experience.
+
+So far I've migrated from Bitbucket and Bitbucket Pipelines to Github and Jenkins,
+set up SonarCloud and many other tools to improve security and code quality and
+Dockerized their entire microservice infrastructure. As for the future, I'm currently
+working on their v2 API, which is going to be done in FastAPI
+
+I also participated on their
+[OpenBanking hackathon as a judge](https://prometeoopenbanking.medium.com/as%C3%AD-se-vivi%C3%B3-ignite-36cf01dec347?p=36cf01dec347),
+a very enriching experience :)
+
+In Prometeo I'm using Python, aiohttp, Django, Selenium, Jenkins, Github actions,
+SonarCloud, Docker, FastAPI, among others.
+
+
+## [Lazer Technologies](https://lazertechnologies.com/)
+> September 2020 - September 2021
+
+In Lazer Technologies I worked on [Certn](https://certn.co/), an app that looks
+to ease the employers jobs of doing criminal background checks for their
+employees. I was responsible of a big integration with
+[Workday](https://www.workday.com/), that led to a multi million dollar per year
+contract for Certn. In this project used Django, Django REST Framework, Docker,
+PostgreSQL, Github Actions and Jenkins.
 
 ## [Tarmac](https://tarmac.io)
 > July 2020 - January 2021

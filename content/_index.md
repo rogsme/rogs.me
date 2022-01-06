@@ -112,14 +112,19 @@ Engineering
   [Bootstrap](https://getbootstrap.com/) | [ReactJS](https://reactjs.org/) 
 - **Backend:** [Django](https://www.djangoproject.com/) | [Django REST
   Framework](https://www.django-rest-framework.org/) |
-  [NodeJS](https://nodejs.org/en/) | [Express](https://expressjs.com/) |
+  [FastAPI](https://fastapi.tiangolo.com/) |
+  [Selenium](https://www.selenium.dev/) |
+  [aiohttp](https://docs.aiohttp.org/en/stable/) |
+  [NodeJS](https://nodejs.org/en/) |
+  [Express](https://expressjs.com/) |
   [Flask](https://flask.palletsprojects.com/en/1.1.x/) |
   [MySQL](https://www.mysql.com/) | [PostgreSQL](https://www.postgresql.org/) |
   [MongoDB](https://www.mongodb.com/) 
 - **Servers and Infrastructure:** [Amazon Web Services](https://aws.amazon.com/)
   | [DigitalOcean](https://www.digitalocean.com/) | [Linode](https://linode.com)
   | [Docker](https://www.docker.com/) | [Heroku](https://www.heroku.com/) |
-  [NGINX](https://nginx.org/) | [Apache](https://www.apache.org/)
+  [NGINX](https://nginx.org/) | [Apache](https://www.apache.org/) |
+  [Jenkins](https://www.jenkins.io/) | [SonarCloud](https://sonarcloud.io/)
 - **Others:** [Linux](https://linux.org/) |
   [Emacs](https://www.gnu.org/software/emacs/) | [Git](https://git-scm.com/) |
   [Scrum](https://www.scrum.org/) | [CircleCI](https://circleci.com/) |

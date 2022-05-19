@@ -24,6 +24,8 @@ You can check my resume in a more traditional format here:
 # Experience
 
 ## [Prometeo OpenBanking](https://prometeoapi.com/)
+**Lead Backend Developer**
+
 > September 2021 - Currently
 
 In Prometeo I'm currently working as a Tech Lead, managing a team of 5
@@ -43,6 +45,8 @@ SonarCloud, Docker, FastAPI, among others.
 
 
 ## [Lazer Technologies](https://lazertechnologies.com/)
+**Senior Backend Developer**
+
 > September 2020 - September 2021
 
 In Lazer Technologies I worked on [Certn](https://certn.co/), an app that looks
@@ -53,6 +57,8 @@ contract for Certn. In this project used Django, Django REST Framework, Docker,
 PostgreSQL, Github Actions and Jenkins.
 
 ## [Tarmac](https://tarmac.io)
+**Senior Backend Developer**
+
 > July 2020 - January 2021
 
 In Tarmac I worked on a project called [Volition](/projects/volition/). In
@@ -61,7 +67,7 @@ in order to build a "super market place" for a specific product. In this project
 we used Docker, TypeScript, NodeJS, PostgreSQL, Google Cloud, and Kubernetes. 
 
 ## [Massive](https://massive.ag)
-Senior Backend Developer
+**Senior Backend Developer**
 
 > April 2019 - August 2020
 
@@ -75,7 +81,7 @@ to plan a big refactor while still working on new Backend functionalities. The
 Backend is built using Python, Django, PostgreSQL, AWS, and AWS S3
 
 ## [Vascar Solutions](https://vascarsolutions.com/)
-Backend Developer
+**Backend Developer**
 
 > December 2016 - June 2019
 

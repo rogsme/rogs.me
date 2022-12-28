@@ -19,7 +19,7 @@ I love Open Source projects. Knowledge should be available to everyone who wants
 it.
 
 You can check my resume in a more traditional format here:
-[English](https://rogs.me/Roger_Gonzalez-Senior_Backend_Web_Developer.pdf)
+[English](Roger_Gonzalez-Senior_Backend_Web_Developer.pdf)
 
 # Experience
 

@@ -2,7 +2,10 @@
 <hr>
 {{- range $index, $key := .Site.Params.Social -}}
 <a class="soc" href="{{ $key.url }}" title="{{ $key.name }}"><i class="{{ $key.name }}"></i></a>|
-{{- end -}} ⚡️
+{{- end -}}
+<a href="{{ .Site.BaseURL }}rogs-gpg.txt" target="_blank">gpg</a>
+
+⚡️
 
 {{ dateFormat "2006" now }} {{ with .Site.Copyright }} {{ . }} | {{ end }} <a href="https://github.com/athul/archie">Archie Theme</a>
 

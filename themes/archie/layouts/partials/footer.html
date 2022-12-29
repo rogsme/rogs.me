@@ -3,7 +3,6 @@
 {{- range $index, $key := .Site.Params.Social -}}
 <a class="soc" target="_blank" href="{{ $key.url }}" title="{{ $key.name }}"><i class="{{ $key.name }}"></i></a>|
 {{- end -}}
-<a href="rogs-gpg.txt" target="_blank">gpg</a>|
 
 ⚡️
 
@@ -11,7 +10,11 @@
 
 | Built with <a href="https://gohugo.io" target="_blank">Hugo</a> |
 
+<p style="font-size:12px">gpg: <code>curl -sL https://rogs.me/rogs.gpg | gpg --import</code></p>
+<p style="font-size:12px">fingerprint: <code>ADDF BCB7 8B86 8D93 FC4E 3224 C7EC E9C6 C36E C2E6</code></p>
+
 <p><i class="fab fa-bitcoin"></i> 1Khw3ZZzNBB6VNKetiPABykVLSNQ6f1hSs <i class="fab fa-ethereum"></i> 0xC07F44811778FE05BAD0e16DF002f0F9B83A3A24</p>
+
 
 </footer>
 {{ if not .Site.IsServer }}

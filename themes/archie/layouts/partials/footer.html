@@ -1,15 +1,15 @@
 <footer>
 <hr>
 {{- range $index, $key := .Site.Params.Social -}}
-<a class="soc" href="{{ $key.url }}" title="{{ $key.name }}"><i class="{{ $key.name }}"></i></a>|
+<a class="soc" target="_blank" href="{{ $key.url }}" title="{{ $key.name }}"><i class="{{ $key.name }}"></i></a>|
 {{- end -}}
 <a href="rogs-gpg.txt" target="_blank">gpg</a>|
 
 ⚡️
 
-{{ dateFormat "2006" now }} {{ with .Site.Copyright }} {{ . }} | {{ end }} <a href="https://github.com/athul/archie">Archie Theme</a>
+{{ dateFormat "2006" now }} {{ with .Site.Copyright }} {{ . }} | {{ end }} <a href="https://github.com/athul/archie" target="_blank">Archie Theme</a>
 
-| Built with <a href="https://gohugo.io">Hugo</a> |
+| Built with <a href="https://gohugo.io" target="_blank">Hugo</a> |
 
 <p><i class="fab fa-bitcoin"></i> 1Khw3ZZzNBB6VNKetiPABykVLSNQ6f1hSs <i class="fab fa-ethereum"></i> 0xC07F44811778FE05BAD0e16DF002f0F9B83A3A24</p>
 

@@ -20,8 +20,8 @@ copyright = "© Rogs"
     name = "fas fa-envelope"
     url = "mailto:roger@rogs.me"
   [[params.social]]
-    name = "fab fa-git"
-    url = "https://git.rogs.me/me"
+    name = "fab fa-gitlab"
+    url = "https://gitlab.com/rogs"
   [[params.social]]
     name = "fab fa-linkedin-in"
     url = "https://linkedin.com/in/rogergonzalez21"

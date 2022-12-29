@@ -2,8 +2,8 @@
 title = "Using MinIO to upload to a local S3 bucket in Django"
 author = ["Roger Gonzalez"]
 date = 2021-01-10T11:30:48-03:00
-lastmod = 2021-01-10T14:40:17-03:00
-tags = ["python", "django", "minio", "docker", "dockercompose"]
+lastmod = 2022-12-29T09:34:56-03:00
+tags = ["python", "django", "minio", "docker", "", "dockercompose"]
 categories = ["programming"]
 draft = false
 weight = 2001
@@ -26,7 +26,7 @@ How do you setup your local development environment without using a
 ## What is MinIO? {#what-is-minio}
 
 According to their [GitHub README](https://github.com/minio/minio):
-> MinIO is a High Performance Object Storage released under Apache License v2.0.
+&gt; MinIO is a High Performance Object Storage released under Apache License v2.0.
 It is API compatible with Amazon S3 cloud storage service.
 
 So MinIO its an object storage that uses the same API as S3, which means that we
@@ -164,7 +164,7 @@ Now you can have a simple configuration for your local and production
 environments to work seamlessly, using local resources instead of remote
 resources that might generate costs for the development.
 
-If you want to check out the project code, you can go to my git server here: <https://git.rogs.me/me/minio-example> or
-in Gitlab here: <https://gitlab.com/rogs/minio-example>
+If you want to check out the project code, you can check in my Gitlab here:
+<https://gitlab.com/rogs/minio-example>
 
 See you in the next one!

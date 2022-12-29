@@ -2,8 +2,8 @@
 title = "How I got a residency appointment thanks to Python, Selenium and Telegram"
 author = ["Roger Gonzalez"]
 date = 2020-08-02
-lastmod = 2021-01-10T11:37:49-03:00
-tags = ["python", "selenium", "telegram"]
+lastmod = 2022-12-29T09:34:48-03:00
+tags = ["python", "", "selenium", "telegram"]
 categories = ["programming"]
 draft = false
 weight = 2003
@@ -220,7 +220,7 @@ my own.
 My brother is having similar issues in Argentina, and when I showed him this, he
 said one of the funniest phrases I've heard about my profession:
 
-> _"Programmers could take over the world, but they are too lazy"_
+&gt; _"Programmers could take over the world, but they are too lazy"_
 
 I lol'd way too hard at that.
 
@@ -228,5 +228,4 @@ I loved Selenium and how it worked. Recently I created a crawler using Selenium,
 Redis, peewee, and Postgres, so stay tuned if you want to know more about that.
 
 In the meantime, if you want to check the complete script, you can see it on my
-Git instance: <https://git.rogs.me/me/registro-civil-scraper> or Gitlab, if you
-prefer: <https://gitlab.com/rogs/registro-civil-scraper>
+Gitlab: <https://gitlab.com/rogs/registro-civil-scraper>

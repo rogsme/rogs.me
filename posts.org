@@ -7,36 +7,26 @@
 #+author: Roger Gonzalez
 
 * Programming :@programming:
+:PROPERTIES:
+:ID:       622d1d7a-cef9-4eb6-838c-552086182fec
+:END:
 All posts in here will have the category set to /programming/.
 ** Using MinIO to upload to a local S3 bucket in Django :python::django::minio::docker::dockercompose:
 :PROPERTIES:
-:EXPORT_FILE_NAME: using-minio-to-upload-to-a-local-s3-bucket-in-django
-:EXPORT_DATE: 2021-01-10T11:30:48-03:00
+:ID:       b693b4e8-0550-4238-8a64-30866a47768a
 :END:
-
-Hi everyone!
-
-Some weeks ago I was doing a demo to my teammates, and one of the things that
-was more suprising for them was that I was able to do S3 uploads locally using
-"MinIO".
-
-Let me set the stage:
-
-Imagine you have a Django ImageField which uploads a picture to a AWS S3 bucket.
-
-How do you setup your local development environment without using a
-"development" AWS S3 Bucket? For that, we use MinIO.
-
-*** What is MinIO?
-According to their [[https://github.com/minio/minio][GitHub README]]:
-> MinIO is a High Performance Object Storage released under Apache License v2.0.
-It is API compatible with Amazon S3 cloud storage service. 
+:PROPERTIES:
+:EXPORT_FILE_NAME: using-minio-to-upload-to-a-local-s3-bucket-in-django
+:EXPORT_DATE: 2021-01-10h Amazon S3 cloud storage service. 
 
 So MinIO its an object storage that uses the same API as S3, which means that we
 can  use the same S3 compatible libraries in Python, like [[https://pypi.org/project/boto3/][Boto3]] and
 [[https://pypi.org/project/django-storages/][django-storages]].
 
 *** The setup
+:PROPERTIES:
+:ID:       f2ed5f13-5a27-4da8-a8d2-72500d652ba1
+:END:
 
 Here's the docker-compose configuration for my django app:
 
@@ -111,6 +101,9 @@ MinIO.
 And that's it! That's everything you need to have your local S3 development environment. 
 
 *** Testing
+:PROPERTIES:
+:ID:       61f1cffa-59de-405e-853b-57547a96165b
+:END:
 
 First, let's create our model. This is a simple mock model for testing purposes:
 
@@ -143,6 +136,9 @@ see the picture we uploaded.
 [[/2021-01-10-140016.png]]
 
 *** Bonus: The MinIO browser
+:PROPERTIES:
+:ID:       40acc926-5083-4682-b9be-63cac1c253cb
+:END:
 MinIO has a local objects browser. If you want to check it out you just need to
 go to http://localhost:9000. With my docker-compose configuration, the
 credentials are:
@@ -159,13 +155,16 @@ On the browser, you can see your uploads, delete them, add new ones, etc.
 [[/2021-01-10-140337.png]]
 
 *** Conclusion
+:PROPERTIES:
+:ID:       f5384bdc-9100-46eb-81f8-d6c8a8f52ba8
+:END:
 
 Now you can have a simple configuration for your local and production
 environments to work seamlessly, using local resources instead of remote
 resources that might generate costs for the development.
 
-If you want to check out the project code, you can go to my git server here: https://git.rogs.me/me/minio-example or
-in Gitlab here: https://gitlab.com/rogs/minio-example
+If you want to check out the project code, you can check in my Gitlab here:
+https://gitlab.com/rogs/minio-example
 
 See you in the next one!
 
@@ -173,6 +172,7 @@ See you in the next one!
 :PROPERTIES:
 :EXPORT_FILE_NAME: how-to-create-a-celery-task-that-fills-out-fields-using-django
 :EXPORT_DATE: 2020-11-29T15:48:48-03:00
+:ID:       f8ed204b-1f57-4c92-8c4f-128658327aed
 :END:
 
 Hi everyone!
@@ -191,6 +191,9 @@ external resource can't hold the request.
 For that, we need Celery.
 
 *** What is Celery?
+:PROPERTIES:
+:ID:       d3f8a2ad-09c2-4ae7-8b84-50210af7a2dc
+:END:
 [[https://docs.celeryproject.org/en/stable/][Celery]] is a "distributed task queue". Fron their website:
 
 > Celery is a simple, flexible, and reliable distributed system to process vast
@@ -204,6 +207,9 @@ The best thing is: Django can connect to Celery very easily, and Celery can
 access Django models without any problem. Sweet!
 
 *** Lets code!
+:PROPERTIES:
+:ID:       0e6a021e-ab2a-48d0-92a0-39fd4f7c3409
+:END:
 Let's assume our project structure is the following:
 #+begin_src 
 - app/
@@ -215,6 +221,9 @@ Let's assume our project structure is the following:
 #+end_src
 
 **** Celery
+:PROPERTIES:
+:ID:       77b6e575-bc24-4ad3-b504-74bdef9145d3
+:END:
 First, we need to set up Celery in Django. Thankfully, [[https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html#using-celery-with-django][Celery has an excellent
 documentation]], but the entire process can be summarized to this:
 
@@ -279,6 +288,9 @@ because on ~celery.py~ we told Celery the prefix was ~CELERY~
 With this, Celery is fully configured. 🎉 
 
 **** Django
+:PROPERTIES:
+:ID:       dd40e5c4-7d82-4d3c-b5da-a7c8751b9f70
+:END:
 
 First, let's create a ~core~ app. This is going to be used for everything common
 in the app
@@ -580,6 +592,9 @@ We can check swagger to see all the endpoints created:
 Now, *how are we going to get all the data?* 🤔 
 
 *** Creating a Celery task
+:PROPERTIES:
+:ID:       ac678884-7d0e-46fd-91e2-ec0e0edd12a9
+:END:
 Now that we have our project structure done, we need to create the asynchronous
 task Celery is going to run to populate our fields.
 
@@ -715,6 +730,9 @@ to start running the task in the background since we don't need the result
 right now.
 
 *** Docker configuration
+:PROPERTIES:
+:ID:       3d992b01-11f9-488c-9781-dcddfcf6fe88
+:END:
 There are a lot of moving parts we need for this to work, so I created a
 ~docker-compose~ configuration to help with the stack. I'm using the package
 [[https://github.com/joke2k/django-environ][django-environ]] to handle all environment variables.
@@ -780,6 +798,9 @@ $ celery --app app worker -l info
 So we are going to run that command on a separate docker instance
 
 *** Testing it out
+:PROPERTIES:
+:ID:       50e6cc5d-848b-4d73-a4b6-1bfd23bf86f4
+:END:
 If we run
 #+begin_src bash
 $ docker-compose up
@@ -830,20 +851,22 @@ And also, you can interact with the endpoints to search by author, theme,
 people, and book. This should change depending on how you created your URLs.
 
 *** That's it!
+:PROPERTIES:
+:ID:       e7cf2cfe-25ae-472d-b4a2-d154834cce98
+:END:
 This surely was a *LONG* one, but it has been a very good one in my opinion.
 I've used Celery in the past for multiple things, from sending emails in the
 background to triggering scraping jobs and [[https://docs.celeryproject.org/en/stable/userguide/periodic-tasks.html#using-custom-scheduler-classes][running scheduled tasks]] (like a [[https://en.wikipedia.org/wiki/Cron][unix
 cronjob]]) 
 
-You can check the complete project in my git instance here:
-https://git.rogs.me/me/books-app or in GitLab here:
-https://gitlab.com/rogs/books-app
+You can check the complete project in my GitLab here: https://gitlab.com/rogs/books-app
 
 If you have any doubts, let me know! I always answer emails and/or messages.
 ** How I got a residency appointment thanks to Python, Selenium and Telegram :python::selenium:telegram:
 :PROPERTIES:
 :EXPORT_FILE_NAME: how-i-got-a-residency-appointment-thanks-to-python-and-selenium
 :EXPORT_DATE: 2020-08-02
+:ID:       b7da6c10-ca61-4839-9074-039e11a4475d
 :END:
 Hello everyone!
 
@@ -862,7 +885,13 @@ bot that checks the site for me, that way I could just forget about it and let
 the computers do it for me.
 
 *** Tech
+:PROPERTIES:
+:ID:       b762da5f-9a5a-41ec-982d-ea864a661f5b
+:END:
 **** Selenium
+:PROPERTIES:
+:ID:       12fcf6c3-a167-4d7d-971e-614b1944078d
+:END:
 I had some experience with Selenium in the past because I had to run automated
 tests on an Android application, but I had never used it for the web. I knew it
 supported Firefox and had an extensive API to interact with websites. In the
@@ -870,12 +899,18 @@ end, I just had to inspect the HTML and search for the "No appointments
 available" error message. If the message wasn't there, I needed a way to be
 notified so I can set my appointment as fast as possible.
 **** Telegram Bot API
+:PROPERTIES:
+:ID:       221b1f01-dfa7-46ae-b162-6299c8d69159
+:END:
 Telegram was my goto because I have a lot of experience with it. It has a
 stupidly easy API that allows for superb bot management. I just needed the bot
 to send me a message whenever the "No appointments available" message wasn't
 found on the site.
 
 *** The plan
+:PROPERTIES:
+:ID:       422aac40-f61b-4b7c-bd98-f68c2a0340da
+:END:
 Here comes the juicy part: How is everything going to work together?
 
 I divided the work into four parts:
@@ -885,6 +920,9 @@ I divided the work into four parts:
 4) Deploy the job with a cronjob on my VPS
   
 *** Inspecting the site
+:PROPERTIES:
+:ID:       df519909-0814-435d-9bf2-bf21b27328aa
+:END:
 Here is the site I needed to inspect:
 - On the first site, I need to click the bottom button. By inspecting the HTML,
   I found out that its name is ~form:botonElegirHora~
@@ -894,6 +932,9 @@ Here is the site I needed to inspect:
   [[/2020-08-02-162205.png]]
  
 *** Using Selenium to find the error message
+:PROPERTIES:
+:ID:       aa6b4101-d8ab-4540-bfad-f6b70feb0e05
+:END:
 First, I needed to define the browser session and its settings. I wanted to run
 it in headless mode so no X session is needed:
 #+BEGIN_SRC python
@@ -928,6 +969,9 @@ message wasn't found, it does nothing. Now, the script needs to send me a
 message if the warning message wasn't found on the page.
 
 *** Using Telegram to send a message if the warning message wasn't found
+:PROPERTIES:
+:ID:       2a0fb5d3-d316-4ad0-9d46-58960c0ecb5e
+:END:
 The Telegram bot API has a very simple way to send messages. If you want to read
 more about their API, you can check it [[https://core.telegram.org/][here]].
 
@@ -954,6 +998,9 @@ requests.post('https://api.telegram.org/bot{telegram_bot_id}/sendmessage', data=
 #+END_SRC
 
 *** The complete script
+:PROPERTIES:
+:ID:       4fdd292f-661f-424d-9c07-6fbcfa34fad7
+:END:
 I added a few loggers and environment variables and voilá! Here is the complete code:
 #+BEGIN_SRC python
 #!/usr/bin/env python3
@@ -1000,6 +1047,9 @@ d.close() # To close the browser connection
 Only one more thing to do, to deploy everything to my VPS
 
 *** Deploy and testing on the VPS
+:PROPERTIES:
+:ID:       f57694d6-904b-4c51-8560-2a1ad562e991
+:END:
 This was very easy. I just needed to pull my git repo, install the
 ~requirements.txt~ and set a new cron to run every 10 minutes and check the
 site. The cron settings I used where:
@@ -1009,12 +1059,18 @@ site. The cron settings I used where:
 The ~>> /my/script/location/registro-civil-scraper/log.txt~ part is to keep the logs on a new file.
 
 *** Did it work?
+:PROPERTIES:
+:ID:       56cff142-4ab4-4f31-87f2-b4124e283158
+:END:
 Yes! And it worked perfectly. I got a message the following day at 21:00
 (weirdly enough, that's 0:00GMT, so maybe they have their servers at GMT time
 and it opens new appointments at 0:00).
 [[/2020-08-02-170458.png]]
 
 *** Conclusion
+:PROPERTIES:
+:ID:       1a6dcfca-aaf4-406f-8800-57ffa7832ddf
+:END:
 I always loved to use programming to solve simple problems. With this script, I
 didn't need to check the site every couple of hours to get an appointment, and
 sincerely, I wasn't going to check past 19:00, so I would've never found it by
@@ -1031,9 +1087,11 @@ I loved Selenium and how it worked. Recently I created a crawler using Selenium,
 Redis, peewee, and Postgres, so stay tuned if you want to know more about that.
 
 In the meantime, if you want to check the complete script, you can see it on my
-Git instance: https://git.rogs.me/me/registro-civil-scraper or Gitlab, if you
-prefer: https://gitlab.com/rogs/registro-civil-scraper
+Gitlab: https://gitlab.com/rogs/registro-civil-scraper
 * COMMENT Local Variables
+:PROPERTIES:
+:ID:       4a361a2c-2acc-4cb9-9683-d047323d091b
+:END:
 # Local Variables:
 # eval: (org-hugo-auto-export-mode)
 # End:

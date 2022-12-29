@@ -120,9 +120,9 @@ I just serve the files directly with NGINX, just like a regular plain HTML websi
 
 This blog is 100% running with Hugo. Migration was super easy, since Ghost also uses Markdown files. I just needed to match the URLs so old posts wouldn't break and comments worked like they did before. I chose a simple template, migrated, deployed to my server and that was it! 
 
-You can check the code for my blog here: https://git.rogs.me/me/blog.rogs.me
+You can check the code for my blog here: https://gitlab.com/rogs/rogs.me
 
-My theme: https://themes.gohugo.io/hugo-theme-m10c/
+My theme: https://github.com/athul/archie
 
 I was pretty satisfied with the migration and how things were coming along.
 

@@ -2,8 +2,8 @@
 title = "How to create a celery task that fills out fields using Django"
 author = ["Roger Gonzalez"]
 date = 2020-11-29T15:48:48-03:00
-lastmod = 2021-01-10T12:27:56-03:00
-tags = ["python", "celery", "django", "docker", "dockercompose"]
+lastmod = 2022-12-29T09:34:16-03:00
+tags = ["python", "celery", "django", "docker", "", "dockercompose"]
 categories = ["programming"]
 draft = false
 weight = 2002
@@ -29,7 +29,7 @@ For that, we need Celery.
 
 [Celery](https://docs.celeryproject.org/en/stable/) is a "distributed task queue". Fron their website:
 
-> Celery is a simple, flexible, and reliable distributed system to process vast
+&gt; Celery is a simple, flexible, and reliable distributed system to process vast
 amounts of messages, while providing operations with the tools required to
 maintain such a system.
 
@@ -707,8 +707,6 @@ I've used Celery in the past for multiple things, from sending emails in the
 background to triggering scraping jobs and [running scheduled tasks](https://docs.celeryproject.org/en/stable/userguide/periodic-tasks.html#using-custom-scheduler-classes) (like a [unix
 cronjob](https://en.wikipedia.org/wiki/Cron))
 
-You can check the complete project in my git instance here:
-<https://git.rogs.me/me/books-app> or in GitLab here:
-<https://gitlab.com/rogs/books-app>
+You can check the complete project in my GitLab here: <https://gitlab.com/rogs/books-app>
 
 If you have any doubts, let me know! I always answer emails and/or messages.

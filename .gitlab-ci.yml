@@ -1,9 +1,9 @@
-image: alpine:latest
+image: debian:latest
 
 deploy:
   stage: deploy
   before_script:
-  - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )' 
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
   - eval $(ssh-agent -s)
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
   - mkdir -p ~/.ssh

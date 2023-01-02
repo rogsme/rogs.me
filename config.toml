@@ -30,16 +30,7 @@ copyright = "© Rogs"
     url = "https://keybase.io/rogs"
   [[params.social]]
     name = "fas fa-rss"
-    url = "https://blog.rogs.me/index.xml"
-  [[params.donations]]
-    name = "fab fa-bitcoin"
-    url = "btc.txt"
-  [[params.donations]]
-    name = "fab fa-ethereum"
-    url = "eth.txt"
-  [[params.donations]]
-    name = "fab fa-paypal"
-    url = "https://www.paypal.me/rogsme21"
+    url = "https://rogs.me/index.xml"
 
 [[menu.main]]
 name = "About"

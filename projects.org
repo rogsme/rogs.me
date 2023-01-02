@@ -6,69 +6,99 @@
 
 #+author: Roger Gonzalez
 
-# * Certn - ADA DINER (Adverse Data Aggregator Data INgestER)
-# :PROPERTIES:
-# :EXPORT_FILE_NAME: certn-ada-diner
-# :EXPORT_DATE: 2020-10-01
-# :END:
-# ** About the project
-# [[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
-# records, education, employment verification, credit reports, etc. On
-# ADA DINER we are working on an app that triggers crawls on demand, to check
-# criminal records for a certain person.
-# ** Tech Stack
-# - Python
-# - Django
-# - Django REST Framework
-# - Celery
-# - PostgreSQL
-# - Docker-docker/compose
-# - Swagger
-# - Github Actions
-# - Scrapy/Scrapyd
-# ** What did I work on?
-# - Dockerized the old app so the development could be more streamlined
-# - Refactor of old Django code to DRF
-# - This app is still in development, so I'm still adding new features
-# * Certn - International framework
-# :PROPERTIES:
-# :EXPORT_FILE_NAME: certn-intl-framework
-# :EXPORT_DATE: 2020-09-01
-# :END:
-# ** About the project
-# [[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
-# records, education, employment verification, credit reports, etc. On
-# International Framework, we worked on an app that acts like a bridge between our
-# main app and criminal background check providers (like the [[https://rcmp-grc.gc.ca][RCMP]]).
-# ** Tech Stack
-# - Python
-# - Django
-# - Django REST Framework
-# - Celery
-# - PostgreSQL
-# - Docker/docker-compose
-# - Swagger
-# - Sentry.io
-# - Github Actions
-# - Jenkins
-# ** What did I work on?
-# - Database design.
-# - Models and endpoints design.
-# - Github Actions configurations.
-# - Jenkins configuration.
-# - Standardized the code with [[https://flake8.pycqa.org/en/latest/][Flake]], [[https://www.pylint.org/][pylint]] and [[https://black.readthedocs.io/en/stable/][Black]].
+* Certn - ADA DINER (Adverse Data Aggregator Data INgestER)
+:PROPERTIES:
+:EXPORT_FILE_NAME: certn-ada-diner
+:EXPORT_DATE: 2020-11-01
+:ID:       eaec2bc2-4a58-4c36-968e-e1f32b4ad2b3
+:END:
+** About the project
+:PROPERTIES:
+:ID:       8c813e2b-593b-49fb-b281-b59e7cf30f4d
+:END:
+[[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
+records, education, employment verification, credit reports, etc. On
+ADA DINER we are working on an app that triggers crawls on demand, to check
+criminal records for a certain person.
+** Tech Stack
+:PROPERTIES:
+:ID:       3b958a7b-d249-4dc8-9339-2b5296fc1287
+:END:
+- Python
+- Django
+- Django REST Framework
+- Celery
+- PostgreSQL
+- Docker-docker/compose
+- Swagger
+- Github Actions
+- Scrapy/Scrapyd
+- Jenkins
+** What did I work on?
+:PROPERTIES:
+:ID:       6930fb8e-83c6-4827-a9b4-7ad5ba966ede
+:END:
+- Dockerized the old app so the development could be more streamlined
+- Refactor of old Django code to DRF
+- Developed multiple scrapers for multiple police sites in Canada and Interpol
+- Created the Github Actions and Jenkins CI configurations
+
+* Certn - International framework
+:PROPERTIES:
+:EXPORT_FILE_NAME: certn-intl-framework
+:EXPORT_DATE: 2020-09-01
+:ID:       d3b34f6e-56d2-45ec-a8d2-33c521c6fb8c
+:END:
+** About the project
+:PROPERTIES:
+:ID:       c394a019-19fd-453d-9e93-ec0e0621f668
+:END:
+[[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
+records, education, employment verification, credit reports, etc. On
+International Framework, we worked on an app that acts like a bridge between our
+main app and criminal background check providers (like the [[https://rcmp-grc.gc.ca][RCMP]]).
+** Tech Stack
+:PROPERTIES:
+:ID:       e0fde13d-994c-4c38-85cc-ee0d31d9c5c9
+:END:
+- Python
+- Django
+- Django REST Framework
+- Celery
+- PostgreSQL
+- Docker/docker-compose
+- Swagger
+- Sentry.io
+- Github Actions
+- Jenkins
+** What did I work on?
+:PROPERTIES:
+:ID:       edf65498-969f-41a5-9e4d-285358a0954a
+:END:
+- Database design.
+- Models and endpoints design.
+- Github Actions configurations.
+- Jenkins configuration.
+- Standardized the code with [[https://flake8.pycqa.org/en/latest/][Flake]], [[https://www.pylint.org/][pylint]] and [[https://black.readthedocs.io/en/stable/][Black]].
 
 * Volition
 :PROPERTIES:
 :EXPORT_FILE_NAME: volition
 :EXPORT_DATE: 2020-07-01
+:ID:       c4c30799-7fe8-4e7b-8174-f19bc02fecba
 :END:
 ** About the project
+:PROPERTIES:
+:ID:       8b5a6c66-016c-49f3-9e42-51f65a2bcb07
+:END:
 Volition is an app that wants to be the top selling place for a certain kind of
 product. In order to achieve that, we had to develop a series of crawlers for
 different vendors, in order to get all the data so the storefront could be
 created .
 ** Tech Stack
+:PROPERTIES:
+:ID:       bc76e441-934e-472e-bf86-d4808dff02a7
+:END:
 - JavaScript
 - TypeScript
 - NodeJS
@@ -80,6 +110,9 @@ created .
 - Bash
 - ELK (ElasticSearch, LogStash, Kibana)
 ** What did I work on?
+:PROPERTIES:
+:ID:       342c1c38-08b2-415b-9781-d00ff5386475
+:END:
 - Team lead
 - Moved the entire project to docker and docker-compose. Before it, the
   development environment has pretty tricky to setup. 
@@ -95,8 +128,12 @@ created .
 :PROPERTIES:
 :EXPORT_FILE_NAME: tus-tapas-valen
 :EXPORT_DATE: 2019-04-01
+:ID:       3406a9ba-8031-4835-be2d-a00fe658c7bf
 :END:
 ** About the project
+:PROPERTIES:
+:ID:       b40f69b9-d4fa-4f0b-b9de-9cef25375130
+:END:
 "Tus Tapas Valen" was an application that allowed clients to participate in
 promotions and auctions, and win prizes. We got to 400.000 users in the time the
 app was online. First I worked FrontEnd with ReactJS, Redux and
@@ -112,9 +149,18 @@ built using Python, Django, PostgreSQL, AWS, and AWS S3
 [[/cocacola-06.jpg]]
 
 ** What did I work on?
+:PROPERTIES:
+:ID:       f2879213-79ab-48f5-898f-5454f18339ee
+:END:
 *** FrontEnd
+:PROPERTIES:
+:ID:       86d15f17-4ffa-467f-8627-fcfb49051d36
+:END:
 - Part of the development team using ReactJS
 *** Backend
+:PROPERTIES:
+:ID:       9d9bea4d-5900-491b-9ca1-26e5998d0f6d
+:END:
 - Refactoring planning
 - New database design
 - Complete backend development
@@ -126,8 +172,12 @@ built using Python, Django, PostgreSQL, AWS, and AWS S3
 :PROPERTIES:
 :EXPORT_FILE_NAME: axelerist
 :EXPORT_DATE: 2018-06-01
+:ID:       62031619-9cb9-4df8-885a-b016ebc9b01d
 :END:
 ** About the project
+:PROPERTIES:
+:ID:       60e07633-2981-4c21-b345-fa196c2bf7ed
+:END:
 Axelerist is a web app that connects to an external API and displays the
 client’s inventory in a more friendly and ergonomic way. I worked on the
 backend, managing the API connection, working on an API wrapper and user
@@ -138,7 +188,13 @@ management.
 [[/axelerist-03.jpg]]
 
 ** What did I work on?
+:PROPERTIES:
+:ID:       ae3e9596-5c1c-4617-95a8-b6da35910a40
+:END:
 *** Backend
+:PROPERTIES:
+:ID:       2a94f0c1-9780-4b2f-90dc-b4e445b0c576
+:END:
 - Team leader
 - Database design
 - Backend REST design
@@ -149,8 +205,12 @@ management.
 :PROPERTIES:
 :EXPORT_FILE_NAME: knac
 :EXPORT_DATE: 2019-02-01
+:ID:       a74a4280-fb9e-4be8-9471-55a3767707f3
 :END:
 ** About the project
+:PROPERTIES:
+:ID:       ee8ccc47-1c7c-410e-8ecd-0e299138c8bd
+:END:
 Knac is a job application startup, empathizing on assessments to recommend
 candidates to a specific job. 
 
@@ -158,7 +218,13 @@ candidates to a specific job.
 [[/knac-02.jpg]]
 
 ** What did I work on?
+:PROPERTIES:
+:ID:       48240947-bc93-4892-8206-03db8d44c3b0
+:END:
 *** Backend
+:PROPERTIES:
+:ID:       f9852f08-bd89-475f-af4f-63030d242f51
+:END:
 - Team leader
 - Servers setup (Linux, NGINX)
 - Database design
@@ -166,6 +232,9 @@ candidates to a specific job.
 - Complete Backend development
 - Regular meetings with the client
 * COMMENT Local Variables
+:PROPERTIES:
+:ID:       ca944a72-bbdb-4f7b-8b03-71087dce4d92
+:END:
 # Local Variables:
 # eval: (org-hugo-auto-export-mode)
 # End:

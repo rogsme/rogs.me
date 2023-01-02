@@ -868,7 +868,7 @@ If you have any doubts, let me know! I always answer emails and/or messages.
 :EXPORT_DATE: 2020-08-02
 :ID:       b7da6c10-ca61-4839-9074-039e11a4475d
 :END:
-Hello everyone!
+Hello everyone
 
 As some of you might know, I'm a Venezuelan 🇻🇪 living in Montevideo, Uruguay 🇺🇾.
 I've been living here for almost a year, but because of the pandemic my

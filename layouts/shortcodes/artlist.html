@@ -1,0 +1,5 @@
+<ul id=artlist>
+{{ range first 5 (where .Site.RegularPages "Section" "posts") }}
+    <li><span class="artlist-date">{{ dateFormat "02 Jan 2006" .Date }}</span> – <a href="{{.Permalink}}">{{.Title}}<span style="display:none">{{.Params.Tags}}</span></a></li>
+{{end}}
+</ul>

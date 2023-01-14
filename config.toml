@@ -36,21 +36,29 @@ copyright = "© Rogs"
     url = "https://rogs.me/index.xml"
 
 [[menu.main]]
-name = "About"
+name = "Home"
 url = "/"
 weight = 1
 
 [[menu.main]]
+name = "Resume"
+url = "/resume"
+weight = 2
+
+[[menu.main]]
 name = "Projects"
 url = "/projects"
-weight = 2
+weight = 3
 
 [[menu.main]]
 name = "Blog"
 url = "/posts"
-weight = 3
+weight = 4
 
 [[menu.main]]
 name = "Tags"
 url = "/tags"
-weight = 4
+weight = 5
+
+[markup.goldmark.renderer]
+  unsafe = true

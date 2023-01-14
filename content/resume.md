@@ -18,7 +18,7 @@ developers and working on a few migrations to improve the development experience
 So far I've migrated from Bitbucket and Bitbucket Pipelines to Github and Jenkins,
 set up SonarCloud and many other tools to improve security and code quality and
 Dockerized their entire microservice infrastructure. As for the future, I'm currently
-working on their v2 API, which is going to be done in FastAPI
+working on their v2 API, which is going to be done in FastAPI.
 
 I also participated on their
 [OpenBanking hackathon as a judge](https://prometeoopenbanking.medium.com/as%C3%AD-se-vivi%C3%B3-ignite-36cf01dec347?p=36cf01dec347),
@@ -70,7 +70,7 @@ allowed clients to participate in promotions and auctions, and win prizes. We
 got to 400.000 users in the time the app was online. First I worked FrontEnd
 with ReactJS, Redux and redux-observable, but then I moved to the Backend. I had
 to plan a big refactor while still working on new Backend functionalities. The
-Backend is built using Python, Django, PostgreSQL, AWS, and AWS S3
+Backend is built using Python, Django, PostgreSQL, AWS, and AWS S3.
 
 ### Projects:
 
@@ -104,7 +104,7 @@ CircleCI, Heroku and AWS.
 Engineering
 
 - Information Engineer
-    + Internship: Database system for Amcor Rigid Plastics de Venezuela
+    + Internship: Database system for Amcor Rigid Plastics de Venezuela.
     + Specializations: **1.** Web development, **2.** Automatization & **3.** Linux administration
     + University groups: **1.** TecnoYucas, **2.** Centro de Investigación y
       Tecnología (CIT), **3.** Centro de Tecnología y Robótica (CTR) 
@@ -137,20 +137,20 @@ Engineering
   [Mocha](https://mochajs.org/) | [EsLint](https://eslint.org/)
 
 ## Workflow
-- REST API design
-- Follow the ["Twelve factor app"](https://12factor.net/)
-- Cross Functional Teams
-- Agile Development & Scrum
+- REST API design.
+- Follow the ["Twelve factor app"](https://12factor.net/).
+- Cross Functional Teams.
+- Agile Development & Scrum.
 
 # Certifications
 - English Course with practice & lesson sections, full English environment -
-Berlitz English 
+Berlitz English.
 - [Build a Backend REST API with Python & Django - Advanced -
-  Udemy](https://www.udemy.com/certificate/UC-A1CXJVDP/) 
+  Udemy](https://www.udemy.com/certificate/UC-A1CXJVDP/).
 - [Build a Backend REST API with Python & Django - Beginner -
-  Udemy](https://www.udemy.com/certificate/UC-SNTLVIV0/)
+  Udemy](https://www.udemy.com/certificate/UC-SNTLVIV0/).
 
 # Traditional PDF resume
 
 You can check my resume in a more traditional format here:
-[English](Roger_Gonzalez-Senior_Backend_Web_Developer.pdf)
+[English](Roger_Gonzalez-Senior_Backend_Web_Developer.pdf).

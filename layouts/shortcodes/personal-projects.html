@@ -1,6 +1,6 @@
 <dl>
 {{- range $index, $key := .Site.Params.Projects.Personal -}}
 <dt><a href="{{ $key.url }}">{{ $key.name }}</a></dt>
-<dd>{{ $key.description }}</dd>
+<dd>{{ $key.description }}&nbsp {{- if $key.gitlab -}}<a href="{{ $key.gitlab }}"><img src="/gitlab-small.png"/></a> {{- end -}}</dd>
 {{- end -}}
 </dl>

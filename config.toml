@@ -35,7 +35,8 @@ copyright = "© Roger Gonzalez"
   [[params.projects.personal]]
     name = "YAMS"
     url = "https://yams.media/"
-    description = "A higly opinionated media server."
+    description = "A higly opinionated media server"
+    gitlab = "https://gitlab.com/rogs/yams"
 
   [[params.projects.work]]
     name = "Certn - Workday integration"

@@ -6,7 +6,7 @@
 
 #+author: Roger Gonzalez
 
-* Programming :@programming:
+* Programming :programming:
 :PROPERTIES:
 :ID:       622d1d7a-cef9-4eb6-838c-552086182fec
 :END:
@@ -1086,7 +1086,7 @@ Redis, peewee, and Postgres, so stay tuned if you want to know more about that.
 
 In the meantime, if you want to check the complete script, you can see it on my
 Gitlab: https://gitlab.com/rogs/registro-civil-scraper
-* Announcements :@announcements:
+* Announcements :announcements:
 :PROPERTIES:
 :ID:       0b36e39a-3389-4809-ae40-64ce37d452a1
 :END:

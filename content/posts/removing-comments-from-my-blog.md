@@ -2,8 +2,8 @@
 title = "Removing comments from my blog"
 author = ["Roger Gonzalez"]
 date = 2023-01-14
-lastmod = 2023-01-14T14:51:21-03:00
-categories = ["announcements"]
+lastmod = 2023-01-14T15:05:21-03:00
+tags = ["announcements"]
 draft = false
 weight = 2001
 +++

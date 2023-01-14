@@ -2,9 +2,8 @@
 title = "Using MinIO to upload to a local S3 bucket in Django"
 author = ["Roger Gonzalez"]
 date = 2021-01-10
-lastmod = 2023-01-14T14:56:18-03:00
-tags = ["python", "django", "minio", "docker", "", "dockercompose"]
-categories = ["programming"]
+lastmod = 2023-01-14T15:04:51-03:00
+tags = ["programming", "python", "django", "minio", "docker", "", "dockercompose"]
 draft = false
 weight = 2001
 +++

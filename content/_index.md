@@ -17,11 +17,12 @@ moment.
 I love Open Source projects. Knowledge should be available to everyone who wants
 it.
 
-# My latest posts <a class="soc" target="_blank" href="https://rogs.me/index.xml" title="fas fa-rss"><i class="fas fa-rss" aria-hidden="true"></i></a>
+# My latest posts <a class="soc" target="_blank" href="/index.xml" title="fas fa-rss"><i class="fas fa-rss" aria-hidden="true"></i></a>
 
 {{< artlist >}}
 
 # My personal projets
+
 
 <dl>
 <dt><a href="https://yams.media">YAMS</a></dt>

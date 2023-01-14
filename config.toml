@@ -4,7 +4,7 @@ title = "rogs"
 theme = "archie"
 staticDir = ["static"]
 paginate=3 # articles per page
-copyright = "© Rogs"
+copyright = "© Roger Gonzalez"
 
 
 [permalinks]
@@ -48,7 +48,7 @@ url = "/projects"
 weight = 3
 
 [[menu.main]]
-name = "Blog"
+name = "Posts"
 url = "/posts"
 weight = 4
 

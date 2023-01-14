@@ -4,7 +4,7 @@
 <a class="soc" target="_blank" href="{{ $key.url }}" title="{{ $key.name }}"><i class="{{ $key.name }}"></i></a>|
 {{- end -}}
 
-⚡️
+💻
 
 {{ dateFormat "2006" now }} {{ with .Site.Copyright }} {{ . }} | {{ end }} <a href="https://github.com/athul/archie" target="_blank">Archie Theme</a>
 
@@ -13,10 +13,4 @@
 <p><a href="{{ "btc.png" | relURL }}"><i class="fab fa-bitcoin"></i> <span style="font-size:10px">bc1q8yrnatx40n9ts4mzqmkh2p65mys6mvs45us3kq</span></a></p>
 <p><a href="{{ "xmr.png" | relURL }}"><i class="fab fa-monero"></i> <span style="font-size:10px">88zqmA2HLiA59CMVfV5FRrPmC64hcB6FTSXR95dugjso8X9jeHwZqfBMhiGREmdQHgB5kAy3EwygAikoVY6hexGKTBQEQEg</span></a></p>
 
-
 </footer>
-{{- if (isset .Site.Params "social") -}}
-<script>
-      feather.replace()
-</script>
-{{- end -}}

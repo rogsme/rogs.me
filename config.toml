@@ -5,6 +5,7 @@ theme = "archie"
 staticDir = ["static"]
 paginate=3 # articles per page
 copyright = "© Roger Gonzalez"
+description = "my website."
 
 
 [permalinks]

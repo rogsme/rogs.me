@@ -1088,6 +1088,30 @@ Redis, peewee, and Postgres, so stay tuned if you want to know more about that.
 
 In the meantime, if you want to check the complete script, you can see it on my
 Gitlab: https://gitlab.com/rogs/registro-civil-scraper
+* Announcements :@announcements:
+:PROPERTIES:
+:ID:       0b36e39a-3389-4809-ae40-64ce37d452a1
+:END:
+All posts in here will have the category set to /announcements/.
+** Removing comments from my blog
+:PROPERTIES:
+:ID:       9270279f-5911-4d91-a514-6be2a232ebc1
+:EXPORT_FILE_NAME: removing-comments-from-my-blog
+:EXPORT_DATE: 2023-01-14
+:ID:       b7da6c10-ca61-4839-9074-039e11a4475d
+:END:
+
+I'm removing comments from my blog.
+
+I've been thinking about this for a while, but I noticed that comments weren't being used and most posts
+were not that interesting. Don't get me wrong, I really appreciate your awesome comments, but running
+commento takes a lot of resources and I don't really see the full benefit of them.
+
+From now on, if you want to leave a comment ("thank yous", suggestions, etc), you can send me an email.
+You'll find my email addess on the [[/contact][Contact]] page.
+
+You have a good and relevant comment, I'll update the relevant post accordingly.
+
 * COMMENT Local Variables
 :PROPERTIES:
 :ID:       4a361a2c-2acc-4cb9-9683-d047323d091b

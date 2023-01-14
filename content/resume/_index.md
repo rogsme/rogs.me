@@ -153,4 +153,4 @@ Berlitz English.
 # Traditional PDF resume
 
 You can check my resume in a more traditional format here:
-[English](Roger_Gonzalez-Senior_Backend_Web_Developer.pdf).
+[English](/Roger_Gonzalez-Senior_Backend_Web_Developer.pdf).

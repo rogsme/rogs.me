@@ -1,53 +1,9 @@
-baseURL = "https://rogs.me/"
-languageCode = "en-us"
-title = "rogs"
-theme = "archie"
-staticDir = ["static"]
-paginate=3 # articles per page
-copyright = "© Rogs"
+baseURL = 'https://rogs.me'
+languageCode = 'en-us'
+title = 'rogs'
+theme = 'lugo'
 
-
-[permalinks]
-  posts = "/:year/:month/:title/"
-
-[params]
-  author = "Roger Gonzalez"
-  subtitle = "my blog, thoughts and other stuff"
-  avatar = "avatar.png"
-  mode = "dark"
-
-  [[params.social]]
-    name = "fas fa-envelope"
-    url = "mailto:roger@rogs.me"
-  [[params.social]]
-    name = "fab fa-gitlab"
-    url = "https://gitlab.com/rogs"
-  [[params.social]]
-    name = "fab fa-linkedin-in"
-    url = "https://linkedin.com/in/rogergonzalez21"
-  [[params.social]]
-    name = "fab fa-keybase"
-    url = "https://keybase.io/rogs"
-  [[params.social]]
-    name = "fas fa-rss"
-    url = "https://rogs.me/index.xml"
-
-[[menu.main]]
-name = "About"
-url = "/"
-weight = 1
-
-[[menu.main]]
-name = "Projects"
-url = "/projects"
-weight = 2
-
-[[menu.main]]
-name = "Blog"
-url = "/posts"
-weight = 3
-
-[[menu.main]]
-name = "Tags"
-url = "/tags"
-weight = 4
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

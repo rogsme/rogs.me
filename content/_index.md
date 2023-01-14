@@ -1,10 +1,11 @@
 ---
-title: "Home"
+title: "rogs"
 date: 2020-11-01T20:11:50-03:00
 lastmod: 2020-11-01T20:11:50-03:00
 tags : [ "dev", "hugo" ]
 draft: false
 ---
+
 # Who am I?
 
 Hello world! I'm a Backend web developer from Valencia, Venezuela, but now
@@ -20,6 +21,8 @@ it.
 
 You can check my resume in a more traditional format here:
 [English](Roger_Gonzalez-Senior_Backend_Web_Developer.pdf)
+
+{{< tagcloud >}}
 
 # Experience
 

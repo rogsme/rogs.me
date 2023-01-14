@@ -308,3 +308,6 @@ dd a:hover {
 dd a img {
   border: 0px;
 }
+ul span.meta {
+  color: grey;
+}

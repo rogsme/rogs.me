@@ -1,5 +1,6 @@
 #+hugo_base_dir: ./
-#+hugo_section: ./projects
+#+hugo_section: ./resume
+#+hugo_delete_trailing_ws: t
 
 #+hugo_weight: auto
 #+hugo_auto_set_lastmod: t

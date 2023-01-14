@@ -39,37 +39,37 @@ copyright = "© Roger Gonzalez"
 
   [[params.projects.work]]
     name = "Certn - Workday integration"
-    url = "/projects/certn-workday/"
+    url = "/resume/certn-workday/"
     description = "This is the main Workday integration for Certn."
     client = "lazer"
   [[params.projects.work]]
     name = "Certn - ADA DINER"
-    url = "/projects/certn-ada-diner/"
+    url = "/resume/certn-ada-diner/"
     description = "An app that triggers crawls on demand, to check criminal records for a certain person."
     client = "lazer"
   [[params.projects.work]]
     name = "Certn - International framework"
-    url = "/projects/certn-intl-framework/"
+    url = "/resume/certn-intl-framework/"
     description = "An app that acts like a bridge between their main app (Certn) and criminal background check providers (like the RCMP)."
     client = "lazer"
   [[params.projects.work]]
     name = "Volition"
-    url = "/projects/volition/"
+    url = "/resume/volition/"
     description = "A series of crawlers for different screws and fasteners vendors."
     client = "tarmac"
   [[params.projects.work]]
     name = "CocaCola - Tus Tapas Valen"
-    url = "/projects/tus-tapas-valen/"
+    url = "/resume/tus-tapas-valen/"
     description = 'The main "Tus tapas valen" app for CocaCola Mexico.'
     client = "massive"
   [[params.projects.work]]
     name = "Axelerist"
-    url = "/projects/axelerist/"
+    url = "/resume/axelerist/"
     description = "A web app that connects to an external API and displays the client’s inventory in a more friendly and ergonomic way."
     client = "vascar"
   [[params.projects.work]]
     name = "Knac"
-    url = "/projects/knac/"
+    url = "/resume/knac/"
     description = "A job application startup, empathizing on assessments to recommend candidates to a specific job."
     client = "vascar"
 

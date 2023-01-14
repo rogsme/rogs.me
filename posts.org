@@ -17,7 +17,7 @@ All posts in here will have the category set to /programming/.
 :END:
 :PROPERTIES:
 :EXPORT_FILE_NAME: using-minio-to-upload-to-a-local-s3-bucket-in-django
-:EXPORT_DATE: 2021-01-10h Amazon S3 cloud storage service. 
+:EXPORT_DATE: 2021-01-10
 
 So MinIO its an object storage that uses the same API as S3, which means that we
 can  use the same S3 compatible libraries in Python, like [[https://pypi.org/project/boto3/][Boto3]] and

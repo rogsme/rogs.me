@@ -2,14 +2,14 @@
 title = "How I got a residency appointment thanks to Python, Selenium and Telegram"
 author = ["Roger Gonzalez"]
 date = 2020-08-02
-lastmod = 2022-12-29T09:34:48-03:00
-tags = ["python", "", "selenium", "telegram"]
+lastmod = 2023-01-14T11:32:59-03:00
+tags = ["python", "selenium", "telegram"]
 categories = ["programming"]
 draft = false
-weight = 2003
+weight = 2002
 +++
 
-Hello everyone!
+Hello everyone
 
 As some of you might know, I'm a Venezuelan 🇻🇪 living in Montevideo, Uruguay 🇺🇾.
 I've been living here for almost a year, but because of the pandemic my

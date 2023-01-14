@@ -862,7 +862,7 @@ cronjob]])
 You can check the complete project in my GitLab here: https://gitlab.com/rogs/books-app
 
 If you have any doubts, let me know! I always answer emails and/or messages.
-** How I got a residency appointment thanks to Python, Selenium and Telegram :python::selenium:telegram:
+** How I got a residency appointment thanks to Python, Selenium and Telegram :python:selenium:telegram:
 :PROPERTIES:
 :EXPORT_FILE_NAME: how-i-got-a-residency-appointment-thanks-to-python-and-selenium
 :EXPORT_DATE: 2020-08-02

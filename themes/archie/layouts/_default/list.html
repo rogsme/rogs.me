@@ -1,4 +1,7 @@
 {{ define "main" }}
+{{- if .Content -}}
+{{ .Content }}
+{{ else }}
 {{ if isset .Data "Term" }}
 <h1>Entries tagged - "{{ .Data.Term }}"</h1>
 {{ else }}
@@ -7,11 +10,12 @@
 
 <ul class="posts">
 	{{- range .Data.Pages -}}
-		{{- if (not (in (.Site.Params.excludedTypes | default (slice "page")) .Type)) -}}
-		<li class="post">
-			<span class="meta">{{ dateFormat "02 Jan 2006" .Date }}</span> - <a href="{{ .RelPermalink }}">{{.Title}}</a>
-		</li>
-		{{- end -}}
+	{{- if (not (in (.Site.Params.excludedTypes | default (slice "page")) .Type)) -}}
+	<li class="post">
+		<span class="meta">{{ dateFormat "02 Jan 2006" .Date }}</span> - <a href="{{ .RelPermalink }}">{{.Title}}</a>
+	</li>
+	{{- end -}}
 	{{- end -}}
 </ul>
+{{ end }}
 {{ end }}

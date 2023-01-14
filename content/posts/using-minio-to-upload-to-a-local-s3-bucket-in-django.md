@@ -1,37 +1,16 @@
 +++
 title = "Using MinIO to upload to a local S3 bucket in Django"
 author = ["Roger Gonzalez"]
-date = 2021-01-10T11:30:48-03:00
-lastmod = 2022-12-29T09:34:56-03:00
+date = 2021-01-10
+lastmod = 2023-01-14T14:56:18-03:00
 tags = ["python", "django", "minio", "docker", "", "dockercompose"]
 categories = ["programming"]
 draft = false
 weight = 2001
 +++
 
-Hi everyone!
-
-Some weeks ago I was doing a demo to my teammates, and one of the things that
-was more suprising for them was that I was able to do S3 uploads locally using
-"MinIO".
-
-Let me set the stage:
-
-Imagine you have a Django ImageField which uploads a picture to a AWS S3 bucket.
-
-How do you setup your local development environment without using a
-"development" AWS S3 Bucket? For that, we use MinIO.
-
-
-## What is MinIO? {#what-is-minio}
-
-According to their [GitHub README](https://github.com/minio/minio):
-&gt; MinIO is a High Performance Object Storage released under Apache License v2.0.
-It is API compatible with Amazon S3 cloud storage service.
-
 So MinIO its an object storage that uses the same API as S3, which means that we
-can  use the same S3 compatible libraries in Python, like [Boto3](https://pypi.org/project/boto3/) and
-[django-storages](https://pypi.org/project/django-storages/).
+can  use the same S3 compatible libraries in Python, like [Boto3](https://pypi.org/project/boto3/) and [django-storages](https://pypi.org/project/django-storages/).
 
 
 ## The setup {#the-setup}

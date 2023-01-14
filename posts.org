@@ -14,14 +14,12 @@ All posts in here will have the category set to /programming/.
 ** Using MinIO to upload to a local S3 bucket in Django :python::django::minio::docker::dockercompose:
 :PROPERTIES:
 :ID:       b693b4e8-0550-4238-8a64-30866a47768a
-:END:
-:PROPERTIES:
 :EXPORT_FILE_NAME: using-minio-to-upload-to-a-local-s3-bucket-in-django
 :EXPORT_DATE: 2021-01-10
+:END:
 
 So MinIO its an object storage that uses the same API as S3, which means that we
-can  use the same S3 compatible libraries in Python, like [[https://pypi.org/project/boto3/][Boto3]] and
-[[https://pypi.org/project/django-storages/][django-storages]].
+can  use the same S3 compatible libraries in Python, like [[https://pypi.org/project/boto3/][Boto3]] and [[https://pypi.org/project/django-storages/][django-storages]].
 
 *** The setup
 :PROPERTIES:

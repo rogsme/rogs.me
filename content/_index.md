@@ -23,8 +23,4 @@ it.
 
 # My personal projets
 
-
-<dl>
-<dt><a href="https://yams.media">YAMS</a></dt>
-<dd>A higly opinionated media server. <a href="https://gitlab.com/rogs/yams"><img src="/gitlab-small.png"/></a></dd>
-</dl>
+{{< personal-projects >}}

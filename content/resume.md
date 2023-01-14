@@ -40,6 +40,10 @@ employees. I was responsible of a big integration with
 contract for Certn. In this project used Django, Django REST Framework, Docker,
 PostgreSQL, Github Actions and Jenkins.
 
+### Projects:
+
+{{< work-projects client=lazer >}}
+
 ## [Tarmac](https://tarmac.io)
 **Senior Backend Developer**
 
@@ -49,6 +53,10 @@ In Tarmac I worked on a project called [Volition](/projects/volition/). In
 Volition we developed a crawler that extracts information from different pages
 in order to build a "super market place" for a specific product. In this project
 we used Docker, TypeScript, NodeJS, PostgreSQL, Google Cloud, and Kubernetes. 
+
+### Projects:
+
+{{< work-projects client=tarmac >}}
 
 ## [Massive](https://massive.ag)
 **Senior Backend Developer**
@@ -64,6 +72,10 @@ with ReactJS, Redux and redux-observable, but then I moved to the Backend. I had
 to plan a big refactor while still working on new Backend functionalities. The
 Backend is built using Python, Django, PostgreSQL, AWS, and AWS S3
 
+### Projects:
+
+{{< work-projects client=massive >}}
+
 ## [Vascar Solutions](https://vascarsolutions.com/)
 **Backend Developer**
 
@@ -78,6 +90,10 @@ and displays the client’s inventory in a more friendly and ergonomic way. I
 worked on the backend, managing the API connection, working on an API wrapper
 and user management. The app was made with NodeJS, Express, MongoDB, Mocha,
 CircleCI, Heroku and AWS.
+
+### Projects:
+
+{{< work-projects client=vascar >}}
 
 # Education
 

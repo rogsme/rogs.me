@@ -1,0 +1,9 @@
+{{- $client := .Get "client" -}}
+<dl>
+    {{- range $index, $key := .Site.Params.Projects.Work -}}
+    {{- if eq $client $key.client -}}
+    <dt><a href="{{ $key.url }}">{{ $key.name }}</a></dt>
+    <dd>{{ $key.description }}</dd>
+    {{- end -}}
+    {{- end -}}
+</dl>

@@ -5,7 +5,6 @@ theme = "archie"
 staticDir = ["static"]
 paginate=3 # articles per page
 copyright = "© Roger Gonzalez"
-description = "my website."
 
 
 [permalinks]
@@ -33,6 +32,47 @@ description = "my website."
     name = "fas fa-rss"
     url = "https://rogs.me/index.xml"
 
+  [[params.projects.personal]]
+    name = "YAMS"
+    url = "https://yams.media/"
+    description = "A higly opinionated media server."
+
+  [[params.projects.work]]
+    name = "Certn - Workday integration"
+    url = "/projects/certn-workday/"
+    description = "This is the main Workday integration for Certn."
+    client = "lazer"
+  [[params.projects.work]]
+    name = "Certn - ADA DINER"
+    url = "/projects/certn-ada-diner/"
+    description = "An app that triggers crawls on demand, to check criminal records for a certain person."
+    client = "lazer"
+  [[params.projects.work]]
+    name = "Certn - International framework"
+    url = "/projects/certn-intl-framework/"
+    description = "An app that acts like a bridge between their main app (Certn) and criminal background check providers (like the RCMP)."
+    client = "lazer"
+  [[params.projects.work]]
+    name = "Volition"
+    url = "/projects/volition/"
+    description = "A series of crawlers for different screws and fasteners vendors."
+    client = "tarmac"
+  [[params.projects.work]]
+    name = "CocaCola - Tus Tapas Valen"
+    url = "/projects/tus-tapas-valen/"
+    description = 'The main "Tus tapas valen" app for CocaCola Mexico.'
+    client = "massive"
+  [[params.projects.work]]
+    name = "Axelerist"
+    url = "/projects/axelerist/"
+    description = "A web app that connects to an external API and displays the client’s inventory in a more friendly and ergonomic way."
+    client = "vascar"
+  [[params.projects.work]]
+    name = "Knac"
+    url = "/projects/knac/"
+    description = "A job application startup, empathizing on assessments to recommend candidates to a specific job."
+    client = "vascar"
+
 [[menu.main]]
 name = "Home"
 url = "/"
@@ -43,20 +83,20 @@ name = "Resume"
 url = "/resume"
 weight = 2
 
-[[menu.main]]
-name = "Projects"
-url = "/projects"
-weight = 3
+# [[menu.main]]
+# name = "Projects"
+# url = "/projects"
+# weight = 3
 
 [[menu.main]]
 name = "Posts"
 url = "/posts"
-weight = 4
+weight = 3
 
 [[menu.main]]
 name = "Contact"
 url = "/contact"
-weight = 5
+weight = 4
 
 [markup.goldmark.renderer]
   unsafe = true

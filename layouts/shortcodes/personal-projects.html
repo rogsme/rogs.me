@@ -1,0 +1,6 @@
+<dl>
+{{- range $index, $key := .Site.Params.Projects.Personal -}}
+<dt><a href="{{ $key.url }}">{{ $key.name }}</a></dt>
+<dd>{{ $key.description }}</dd>
+{{- end -}}
+</dl>

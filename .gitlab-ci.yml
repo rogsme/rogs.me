@@ -11,6 +11,6 @@ deploy:
     - ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh -p $SSH_PORT $SSH_USER@$SSH_HOST "cd repo && git stash && git pull --force origin master && rm -rf /var/www/rogs.me/* && hugo -s . -d /var/www/rogs.me/"
+    - ssh -p $SSH_PORT $SSH_USER@$SSH_HOST "cd repo && git stash && git pull --force origin master && ./build.sh"
   only:
     - master

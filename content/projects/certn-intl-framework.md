@@ -2,16 +2,16 @@
 title = "Certn - International framework"
 author = ["Roger Gonzalez"]
 date = 2020-09-01
-lastmod = 2023-01-02T18:39:19-03:00
+lastmod = 2023-01-14T14:07:18-03:00
 draft = false
-weight = 1002
+weight = 1003
 +++
 
 ## About the project {#about-the-project}
 
 [Certn](https://certn.co) is an app that wants to ease the process of background checks for criminal
-records, education, employment verification, credit reports, etc. On
-International Framework, we worked on an app that acts like a bridge between our
+records, education, employment verification, credit reports, etc.
+On International Framework, we worked on an app that acts like a bridge between our
 main app and criminal background check providers (like the [RCMP](https://rcmp-grc.gc.ca)).
 
 

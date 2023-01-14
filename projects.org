@@ -6,6 +6,50 @@
 
 #+author: Roger Gonzalez
 
+* Certn - Workday Integration
+:PROPERTIES:
+:ID:       a3207cd7-e710-44b2-a60a-22868c9e3738
+:EXPORT_FILE_NAME: certn-workday
+:EXPORT_DATE: 2020-01-14
+:END:
+** About the project
+:PROPERTIES:
+:ID:       974a4ccd-b8bf-4d4f-8b52-9d3aad59d664
+:END:
+[[https://certn.co/][Certn]] is an app that wants to ease the process of background checks for criminal records, education,
+employment verification, credit reports, etc.
+
+On Workday I had to work with their client, [[https://www.loblaws.ca/][Loblaws]], to integrate Certn with their [[https://www.workday.com/][Workday]] instance. I
+quickly realized that their Workday implementation was not standard, so I had to modify multiple
+open-source SOAP projects (including [[https://github.com/mvantellingen/python-zeep][python-zeep]]) to work with their setup.
+
+We had 6 months to finish the project and I was able to finish it in only 3 months, which allowed us to
+make changes, improve the security and work on client changes that came up almost at the end of the
+project.
+
+This project led to Certn closing a multi-million dollars a year contract with Loblaws.
+** Tech Stack
+:PROPERTIES:
+:ID:       5e1b7e07-e07f-494d-aab5-b35c3d3bd181
+:END:
+- Python
+- Django
+- Django REST Framework
+- Celery
+- PostgreSQL
+- Docker-docker/compose
+- SOAP
+- OpenSource development
+- Jenkins
+** What did I work on?
+:PROPERTIES:
+:ID:       ff971278-eb33-4bcf-befe-c0e5506968f7
+:END:
+- Worked with Loblaws to integrate Certn with their Workday integration.
+- Refactored an old implementation they had for Workday, which didn't work for the latest Workday
+  implementation.
+- Developed multiple jobs to pull data from Workday, convert it to what Certn needs and then process it
+  on their main application.
 * Certn - ADA DINER (Adverse Data Aggregator Data INgestER)
 :PROPERTIES:
 :EXPORT_FILE_NAME: certn-ada-diner
@@ -17,8 +61,8 @@
 :ID:       8c813e2b-593b-49fb-b281-b59e7cf30f4d
 :END:
 [[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
-records, education, employment verification, credit reports, etc. On
-ADA DINER we are working on an app that triggers crawls on demand, to check
+records, education, employment verification, credit reports, etc.
+On ADA DINER we are working on an app that triggers crawls on demand, to check
 criminal records for a certain person.
 ** Tech Stack
 :PROPERTIES:
@@ -54,8 +98,8 @@ criminal records for a certain person.
 :ID:       c394a019-19fd-453d-9e93-ec0e0621f668
 :END:
 [[https://certn.co][Certn]] is an app that wants to ease the process of background checks for criminal
-records, education, employment verification, credit reports, etc. On
-International Framework, we worked on an app that acts like a bridge between our
+records, education, employment verification, credit reports, etc.
+On International Framework, we worked on an app that acts like a bridge between our
 main app and criminal background check providers (like the [[https://rcmp-grc.gc.ca][RCMP]]).
 ** Tech Stack
 :PROPERTIES:

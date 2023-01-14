@@ -2,16 +2,16 @@
 title = "Certn - ADA DINER (Adverse Data Aggregator Data INgestER)"
 author = ["Roger Gonzalez"]
 date = 2020-11-01
-lastmod = 2023-01-02T18:43:13-03:00
+lastmod = 2023-01-14T14:07:08-03:00
 draft = false
-weight = 1001
+weight = 1002
 +++
 
 ## About the project {#about-the-project}
 
 [Certn](https://certn.co) is an app that wants to ease the process of background checks for criminal
-records, education, employment verification, credit reports, etc. On
-ADA DINER we are working on an app that triggers crawls on demand, to check
+records, education, employment verification, credit reports, etc.
+On ADA DINER we are working on an app that triggers crawls on demand, to check
 criminal records for a certain person.
 
 

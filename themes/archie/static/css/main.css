@@ -311,3 +311,13 @@ dd a img {
 ul span.meta {
   color: grey;
 }
+.picture-link {
+  border-bottom: 0px;
+}
+.picture-link:hover {
+  background-color: transparent;
+  color: #fff
+}
+.cats {
+  width: 50%;
+}

@@ -1,6 +1,10 @@
 <dl>
 {{- range $index, $key := .Site.Params.Projects.Personal -}}
 <dt><a href="{{ $key.url }}">{{ $key.name }}</a></dt>
-<dd>{{ $key.description }}&nbsp {{- if $key.gitlab -}}<a href="{{ $key.gitlab }}"><img src="/gitlab-small.png"/></a> {{- end -}}</dd>
+<dd>{{ $key.description }}&nbsp
+    {{- if $key.rogsgit -}}<a href="{{ $key.rogsgit }}"><img src="/cgit-small.png"/></a> {{- end -}} &nbsp
+    {{- if $key.gitlab -}}<a href="{{ $key.gitlab }}"><img src="/gitlab-small.png"/></a> {{- end -}}
+    {{- if $key.github -}}<a href="{{ $key.github }}"><img src="/github-small.png"/></a> {{- end -}}
+</dd>
 {{- end -}}
 </dl>

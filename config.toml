@@ -42,6 +42,7 @@ copyright = "© Roger Gonzalez"
     url = "https://yams.media/"
     description = "A higly opinionated media server"
     gitlab = "https://gitlab.com/rogs/yams"
+    rogsgit = "https://git.rogs.me/yams.git/"
 
   [[params.projects.work]]
     name = "Certn - Workday integration"
@@ -85,19 +86,24 @@ url = "/"
 weight = 1
 
 [[menu.main]]
-name = "Resume"
-url = "/resume/"
+name = "About"
+url = "/about/"
 weight = 2
-
-[[menu.main]]
-name = "Posts"
-url = "/posts/"
-weight = 3
 
 [[menu.main]]
 name = "Contact"
 url = "/contact/"
+weight = 3
+
+[[menu.main]]
+name = "Posts"
+url = "/posts/"
 weight = 4
+
+[[menu.main]]
+name = "Donate"
+url = "/donate/"
+weight = 5
 
 [markup.goldmark.renderer]
   unsafe = true

@@ -12,7 +12,7 @@ copyright = "© Roger Gonzalez"
 [params]
   author = "Roger Gonzalez"
   subtitle = "my blog, thoughts and other stuff"
-  avatar = "avatar.png"
+  avatar = "me.png"
   mode = "dark"
 
   [[params.social]]

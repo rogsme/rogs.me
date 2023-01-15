@@ -32,6 +32,12 @@ copyright = "© Roger Gonzalez"
     url = "https://rogs.me/index.xml"
 
   [[params.projects.personal]]
+    name = "montevideo.restaurant"
+    url = "https://montevideo.restaurant/"
+    description = "A restaurant index page for the city of Montevideo (Uruguay)."
+    github = "https://github.com/rogsme/montevideo.restaurant"
+    rogsgit = "https://git.rogs.me/montevideo.restaurant.git/"
+  [[params.projects.personal]]
     name = "YAMS"
     url = "https://yams.media/"
     description = "A higly opinionated media server"

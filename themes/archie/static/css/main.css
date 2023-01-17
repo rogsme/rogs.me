@@ -324,3 +324,12 @@ ul span.meta {
 .personal-projects {
   margin-left: 5px;
 }
+aside {
+  float: right;
+  margin: 0px 0px 10px 20px;
+  padding: 5px 10px;
+  max-width: 35%;
+  background-color: #242632;
+  border: 1px solid var(--darkMaincolor);
+  text-align: center;
+}

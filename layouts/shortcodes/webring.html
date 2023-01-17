@@ -1,0 +1,10 @@
+<aside>
+	<p>Webrings! Like the 90s!</p>
+    {{- range $index, $key := .Site.Params.Webring -}}
+	<p>
+        <a href="{{ $key.prevUrl }}">&lt;-</a>
+        <a href="{{ $key.url }}">{{ $key.name }}</a>
+        <a href="{{ $key.nextUrl }}">-&gt;</a>
+    </p>
+    {{- end -}}
+</aside>

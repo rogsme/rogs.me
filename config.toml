@@ -31,6 +31,17 @@ copyright = "© Roger Gonzalez"
     name = "fas fa-rss"
     url = "https://rogs.me/index.xml"
 
+  [[params.webring]]
+    name = "hotline"
+    url = "https://hotlinewebring.club/"
+    nextUrl = "https://hotlinewebring.club/rogs/next"
+    prevUrl = "https://hotlinewebring.club/rogs/previous"
+  # [[params.webring]]
+  #   name = "geekring"
+  #   url = "https://geekring.net/"
+  #   nextUrl = "http://geekring.net/site/NUMBER/next"
+  #   prevUrl = "http://geekring.net/site/NUMBER/previous"
+
   [[params.projects.personal]]
     name = "montevideo.restaurant"
     url = "https://montevideo.restaurant/"

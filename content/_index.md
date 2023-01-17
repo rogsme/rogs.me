@@ -6,6 +6,8 @@ lastmod: 2023-01-14T09:50:41-03:00
 
 # Introduction
 
+{{< webring >}}
+
 Hello world! I'm a Backend web developer from [Valencia, Venezuela](https://www.openstreetmap.org/relation/272745), but now living in [Montevideo, Uruguay](https://www.openstreetmap.org/relation/2929054).
 
 I have a tendency to selfhost as much of my digital life as I can. Why? beacuse ~~I'm a masochist~~ I like to have control over my information and I want everthing to be as minimal as possible.

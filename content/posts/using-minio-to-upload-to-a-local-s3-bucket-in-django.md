@@ -2,10 +2,9 @@
 title = "Using MinIO to upload to a local S3 bucket in Django"
 author = ["Roger Gonzalez"]
 date = 2021-01-10
-lastmod = 2023-01-14T15:04:51-03:00
+lastmod = 2023-01-19T15:39:39-03:00
 tags = ["programming", "python", "django", "minio", "docker", "", "dockercompose"]
 draft = false
-weight = 2001
 +++
 
 So MinIO its an object storage that uses the same API as S3, which means that we

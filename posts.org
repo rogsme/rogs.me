@@ -1,7 +1,6 @@
 #+hugo_base_dir: ./
 #+hugo_section: ./posts
 
-#+hugo_weight: auto
 #+hugo_auto_set_lastmod: t
 
 #+author: Roger Gonzalez

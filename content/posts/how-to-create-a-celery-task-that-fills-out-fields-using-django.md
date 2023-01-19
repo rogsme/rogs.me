@@ -2,10 +2,9 @@
 title = "How to create a celery task that fills out fields using Django"
 author = ["Roger Gonzalez"]
 date = 2020-11-29T15:48:48-03:00
-lastmod = 2023-01-14T15:04:59-03:00
+lastmod = 2023-01-19T15:39:42-03:00
 tags = ["programming", "python", "celery", "django", "docker", "", "dockercompose"]
 draft = false
-weight = 2002
 +++
 
 Hi everyone!

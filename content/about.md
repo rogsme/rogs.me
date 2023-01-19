@@ -15,6 +15,7 @@ Like I mentioned on the [home page](/), I have a passion for selfhosting as many
 - A Calendar server: [calendar.rogs.me](https://calendar.rogs.me)
 - A Matrix instance: [chat.rogs.me](https://chat.rogs.me)
 - A private searx instance: [searx.rogs.me](https://searx.rogs.me)
+- My RSS feed: [rss.rogs.me](https://rss.rogs.me)
 
 ## Job history
 

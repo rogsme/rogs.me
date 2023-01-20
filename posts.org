@@ -1090,7 +1090,7 @@ Gitlab: https://gitlab.com/rogs/registro-civil-scraper
 :PROPERTIES:
 :ID:       54640f47-b06e-47e0-93d8-ef00d14d2a70
 :EXPORT_FILE_NAME: introducing-yams
-:EXPORT_DATE: 2023-01-19T15:00:48-03:00
+:EXPORT_DATE: 2023-01-20T09:57:48-03:00
 :END:
 Hello internet 😎
 

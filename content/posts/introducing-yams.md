@@ -1,8 +1,8 @@
 +++
 title = "Introducing: YAMS (Yet Another Media Server)!"
 author = ["Roger Gonzalez"]
-date = 2023-01-19T15:00:48-03:00
-lastmod = 2023-01-19T21:55:58-03:00
+date = 2023-01-20T09:57:48-03:00
+lastmod = 2023-01-20T09:57:36-03:00
 tags = ["programming", "docker", "dockercompose", "announcements", "opensource"]
 draft = false
 +++

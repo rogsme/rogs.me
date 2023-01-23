@@ -16,19 +16,19 @@ copyright = "© Roger Gonzalez"
   mode = "dark"
 
   [[params.social]]
-    name = "fas fa-envelope"
+    name = "mail"
     url = "mailto:roger@rogs.me"
   [[params.social]]
-    name = "fab fa-git"
+    name = "git-commit"
     url = "https://git.rogs.me/"
   [[params.social]]
-    name = "fab fa-gitlab"
+    name = "gitlab"
     url = "https://gitlab.com/rogs"
   [[params.social]]
-    name = "fab fa-linkedin-in"
+    name = "linkedin"
     url = "https://linkedin.com/in/rogergonzalez21"
   [[params.social]]
-    name = "fas fa-rss"
+    name = "rss"
     url = "https://rogs.me/index.xml"
 
   [[params.webring]]

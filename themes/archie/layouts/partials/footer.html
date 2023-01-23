@@ -1,9 +1,9 @@
 <footer>
 <hr>
 {{- range $index, $key := .Site.Params.Social -}}
-<a class="soc" target="_blank" href="{{ $key.url }}" title="{{ $key.name }}"><i class="{{ $key.name }}"></i></a>|
+<a class="icons" target="_blank" href="{{ $key.url }}" title="{{ $key.name }}"><img src="/icons/{{ $key.name }}.svg"/></a>
 {{- end -}}
-&nbsp
+|
 💻
 
 {{ dateFormat "2006" now }} {{ with .Site.Copyright }} {{ . }} | {{ end }} <a href="https://github.com/athul/archie" target="_blank">Archie Theme</a>

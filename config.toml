@@ -1,4 +1,4 @@
-baseURL = "/"
+baseURL = "https://rogs.me/"
 languageCode = "en-us"
 title = "rogs"
 theme = "archie"

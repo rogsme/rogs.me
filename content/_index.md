@@ -19,7 +19,8 @@ it.
 
 You can have more information about me in the [about page](/about).
 
-# My latest posts <a class="soc" target="_blank" href="/index.xml" title="fas fa-rss"><i class="fas fa-rss" aria-hidden="true"></i></a>
+# My latest posts <a class="icons" target="_blank" href="https://rogs.me/index.xml" title="rss"><img src="/icons/rss.svg"></a> 
+
 
 {{< artlist >}}
 

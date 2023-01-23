@@ -36,6 +36,11 @@ copyright = "© Roger Gonzalez"
     url = "https://hotlinewebring.club/"
     nextUrl = "https://hotlinewebring.club/rogs/next"
     prevUrl = "https://hotlinewebring.club/rogs/previous"
+  [[params.webring]]
+    name = "nojs"
+    url = "https://nojs.sugarfi.dev/"
+    nextUrl = "https://nojs.sugarfi.dev/next.php?url=https://rogs.me/"
+    prevUrl = "https://nojs.sugarfi.dev/prev.php?url=https://rogs.me/"
   # [[params.webring]]
   #   name = "geekring"
   #   url = "https://geekring.net/"

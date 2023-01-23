@@ -1195,7 +1195,7 @@ In no particular order:
   subtitles in the languages you choose if they are available.
 - *Support for Web, Android, iOS, Android TV, and whatever that can support Emby*: Since we are
   using Emby, you should be able to watch your favorite media almost anywhere.
-*** Conclussion
+*** Conclusion
 :PROPERTIES:
 :ID:       afc0e352-8336-4537-a221-eeaf28f04276
 :END:

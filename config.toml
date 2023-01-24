@@ -51,11 +51,11 @@ copyright = "© Roger Gonzalez"
     url = "https://devring.club/"
     nextUrl = "https://devring.club/sites/11/next"
     prevUrl = "https://devring.club/sites/11/prev"
-  # [[params.webring]]
-  #   name = "geekring"
-  #   url = "https://geekring.net/"
-  #   nextUrl = "http://geekring.net/site/NUMBER/next"
-  #   prevUrl = "http://geekring.net/site/NUMBER/previous"
+  [[params.webring]]
+    name = "geekring"
+    url = "https://geekring.net/"
+    nextUrl = "http://geekring.net/site/242/next"
+    prevUrl = "http://geekring.net/site/242/previous"
 
   [[params.projects.personal]]
     name = "montevideo.restaurant"

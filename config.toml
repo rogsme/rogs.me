@@ -46,6 +46,11 @@ copyright = "© Roger Gonzalez"
     url = "https://webring.dinhe.net/"
     nextUrl = "https://webring.dinhe.net/next/https://rogs.me"
     prevUrl = "https://webring.dinhe.net/prev/https://rogs.me"
+  [[params.webring]]
+    name = "devring"
+    url = "https://devring.club/"
+    nextUrl = "https://devring.club/sites/11/next"
+    prevUrl = "https://devring.club/sites/11/prev"
   # [[params.webring]]
   #   name = "geekring"
   #   url = "https://geekring.net/"

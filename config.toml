@@ -56,6 +56,11 @@ copyright = "© Roger Gonzalez"
     url = "https://geekring.net/"
     nextUrl = "http://geekring.net/site/242/next"
     prevUrl = "http://geekring.net/site/242/previous"
+  [[params.webring]]
+    name = "theoldnet"
+    url = "https://webring.theoldnet.com/"
+    nextUrl = "https://webring.theoldnet.com/member/142f64c0e28d2272ed620c96265b2505/next/navigate"
+    prevUrl = "https://webring.theoldnet.com/member/142f64c0e28d2272ed620c96265b2505/previous/navigate"
 
   [[params.projects.personal]]
     name = "montevideo.restaurant"

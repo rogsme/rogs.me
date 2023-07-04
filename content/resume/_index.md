@@ -7,24 +7,44 @@ draft: false
 ---
 # Experience
 
+## [X-Team](https://x-team.com/)
+**Senior Backend Developer**
+
+> March 2023 - Currently
+
+As one of X-Team's Senior Developers, I'm part of the team which was assigned to
+work together with Under Armour's team on
+[one of their projects](https://play.google.com/store/apps/developer?id=MapMyFitness,+Inc.),
+with more than 30 million downloads in the App Stores.
+
+Working on this project, I got to fully leverage my Python/Django development
+skills along with my Docker, Kubernetes and problem solving knowledge.
+
+Among other things, I was tasked with:
+- Maintaining their back-end infrastructure
+- Helping with migrations to new technologies
+- Suggesting and designing improvements to the code
+
+In X-Team I'm using Python, Django, Docker, Kubernetes, Apache Kafka, Github Actions,
+among others.
+
 ## [Prometeo OpenBanking](https://prometeoapi.com/)
-**Lead Backend Developer**
+**Tech Lead Backend Developer**
 
-> September 2021 - Currently
+> September 2021 - April 2023
 
-In Prometeo I'm currently working as a Tech Lead, managing a team of 5
-developers and working on a few migrations to improve the development experience.
+In Prometeo I worked as a Tech Lead, managing a team of 5 developers and working on
+a few migrations to improve the development experience.
 
-So far I've migrated from Bitbucket and Bitbucket Pipelines to Github and Jenkins,
-set up SonarCloud and many other tools to improve security and code quality and
-Dockerized their entire microservice infrastructure. As for the future, I'm currently
-working on their v2 API, which is going to be done in FastAPI.
+I migrated from Bitbucket and Bitbucket Pipelines to Github and Jenkins,
+set up SonarCloud and many other tools to improve security and code quality, and
+Dockerized their entire microservice infrastructure.
 
 I also participated on their
 [OpenBanking hackathon as a judge](https://prometeoopenbanking.medium.com/as%C3%AD-se-vivi%C3%B3-ignite-36cf01dec347?p=36cf01dec347),
 a very enriching experience :)
 
-In Prometeo I'm using Python, aiohttp, Django, Selenium, Jenkins, Github actions,
+In Prometeo I used Python, aiohttp, Django, Selenium, Jenkins, Github actions,
 SonarCloud, Docker, FastAPI, among others.
 
 
@@ -128,9 +148,11 @@ Engineering
   [MongoDB](https://www.mongodb.com/) 
 - **Servers and Infrastructure:** [Amazon Web Services](https://aws.amazon.com/)
   | [DigitalOcean](https://www.digitalocean.com/) | [Linode](https://linode.com)
-  | [Docker](https://www.docker.com/) | [Heroku](https://www.heroku.com/) |
+  | [Docker](https://www.docker.com/) | [Kubernetes](https://kubernetes.io/) | [Heroku](https://www.heroku.com/) |
   [NGINX](https://nginx.org/) | [Apache](https://www.apache.org/) |
-  [Jenkins](https://www.jenkins.io/) | [SonarCloud](https://sonarcloud.io/)
+  [Jenkins](https://www.jenkins.io/) | [Github Actions](https://github.com/features/actions) |
+  [SonarCloud](https://sonarcloud.io/) |
+  [Apache Kafka](https://kafka.apache.org/)
 - **Others:** [Linux](https://linux.org/) |
   [Emacs](https://www.gnu.org/software/emacs/) | [Git](https://git-scm.com/) |
   [Scrum](https://www.scrum.org/) | [CircleCI](https://circleci.com/) |

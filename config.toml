@@ -134,13 +134,13 @@ url = "/resume/"
 weight = 3
 
 [[menu.main]]
-name = "Contact"
-url = "/contact/"
+name = "Posts"
+url = "/posts/"
 weight = 4
 
 [[menu.main]]
-name = "Posts"
-url = "/posts/"
+name = "Contact"
+url = "/contact/"
 weight = 5
 
 [[menu.main]]

@@ -17,10 +17,6 @@ Like I mentioned on the [home page](/), I have a passion for selfhosting as many
 - A private searx instance: [searx.rogs.me](https://searx.rogs.me)
 - My RSS feed: [rss.rogs.me](https://rss.rogs.me)
 
-## Job history
-
-If you want to know more about my job history, you can go to my [resume](/resume) page. I chose to leave that section outside of the main menu because only recruiters / linkedin people are going to care about that.
-
 ## Pets
 I have 4 cats. In order of adoption:
 - Cuca ♀: Feb 19th 2021.

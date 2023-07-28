@@ -49,7 +49,7 @@ PostgreSQL, Github Actions and Jenkins.
 
 > July 2020 - January 2021
 
-In Tarmac I worked on a project called [Volition](/projects/volition/). In
+In Tarmac I worked on a project called [Volition](/resume/volition/). In
 Volition we developed a crawler that extracts information from different pages
 in order to build a "super market place" for a specific product. In this project
 we used Docker, TypeScript, NodeJS, PostgreSQL, Google Cloud, and Kubernetes. 
@@ -65,7 +65,7 @@ we used Docker, TypeScript, NodeJS, PostgreSQL, Google Cloud, and Kubernetes.
 
 I worked for Massive from April 2019 to August 2020. On my time in Massive, I
 worked on one big project for Coca-Cola Mexico, called [Tus Tapas
-Valen](/projects/tus-tapas-valen). "Tus Tapas Valen" was an application that
+Valen](/resume/tus-tapas-valen). "Tus Tapas Valen" was an application that
 allowed clients to participate in promotions and auctions, and win prizes. We
 got to 400.000 users in the time the app was online. First I worked FrontEnd
 with ReactJS, Redux and redux-observable, but then I moved to the Backend. I had
@@ -82,10 +82,10 @@ Backend is built using Python, Django, PostgreSQL, AWS, and AWS S3.
 > December 2016 - June 2019
 
 On my time in Vascar Solutions, I have been in many projects, most recently on
-Knac and Axelerist. [Knac](/projects/knac) is a job application startup, empathizing on
+Knac and Axelerist. [Knac](/resume/knac) is a job application startup, empathizing on
 assessments to recommend candidates to a specific job. I worked on the backend
 with NodeJS, Express, MongoDB, Mocha, CircleCI, Heroku and AWS.
-[Axelerist](/projects/axelerist) is a web app that connects to an external API
+[Axelerist](/resume/axelerist) is a web app that connects to an external API
 and displays the client’s inventory in a more friendly and ergonomic way. I
 worked on the backend, managing the API connection, working on an API wrapper
 and user management. The app was made with NodeJS, Express, MongoDB, Mocha,

@@ -75,6 +75,12 @@ copyright = "© Roger Gonzalez"
     description = "A higly opinionated media server"
     gitlab = "https://gitlab.com/rogs/yams"
     rogsgit = "https://git.rogs.me/yams.git/"
+  [[params.projects.personal]]
+    name = "The Infinite Website"
+    url = "https://theinfinitewebsite.com/"
+    description = "A web application that dynamically generates HTML on runtime using ChatGPT and serves it in an async Flask application."
+    gitlab = "https://gitlab.com/rogs/the-infinite-website"
+    rogsgit = "https://git.rogs.me/the-infinite-website.git/"
 
   [[params.projects.work]]
     name = "Certn - Workday integration"

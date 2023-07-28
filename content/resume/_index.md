@@ -182,7 +182,7 @@ Engineering
 # Skills
 - **Programming Languages:** [Python](https://python.org/) |
   [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) |
-  [Bash](https://www.gnu.org/software/bash/)
+  [Go](https://go.dev/) | [Bash](https://www.gnu.org/software/bash/)
 - **FrontEnd:** [HTML](https://html.spec.whatwg.org/multipage/) |
   [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) |
   [Bootstrap](https://getbootstrap.com/) | [ReactJS](https://reactjs.org/)
@@ -198,7 +198,8 @@ Engineering
   [MongoDB](https://www.mongodb.com/)
 - **Servers and Infrastructure:** [Amazon Web Services](https://aws.amazon.com/)
   | [DigitalOcean](https://www.digitalocean.com/) | [Linode](https://linode.com)
-  | [Docker](https://www.docker.com/) | [Kubernetes](https://kubernetes.io/) | [Heroku](https://www.heroku.com/) |
+  | [Docker](https://www.docker.com/) | [Kubernetes](https://kubernetes.io/) |
+  [Heroku](https://www.heroku.com/) |
   [NGINX](https://nginx.org/) | [Apache](https://www.apache.org/) |
   [Jenkins](https://www.jenkins.io/) | [Github Actions](https://github.com/features/actions) |
   [SonarCloud](https://sonarcloud.io/) |
@@ -221,4 +222,3 @@ Berlitz English.
   Udemy](https://www.udemy.com/certificate/UC-A1CXJVDP/).
 - [Build a Backend REST API with Python & Django - Beginner -
   Udemy](https://www.udemy.com/certificate/UC-SNTLVIV0/).
-

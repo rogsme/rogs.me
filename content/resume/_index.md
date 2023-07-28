@@ -5,6 +5,11 @@ lastmod: 2023-01-14T20:11:50-03:00
 tags : [ "dev", "hugo" ]
 draft: false
 ---
+# Traditional PDF resume
+
+You can download my resume in a more traditional format here:
+[English](/Roger_Gonzalez-Senior_Backend_Web_Developer.pdf).
+
 # Experience
 
 ## [X-Team](https://x-team.com/)
@@ -217,7 +222,3 @@ Berlitz English.
 - [Build a Backend REST API with Python & Django - Beginner -
   Udemy](https://www.udemy.com/certificate/UC-SNTLVIV0/).
 
-# Traditional PDF resume
-
-You can check my resume in a more traditional format here:
-[English](/Roger_Gonzalez-Senior_Backend_Web_Developer.pdf).

@@ -17,20 +17,24 @@ You can download my resume in a more traditional format here:
 
 > February 2024 - Currently
 
-I’m currently working on Fable (https://makeitfable.com), a platform that empowers companies
+I’m currently working on [Fable](https://makeitfable.com), a platform that empowers companies
 to build inclusive digital products through user testing and accessibility training, driven by
 people with disabilities.
 
-I’m contributing to Fable's new Learning Management System (LMS) infrastructure, focusing on
-backend development. I’m working with a tech stack that includes NodeJS, JavaScript,
-TypeScript, MongoDB, Mongoose, and Docker to build scalable, efficient backend systems that
-will support Fable’s growing accessibility initiatives.
+I’m contributing to Fable's new Upskill Learning Management System (LMS) infrastructure,
+focusing on backend development. I’m working with a tech stack that includes NodeJS,
+JavaScript, TypeScript, MongoDB, Mongoose, and Docker to build scalable, efficient backend
+systems that will support Fable’s growing accessibility initiatives.
 
-Before that, I worked on Gather's AI life assistant, Genie. My key contributions included
+Before that, I worked on Gather's AI life assistant, [Ario](/resume/ario). My key contributions included
 migrating the backend from Tornado to Sanic for better performance, implementing asynchronous
 functions, enhancing the reminders feature, improving push notifications, and developing a new
 scheduler using Celery. I worked with Python, Sanic, Celery, and PostgreSQL, playing a vital
-role in optimizing Genie's backend.
+role in optimizing Ario's backend.
+
+### Projects:
+
+{{< work-projects client=lazer2 >}}
 
 ## [X-Team](https://x-team.com/)
 **Senior Backend Developer**

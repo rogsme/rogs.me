@@ -101,11 +101,6 @@ copyright = "© Roger Gonzalez"
     rogsgit = "https://git.rogs.me/the-infinite-website.git/"
 
   [[params.projects.work]]
-    name = "Fable Upskill"
-    url = "/resume/fable-upskill/"
-    description = "An LMS designed to support accessibility and inclusivity for people with disabilities"
-    client = "lazer2"
-  [[params.projects.work]]
     name = "Ario"
     url = "/resume/ario/"
     description = "An AI for busy parents"

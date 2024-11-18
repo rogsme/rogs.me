@@ -19,9 +19,6 @@ copyright = "© Roger Gonzalez"
     name = "mail"
     url = "mailto:roger@rogs.me"
   [[params.social]]
-    name = "git-commit"
-    url = "https://git.rogs.me/"
-  [[params.social]]
     name = "gitlab"
     url = "https://gitlab.com/rogs"
   [[params.social]]
@@ -67,19 +64,16 @@ copyright = "© Roger Gonzalez"
     url = "https://montevideo.restaurant/"
     description = "A restaurant index page for the city of Montevideo (Uruguay)."
     github = "https://github.com/rogsme/montevideo.restaurant"
-    rogsgit = "https://git.rogs.me/montevideo.restaurant.git"
     gitlab = "https://gitlab.com/rogs/montevideo.restaurant"
   [[params.projects.personal]]
     name = "YAMS"
     url = "https://yams.media/"
     description = "A higly opinionated media server"
     gitlab = "https://gitlab.com/rogs/yams"
-    rogsgit = "https://git.rogs.me/yams.git/"
   [[params.projects.personal]]
     name = "subscleaner"
     url = "https://pypi.org/project/subscleaner/"
     description = "A Python script that removes advertisements from subtitle files."
-    rogsgit = "https://git.rogs.me/subscleaner.git/"
     gitlab = "https://gitlab.com/rogs/subscleaner"
   [[params.projects.personal]]
     name = "ute_homeassistant_integration "
@@ -91,14 +85,12 @@ copyright = "© Roger Gonzalez"
     name = "ute-wrapper"
     url = "https://pypi.org/project/ute-wrapper/"
     description = "A convenient wrapper for interacting with the UTE (Administración Nacional de Usinas y Trasmisiones Eléctricas) API in Uruguay 🇺🇾"
-    rogsgit = "https://git.rogs.me/ute.git/"
     gitlab = "https://gitlab.com/rogs/ute"
   [[params.projects.personal]]
     name = "The Infinite Website"
     url = "https://theinfinitewebsite.com/"
     description = "A web application that dynamically generates HTML on runtime using ChatGPT and serves it in an async Flask application."
     gitlab = "https://gitlab.com/rogs/the-infinite-website"
-    rogsgit = "https://git.rogs.me/the-infinite-website.git/"
 
   [[params.projects.work]]
     name = "Ario"
@@ -152,24 +144,19 @@ url = "/about/"
 weight = 2
 
 [[menu.main]]
-name = "Resume"
-url = "/resume/"
-weight = 3
-
-[[menu.main]]
 name = "Posts"
 url = "/posts/"
-weight = 4
+weight = 3
 
 [[menu.main]]
 name = "Contact"
 url = "/contact/"
-weight = 5
+weight = 4
 
 [[menu.main]]
 name = "Donate"
 url = "/donate/"
-weight = 6
+weight = 5
 
 [markup.goldmark.renderer]
   unsafe = true

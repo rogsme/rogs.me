@@ -11,6 +11,6 @@ You can always contact me by email:
   + {{< gpg >}}
   + fingerprint: <code>ADDF BCB7 8B86 8D93 FC4E 3224 C7EC E9C6 C36E C2E6</code>
 
-I also have my own Matrix server, I'm _sometimes_ down for a chat:
-- Matrix: https://matrix.to/#/@roger:chat.rogs.me
+I also have my own Matrix server, I'm always down for a chat:
+- Matrix: https://matrix.to/#/@roger:rogs.me
 

@@ -6,16 +6,15 @@ lastmod: 2023-01-15T12:10:45-03:00
 
 I'm an experienced back-end developer and a DevOps enthusiast. I've been using Linux since 2010, so the terminal comes as second nature to me.
 
-Like I mentioned on the [home page](/), I have a passion for selfhosting as many digital services as I can. Here's my full selfhosted list (updated Jan 15th 2023):
+Like I mentioned on the [home page](/), I have a passion for selfhosting as many digital services as I can. Here's my full selfhosted list (updated Dec 15th 2024):
 
 - My website (you are here now lol): [rogs.me](https://rogs.me)
-- My email: [roger@rogs.me](mailto:roger@rogs.me)
-- My Git server: [git.rogs.me](https://git.rogs.me)
 - A personal wiki: [wiki.rogs.me](https://wiki.rogs.me)
 - A Calendar server: [calendar.rogs.me](https://calendar.rogs.me)
-- A Matrix instance: [chat.rogs.me](https://chat.rogs.me)
+- A Matrix instance: [matrix.rogs.me](https://matrix.rogs.me)
 - A private searx instance: [searx.rogs.me](https://searx.rogs.me)
-- My RSS feed: [rss.rogs.me](https://rss.rogs.me)
+- A pastebin: [paste.rogs.me](http://paste.rogs.me)
+- A secrets sharing service: [shhh.rogs.me](https://shhh.rogs.me')
 
 ## Pets
 I have 4 cats. In order of adoption:
@@ -28,7 +27,7 @@ I have 4 cats. In order of adoption:
 {{< img class="cats" src="/chocha-bollo.jpeg" caption="Chocha and Bollo being good kittens 😸" >}}
 
 ## Tatoos
-So far, I have 7 tatoos:
+So far, I have 7 tattoos:
 - Right arm:
   + A rose on my hand.
   + A big rose on my forearm.
@@ -40,4 +39,4 @@ So far, I have 7 tatoos:
   + The cover of Pink Floyd's album [The Dark Side of the Moon](https://en.wikipedia.org/wiki/The_Dark_Side_of_the_Moon#/media/File:Dark_Side_of_the_Moon.png).
 
 ## Religion
-I'm a Christian, more specifcially a [Baptist protestant](https://en.wikipedia.org/wiki/Baptists). Right now, I'm not planning on talking about religion on my blog, but **I'm not ruling it out for the future.** I will let the readers know before a religion post comes, in case they want to ignore it.
+I'm a Christian, more specifically a [Baptist protestant](https://en.wikipedia.org/wiki/Baptists). Right now, I'm not planning on talking about religion on my blog, but **I'm not ruling it out for the future.** I will let the readers know before a religion post comes, in case they want to ignore it.

@@ -14,7 +14,7 @@ Like I mentioned on the [home page](/), I have a passion for selfhosting as many
 - A Matrix instance: [matrix.rogs.me](https://matrix.rogs.me)
 - A private searx instance: [searx.rogs.me](https://searx.rogs.me)
 - A pastebin: [paste.rogs.me](http://paste.rogs.me)
-- A secrets sharing service: [shhh.rogs.me](https://shhh.rogs.me')
+- A secrets sharing service: [shhh.rogs.me](https://shhh.rogs.me)
 
 ## Pets
 I have 4 cats. In order of adoption:

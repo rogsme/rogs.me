@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup SSH
+      - name: Setup SSH agent and deploy
         run: |
           eval "$(ssh-agent -s)"
           mkdir -p ~/.ssh
@@ -21,15 +21,10 @@ jobs:
           chmod 700 ~/.ssh
           ssh-keyscan "$SSH_HOST" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
+
+          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "cd repo && git stash && git pull --force origin master && ./build.sh"
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-
-
-      - name: Deploy via SSH
-        run: |
-          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" 'cd /home/rogsme/repo && git stash && git pull --force origin master && ./build.sh'
-        env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PORT: ${{ secrets.SSH_PORT }}

@@ -15,6 +15,7 @@ jobs:
 
       - name: Setup SSH
         run: |
+          eval "$(ssh-agent -s)"
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
           chmod 700 ~/.ssh
@@ -23,6 +24,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
+
 
       - name: Deploy via SSH
         run: |

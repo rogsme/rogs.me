@@ -9,6 +9,7 @@ I'm an experienced back-end developer and a DevOps enthusiast. I've been using L
 Like I mentioned on the [home page](/), I have a passion for selfhosting as many digital services as I can. Here's my full selfhosted list (updated Dec 15th 2024):
 
 - My website (you are here now lol): [rogs.me](https://rogs.me)
+- My Git server: [git.rogs.me](https://git.rogs.me)
 - A personal wiki: [wiki.rogs.me](https://wiki.rogs.me)
 - A Calendar server: [calendar.rogs.me](https://calendar.rogs.me)
 - A Matrix instance: [matrix.rogs.me](https://matrix.rogs.me)

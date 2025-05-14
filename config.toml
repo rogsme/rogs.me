@@ -124,6 +124,11 @@ copyright = "© Roger Gonzalez"
     github = "https://github.com/rogsme/timelapse_tuner"
 
   [[params.projects.work]]
+    name = "Fable Upskill"
+    url = "/resume/fable-upskill/"
+    description = "An LMS designed to support accessibility and inclusivity for people with disabilities"
+    client = "lazer2"
+  [[params.projects.work]]
     name = "Ario"
     url = "/resume/ario/"
     description = "An AI for busy parents"

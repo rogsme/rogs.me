@@ -12,7 +12,6 @@ Like I mentioned on the [home page](/), I have a passion for selfhosting as many
 - My Git server: [git.rogs.me](https://git.rogs.me)
 - A personal wiki: [wiki.rogs.me](https://wiki.rogs.me)
 - A Calendar server: [calendar.rogs.me](https://calendar.rogs.me)
-- A Matrix instance: [matrix.rogs.me](https://matrix.rogs.me)
 - A private searx instance: [searx.rogs.me](https://searx.rogs.me)
 - A pastebin: [paste.rogs.me](http://paste.rogs.me)
 - A secrets sharing service: [shhh.rogs.me](https://shhh.rogs.me)

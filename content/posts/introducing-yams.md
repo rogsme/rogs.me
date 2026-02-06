@@ -2,7 +2,7 @@
 title = "Introducing: YAMS (Yet Another Media Server)!"
 author = ["Roger Gonzalez"]
 date = 2023-01-20T09:57:48-03:00
-lastmod = 2023-01-20T12:41:35-03:00
+lastmod = 2026-02-05T21:30:22-03:00
 tags = ["programming", "docker", "dockercompose", "announcements", "opensource"]
 draft = false
 +++
@@ -118,5 +118,3 @@ long run, so I would like suggestions on how to improve the setup/website/config
 
 You can always submit [issues](https://gitlab.com/rogs/yams/-/issues/new) on Gitlab if you find any problems, or you can [contact](/contact) me directly (email
 preferred!).
-
-We also have a YAMS Matrix room! You can join [here](https://matrix.to/#/%23yams:chat.rogs.me). See ya on the chat! 😀

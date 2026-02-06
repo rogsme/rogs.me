@@ -1210,8 +1210,6 @@ long run, so I would like suggestions on how to improve the setup/website/config
 You can always submit [[https://gitlab.com/rogs/yams/-/issues/new][issues]] on Gitlab if you find any problems, or you can [[/contact][contact]] me directly (email
 preferred!).
 
-We also have a YAMS Matrix room! You can join [[https://matrix.to/#/#yams:chat.rogs.me][here]]. See ya on the chat! 😀
-
 * Announcements :announcements:
 :PROPERTIES:
 :ID:       0b36e39a-3389-4809-ae40-64ce37d452a1

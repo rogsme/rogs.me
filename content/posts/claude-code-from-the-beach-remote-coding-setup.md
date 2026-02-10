@@ -2,7 +2,7 @@
 title = "Claude Code from the beach: My remote coding setup with mosh, tmux and ntfy"
 author = ["Roger Gonzalez"]
 date = 2026-02-10
-lastmod = 2026-02-10T11:42:22-03:00
+lastmod = 2026-02-10T13:33:57-03:00
 tags = ["programming", "claude", "remotedev", "tmux", "mosh", "ntfy"]
 draft = false
 +++
@@ -77,7 +77,7 @@ different constraints:
     run Claude Code.
 -   I self-host **ntfy** for notifications, so no need for Poke or any external
     notification service.
--   I use **Termux** on Android, not Termius on iOS.
+-   I use **Termux** (open-source), not Termius.
 
 If you don't have this kind of infrastructure already, Granda's approach is
 probably simpler. But if you're the kind of person who already has a WireGuard
@@ -94,7 +94,7 @@ mesh and self-hosted services, this guide is for you.
 | tmux        | Session persistence                 | screen, zellij                   |
 | Claude Code | The actual work                     | —                                |
 | ntfy        | Push notifications                  | Pushover, Gotify, Poke, Telegram |
-| Termux      | Android terminal emulator           | Termius, JuiceSSH, ConnectBot    |
+| Termux      | Terminal emulator                   | Termius, JuiceSSH, ConnectBot    |
 | fish shell  | Shell on all machines               | zsh, bash                        |
 
 The key insight is that you need **two different types of resilience**: mosh
@@ -532,8 +532,7 @@ hop over the LAN, and the fish config on the work PC auto-attaches to tmux.
 
 If you're on iOS (or just prefer a polished app), [Termius](https://termius.com/) is what Granda uses.
 It supports mosh natively and has a nice UI. The downside is it's a subscription
-for the full features. Termux is free and gives you a full Linux environment, but
-it's Android-only and definitely more rough around the edges.
+for the full features. Termux is free and open-source, and gives you a full Linux environment.
 
 Other options: [JuiceSSH](https://juicessh.com/) (Android, no mosh), [ConnectBot](https://connectbot.org/) (Android, no mosh).
 Mosh support is really the killer feature here, so Termux or Termius are the

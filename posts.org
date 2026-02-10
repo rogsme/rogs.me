@@ -1213,9 +1213,14 @@ preferred!).
 ** Claude Code from the beach: My remote coding setup with mosh, tmux and ntfy :programming:claude:remotedev:tmux:mosh:ntfy:
 :PROPERTIES:
 :EXPORT_FILE_NAME: claude-code-from-the-beach-remote-coding-setup
-:EXPORT_DATE: 2026-02-09
+:EXPORT_DATE: 2026-02-10
 :ID:       09b14b0b-eb4b-43f4-8ad9-9462e29515c4
+:EXPORT_HUGO_PAIRED_SHORTCODES: img
 :END:
+
+#+begin_export hugo
+{{< img class="beach" src="/1000121647.jpg" caption="The view two blocks from my apartment" >}}
+#+end_export
 
 I recently read [[https://granda.org/en/2026/01/02/claude-code-on-the-go/][this awesome post]] by Granda about running Claude Code from a
 phone, and I thought: /I need this in my life/. The idea is simple: kick off a

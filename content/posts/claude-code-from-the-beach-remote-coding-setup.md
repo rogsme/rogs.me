@@ -1,11 +1,13 @@
 +++
 title = "Claude Code from the beach: My remote coding setup with mosh, tmux and ntfy"
 author = ["Roger Gonzalez"]
-date = 2026-02-09
-lastmod = 2026-02-10T11:12:50-03:00
+date = 2026-02-10
+lastmod = 2026-02-10T11:42:22-03:00
 tags = ["programming", "claude", "remotedev", "tmux", "mosh", "ntfy"]
 draft = false
 +++
+
+{{< img class="beach" src="/1000121647.jpg" caption="The view two blocks from my apartment" >}}
 
 I recently read [this awesome post](https://granda.org/en/2026/01/02/claude-code-on-the-go/) by Granda about running Claude Code from a
 phone, and I thought: _I need this in my life_. The idea is simple: kick off a

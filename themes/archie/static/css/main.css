@@ -1,9 +1,9 @@
 /* Markdown */
 :root{
---maincolor: red;
---bordercl:rebeccapurple;
---callouctcolor:dodgerblue;
---hovercolor:navy;
+--maincolor: #50fa7b;
+--bordercl: #50fa7b;
+--callouctcolor: #50fa7b;
+--hovercolor: #1a7a3a;
 --darkMaincolor: #50fa7b;
 }
 html {
@@ -137,12 +137,12 @@ th, td {
 }
 
 th {
-  background-color: #e0e0e0;
+  background-color: #e8fce8;
   font-weight: bold;
 }
 
 tr:nth-child(even) {
-  background-color: #f5f5f5;
+  background-color: #f4fdf4;
 }
 
 tr:nth-child(odd) {
@@ -205,7 +205,7 @@ article .title {
 /* Callout */
 .callout {
   background-color: var(--callouctcolor);
-  color: #fff;
+  color: #000;
   padding: 1em;
 }
 
@@ -215,11 +215,11 @@ article .title {
 }
 
 .callout a {
-  border-bottom: 3px solid #fff;
+  border-bottom: 3px solid #000;
 }
 
 .callout a:hover {
-  background-color: #fff;
+  background-color: #000;
   color: var(--callouctcolor);
 }
 
@@ -356,8 +356,8 @@ aside {
   margin: 0px 0px 10px 20px;
   padding: 5px 10px;
   max-width: 35%;
-  background-color: #242632;
-  border: 1px solid var(--darkMaincolor);
+  background-color: #f4fdf4;
+  border: 1px solid var(--maincolor);
   text-align: center;
 }
 .icons {

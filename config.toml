@@ -34,20 +34,10 @@ copyright = "© Roger Gonzalez"
     nextUrl = "https://hotlinewebring.club/rogs/next"
     prevUrl = "https://hotlinewebring.club/rogs/previous"
   [[params.webring]]
-    name = "nojs"
-    url = "https://nojs.sugarfi.dev/"
-    nextUrl = "https://nojs.sugarfi.dev/next.php?url=https://rogs.me/"
-    prevUrl = "https://nojs.sugarfi.dev/prev.php?url=https://rogs.me/"
-  [[params.webring]]
     name = "retronaut"
     url = "https://webring.dinhe.net/"
     nextUrl = "https://webring.dinhe.net/next/https://rogs.me"
     prevUrl = "https://webring.dinhe.net/prev/https://rogs.me"
-  [[params.webring]]
-    name = "devring"
-    url = "https://devring.club/"
-    nextUrl = "https://devring.club/sites/11/next"
-    prevUrl = "https://devring.club/sites/11/prev"
   [[params.webring]]
     name = "geekring"
     url = "https://geekring.net/"

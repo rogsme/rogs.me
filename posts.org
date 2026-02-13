@@ -1850,6 +1850,400 @@ minutes. If you're starting from scratch, Granda's [[https://granda.org/en/2026/
 easier. Either way, async coding from your phone is genuinely a game changer.
 
 See you in the next one!
+** Use your Claude Max subscription as an API with CLIProxyAPI :programming:claude:llm:selfhosted:emacs:
+:PROPERTIES:
+:EXPORT_FILE_NAME: use-your-claude-max-subscription-as-an-api-with-cliproxyapi
+:EXPORT_DATE: 2026-02-13
+:ID:       f8a3c1d2-7e4b-4a91-b6d3-2c8e5f9a1b04
+:END:
+
+So here's the thing: I'm paying $100/month for Claude Max. I use it a lot, it's
+worth it. But then I wanted to use my subscription with my Emacs packages —
+specifically [[https://gitlab.com/rogs/forge-llm][forge-llm]] (which I wrote!) for generating PR descriptions in Forge,
+and [[https://github.com/douo/magit-gptcommit][magit-gptcommit]] for auto-generating commit messages in Magit. Both packages
+use the [[https://elpa.gnu.org/packages/llm.html][llm]] package, which supports OpenAI-compatible endpoints.
+
+The problem? Anthropic blocks OAuth tokens from being used directly with
+third-party API clients. You /have/ to pay for API access separately. 🤔
+
+That felt wrong. I'm already paying for the subscription, why can't I use it
+however I want?
+
+Turns out, there's a workaround. The Claude Code CLI /can/ use OAuth tokens.
+So if you put a proxy in front of it that speaks the OpenAI API format, you can
+use your Max subscription with basically anything that supports OpenAI
+endpoints. And that's exactly what [[https://github.com/router-for-me/CLIProxyAPI][CLIProxyAPI]] does.
+
+#+begin_src
+Your App (Emacs llm package, scripts, whatever)
+         ↓
+    HTTP Request (OpenAI format)
+         ↓
+    CLIProxyAPI
+         ↓
+    OAuth Token (from your Max subscription)
+         ↓
+    Anthropic API
+         ↓
+    Response → OpenAI format → Your App
+#+end_src
+
+No extra API costs. Just your existing subscription. Sweet!
+
+*** Why CLIProxyAPI and not something else?
+:PROPERTIES:
+:ID:       a1b2c3d4-5e6f-7a8b-9c0d-1e2f3a4b5c6d
+:END:
+
+I actually tried [[https://github.com/atalovesyou/claude-max-api-proxy][claude-max-api-proxy]] first. It worked! But the model list was
+outdated (no Opus 4.5, no Sonnet 4.5), it's a Node.js project that wraps the
+CLI as a subprocess, and it felt a bit... abandoned.
+
+CLIProxyAPI is a completely different story:
+
+- *Single Go binary*. No Node.js, no Python, no runtime dependencies. Just
+  download and run.
+- *Actively maintained*. Like, /very/ actively. Frequent releases, big
+  community, ecosystem tools everywhere (desktop GUI, web dashboard, AUR
+  package, Docker images, the works).
+- *Multi-provider*. Not just Claude: it also supports Gemini, OpenAI Codex,
+  Qwen, and more. You can even round-robin between multiple OAuth accounts.
+- *All the latest models*. It uses the full dated model names (e.g.,
+  ~claude-sonnet-4-20250514~), so you're always up to date.
+
+*** What you'll need
+:PROPERTIES:
+:ID:       b2c3d4e5-6f7a-8b9c-0d1e-2f3a4b5c6d7e
+:END:
+
+- An active *Claude Max subscription* ($100/month). Claude Pro works too, but
+  with lower rate limits.
+- A machine running *Linux* or *macOS*.
+- A web browser for the OAuth flow (or use ~--no-browser~ if you're on a
+  headless server).
+
+*** Installation
+:PROPERTIES:
+:ID:       c3d4e5f6-7a8b-9c0d-1e2f-3a4b5c6d7e8f
+:END:
+
+**** Linux
+:PROPERTIES:
+:ID:       d4e5f6a7-0000-0000-0000-000000000001
+:END:
+
+There's a community installer that does everything for you: downloads the latest
+binary to =~/cliproxyapi/=, generates API keys, creates a systemd service:
+
+#+begin_src bash
+curl -fsSL https://raw.githubusercontent.com/brokechubb/cliproxyapi-installer/refs/heads/master/cliproxyapi-installer | bash
+#+end_src
+
+If you're on Arch (btw):
+
+#+begin_src bash
+yay -S cli-proxy-api-bin
+#+end_src
+
+**** macOS
+:PROPERTIES:
+:ID:       d4e5f6a7-0000-0000-0000-000000000002
+:END:
+
+Homebrew. Easy:
+
+#+begin_src bash
+brew install cliproxyapi
+#+end_src
+
+*** Authenticating with Claude
+:PROPERTIES:
+:ID:       e5f6a7b8-9c0d-1e2f-3a4b-5c6d7e8f9a0b
+:END:
+
+Before the proxy can use your subscription, you need to log in:
+
+#+begin_src bash
+# Linux
+cd ~/cliproxyapi
+./cli-proxy-api --claude-login
+
+# macOS (Homebrew)
+cliproxyapi --claude-login
+#+end_src
+
+This opens your browser for the OAuth flow. Log in with your Claude account,
+authorize it, done. The token gets saved to =~/.cli-proxy-api/=.
+
+If you're on a headless machine, add ~--no-browser~ and it'll print the URL for
+you to open elsewhere:
+
+#+begin_src bash
+./cli-proxy-api --claude-login --no-browser
+#+end_src
+
+*** Configuration
+:PROPERTIES:
+:ID:       f6a7b8c9-0d1e-2f3a-4b5c-6d7e8f9a0b1c
+:END:
+
+The installer generates a =config.yaml= with random API keys. These are keys
+that /clients/ use to authenticate to your proxy, not Anthropic keys.
+
+Here's what I'm running:
+
+#+begin_src yaml
+# Bind to localhost only since I'm using it locally
+host: "127.0.0.1"
+
+# Server port
+port: 8317
+
+# Authentication directory
+auth-dir: "~/.cli-proxy-api"
+
+# No client auth needed for local-only use
+api-keys: []
+
+# Keep it quiet
+debug: false
+#+end_src
+
+The important bit is ~api-keys: []~. Setting it to an empty list disables
+client authentication, which means any app on your machine can hit the proxy
+without needing a key. This is fine if you're only using it locally.
+
+If you're exposing the proxy to your network (e.g., you want to hit it from
+your phone or another machine), *keep the generated API keys* and also set
+~host: ""~ so it binds to all interfaces. You don't want random people on your
+network burning through your subscription.
+
+*** Starting the service
+:PROPERTIES:
+:ID:       a7b8c9d0-1e2f-3a4b-5c6d-7e8f9a0b1c2d
+:END:
+
+**** Linux (systemd)
+:PROPERTIES:
+:ID:       b8c9d0e1-2f3a-4b5c-6d7e-8f9a0b1c2d3e
+:END:
+
+The installer creates a systemd user service for you:
+
+#+begin_src bash
+systemctl --user enable --now cliproxyapi.service
+systemctl --user status cliproxyapi.service
+#+end_src
+
+Or just run it manually to test first:
+
+#+begin_src bash
+cd ~/cliproxyapi
+./cli-proxy-api
+#+end_src
+
+**** macOS (Homebrew)
+:PROPERTIES:
+:ID:       c9d0e1f2-3a4b-5c6d-7e8f-9a0b1c2d3e4f
+:END:
+
+#+begin_src bash
+brew services start cliproxyapi
+#+end_src
+
+*** Testing it
+:PROPERTIES:
+:ID:       d0e1f2a3-4b5c-6d7e-8f9a-0b1c2d3e4f5a
+:END:
+
+Let's make sure everything works:
+
+#+begin_src bash
+# List available models
+curl http://localhost:8317/v1/models
+
+# Chat completion
+curl -X POST http://localhost:8317/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "claude-sonnet-4-20250514",
+    "messages": [{"role": "user", "content": "Say hello in one sentence."}]
+  }'
+
+# Streaming (note the -N flag to disable curl buffering)
+curl -N -X POST http://localhost:8317/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "claude-sonnet-4-20250514",
+    "messages": [{"role": "user", "content": "Say hello in one sentence."}],
+    "stream": true
+  }'
+#+end_src
+
+If you get a response from Claude, you're golden. 🎉
+
+*** Using it with Emacs
+:PROPERTIES:
+:ID:       e1f2a3b4-5c6d-7e8f-9a0b-1c2d3e4f5a6b
+:END:
+
+This is the fun part. Both forge-llm and magit-gptcommit use the [[https://elpa.gnu.org/packages/llm.html][llm]] package
+for their LLM backend. The ~llm~ package has an OpenAI-compatible provider, so
+we just need to point it at our proxy.
+
+**** Setting up the llm provider
+:PROPERTIES:
+:ID:       e1f2a3b4-0000-0000-0000-000000000001
+:END:
+
+First, make sure you have the ~llm~ package installed. Then configure an OpenAI
+provider that points to CLIProxyAPI:
+
+#+begin_src emacs-lisp
+(require 'llm-openai)
+
+(setq my/claude-via-proxy
+      (make-llm-openai-compatible
+       :key "not-needed"
+       :chat-model "claude-sonnet-4-20250514"
+       :url "http://localhost:8317/v1"))
+#+end_src
+
+That's it. That's the whole LLM setup. Now we can use it everywhere.
+
+**** forge-llm (PR descriptions)
+:PROPERTIES:
+:ID:       e1f2a3b4-0000-0000-0000-000000000002
+:END:
+
+I wrote [[https://gitlab.com/rogs/forge-llm][forge-llm]] to generate PR descriptions in Forge using LLMs. It
+analyzes the git diff, picks up your repository's PR template, and generates a
+structured description. To use it with CLIProxyAPI:
+
+#+begin_src emacs-lisp
+(use-package forge-llm
+  :after forge
+  :config
+  (forge-llm-setup)
+  (setq forge-llm-llm-provider my/claude-via-proxy))
+#+end_src
+
+Now when you're creating a PR in Forge, you can hit ~SPC m g~ (Doom) or run
+~forge-llm-generate-pr-description~ and Claude will write the description based
+on your diff. Using your subscription. No API key needed.
+
+**** magit-gptcommit (commit messages)
+:PROPERTIES:
+:ID:       e1f2a3b4-0000-0000-0000-000000000003
+:END:
+
+[[https://github.com/douo/magit-gptcommit][magit-gptcommit]] does the same thing but for commit messages. It looks at your
+staged changes and generates a conventional commit message. Setup:
+
+#+begin_src emacs-lisp
+(use-package magit-gptcommit
+  :after magit
+  :config
+  (setq magit-gptcommit-llm-provider my/claude-via-proxy)
+  (magit-gptcommit-mode 1)
+  (magit-gptcommit-status-buffer-setup))
+#+end_src
+
+Now in the Magit commit buffer, you can generate a commit message with Claude.
+Again, no separate API costs.
+
+**** Any other llm-based package
+:PROPERTIES:
+:ID:       e1f2a3b4-0000-0000-0000-000000000004
+:END:
+
+The beauty of the ~llm~ package is that any Emacs package that uses it can
+benefit from this setup. Just pass ~my/claude-via-proxy~ as the provider. Some
+other packages that use ~llm~: [[https://github.com/s-kostyaev/ellama][ellama]], [[https://github.com/ahyatt/ekg][ekg]], [[https://github.com/akirak/llm-refactoring][llm-refactoring]]. They'll all
+work with your Max subscription through the proxy.
+
+*** Using it with other tools
+:PROPERTIES:
+:ID:       f1a2b3c4-0000-0000-0000-000000000001
+:END:
+
+Since CLIProxyAPI speaks the OpenAI API format, it works with anything that
+supports custom OpenAI endpoints. The magic three settings are always the same:
+
+- *Base URL*: ~http://localhost:8317/v1~
+- *API key*: ~not-needed~ (or your proxy key if you have auth enabled)
+- *Model*: ~claude-sonnet-4-20250514~, ~claude-opus-4-20250514~, etc.
+
+Here's a Python example using the OpenAI SDK:
+
+#+begin_src python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://localhost:8317/v1",
+    api_key="not-needed"
+)
+
+response = client.chat.completions.create(
+    model="claude-sonnet-4-20250514",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+
+print(response.choices[0].message.content)
+#+end_src
+
+*** Available models
+:PROPERTIES:
+:ID:       f2a3b4c5-6d7e-8f9a-0b1c-2d3e4f5a6b7c
+:END:
+
+CLIProxyAPI exposes all models available through your subscription. The names
+use the full dated format. You can always check the list with:
+
+#+begin_src bash
+curl -s http://localhost:8317/v1/models | jq '.data[].id'
+#+end_src
+
+At the time of writing, you'll get Claude Opus 4, Sonnet 4, Sonnet 4.5,
+Haiku 4.5, and whatever else Anthropic has made available to Max subscribers.
+
+*** How much does this save?
+:PROPERTIES:
+:ID:       a3b4c5d6-7e8f-9a0b-1c2d-3e4f5a6b7c8d
+:END:
+
+If you're already paying for Claude Max, this is basically free API access.
+For context:
+
+| Usage                     | API Cost    | With CLIProxyAPI |
+|---------------------------+-------------+------------------|
+| 1M input tokens/month     | ~$15        | $0 (included)    |
+| 500K output tokens/month  | ~$37.50     | $0 (included)    |
+| *Monthly Total*           | *~$52.50*   | *$0 extra*       |
+
+And those numbers add up quick when you're generating PR descriptions and
+commit messages all day. I was getting to the point where my API costs were
+approaching the subscription price, which is silly when you think about it.
+
+*** Conclusion
+:PROPERTIES:
+:ID:       b4c5d6e7-8f9a-0b1c-2d3e-4f5a6b7c8d9e
+:END:
+
+The whole setup took me about 10 minutes. Download binary, authenticate, edit
+config, start service, point my Emacs ~llm~ provider at it. That's it.
+
+What I love about CLIProxyAPI is that it's exactly the kind of tool I
+appreciate: a single binary, a YAML config, does one thing well, and gets out
+of your way. No magic, no framework, no runtime dependencies. And since it's
+OpenAI-compatible, it plays nicely with the entire ~llm~ package ecosystem in
+Emacs.
+
+The project is at https://github.com/router-for-me/CLIProxyAPI and the
+community is very active. If you run into issues, their GitHub issues are
+responsive.
+
+See you in the next one!
 * Announcements :announcements:
 :PROPERTIES:
 :ID:       0b36e39a-3389-4809-ae40-64ce37d452a1

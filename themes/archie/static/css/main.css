@@ -122,6 +122,33 @@ pre code {
   padding: 0;
 }
 
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+th, td {
+  padding: 0.6em 1em;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+th {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+tr:nth-child(odd) {
+  background-color: #fff;
+}
+
 /* Containers */
 .content {
   margin-bottom: 4em;

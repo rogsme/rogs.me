@@ -34,6 +34,24 @@ blockquote {
   border-color: blue;
 }
 
+/* Tables */
+th, td {
+  border-color: #444;
+}
+
+th {
+  background-color: #2a2d30;
+  color: #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #2a2d30;
+}
+
+tr:nth-child(odd) {
+  background-color: #202124;
+}
+
 h1,
 h2,
 h3,

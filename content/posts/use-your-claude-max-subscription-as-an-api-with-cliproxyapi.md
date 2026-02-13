@@ -2,7 +2,7 @@
 title = "Use your Claude Max subscription as an API with CLIProxyAPI"
 author = ["Roger Gonzalez"]
 date = 2026-02-13
-lastmod = 2026-02-13T12:12:55-03:00
+lastmod = 2026-02-13T16:47:06-03:00
 tags = ["programming", "claude", "llm", "selfhosted", "emacs"]
 draft = false
 +++
@@ -79,12 +79,6 @@ binary to `~/cliproxyapi/`, generates API keys, creates a systemd service:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/brokechubb/cliproxyapi-installer/refs/heads/master/cliproxyapi-installer | bash
-```
-
-If you're on Arch (btw):
-
-```bash
-yay -S cli-proxy-api-bin
 ```
 
 

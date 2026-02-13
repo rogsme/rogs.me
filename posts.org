@@ -1939,12 +1939,6 @@ binary to =~/cliproxyapi/=, generates API keys, creates a systemd service:
 curl -fsSL https://raw.githubusercontent.com/brokechubb/cliproxyapi-installer/refs/heads/master/cliproxyapi-installer | bash
 #+end_src
 
-If you're on Arch (btw):
-
-#+begin_src bash
-yay -S cli-proxy-api-bin
-#+end_src
-
 **** macOS
 :PROPERTIES:
 :ID:       d4e5f6a7-0000-0000-0000-000000000002

@@ -126,6 +126,9 @@ aside {
 .highlight {
   background-color: #333;
 }
+.icons img {
+  filter: invert(100%) sepia(86%) saturate(84%) hue-rotate(100deg) brightness(111%) contrast(101%);
+}
 .soc {
   padding-left: 10px;
   padding-right: 10px;

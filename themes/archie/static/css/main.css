@@ -100,7 +100,7 @@ figure h4::before {
 
 /* Code blocks */
 code {
-  background-color: #f1f1f1;
+  background-color: #e2e0dd;
   padding: .1em .2em;
 }
 
@@ -369,13 +369,8 @@ aside {
   background-color: transparent;
 }
 .icons img {
-  color: white;
   width: 14px;
   border: 0px transparent;
-  filter: invert(100%) sepia(86%) saturate(84%) hue-rotate(100deg) brightness(111%) contrast(101%);
-}
-.github-img {
-  filter: invert(100%);
 }
 #theme-toggle {
   border-bottom: none;

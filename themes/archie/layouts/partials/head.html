@@ -7,5 +7,19 @@
 		{{ range .Site.Menus.main }}
 		<a href="{{ .URL }}">{{ .Name }}</a>
 		{{ end }}
+		<a id="theme-toggle" style="cursor:pointer"></a>
+		<script>
+		(function(){
+		  var t=document.getElementById('theme-toggle');
+		  var d=document.getElementById('dark-css');
+		  function u(){t.textContent=d.disabled?'🌙':'☀️';}
+		  u();
+		  t.onclick=function(){
+		    d.disabled=!d.disabled;
+		    localStorage.setItem('theme',d.disabled?'light':'dark');
+		    u();
+		  };
+		})();
+		</script>
 	</nav>
 </header>

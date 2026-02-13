@@ -376,3 +376,6 @@ aside {
 .github-img {
   filter: invert(100%);
 }
+#theme-toggle {
+  border-bottom: none;
+}

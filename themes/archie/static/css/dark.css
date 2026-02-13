@@ -119,6 +119,10 @@ a:hover {
   border-color: #333;
 }
 
+aside {
+  background-color: #2a2d30;
+  border-color: var(--darkMaincolor);
+}
 .highlight {
   background-color: #333;
 }

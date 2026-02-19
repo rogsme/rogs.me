@@ -57,7 +57,7 @@
 	<script src="{{ $.Site.BaseURL }}{{ . }}"></script>
 	{{- end }}
 	{{- end }}
-	{{- if not hugo.IsServer }}
+    {{ if hugo.IsProduction }}
 	<script defer src="https://analytics.rogs.me/script.js" data-website-id="abe0fc58-9cb6-44d1-9fef-847701bd3651"></script>
-	{{- end }}
+	{{ end }}
 </head>

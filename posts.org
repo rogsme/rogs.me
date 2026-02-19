@@ -2268,6 +2268,22 @@ You'll find my email addess on the [[/contact][Contact]] page.
 
 You have a good and relevant comment, I'll update the relevant post accordingly.
 
+** Adding analytics to my blog
+:PROPERTIES:
+:EXPORT_FILE_NAME: adding-analytics-to-my-blog
+:EXPORT_DATE: 2026-02-18
+:ID:       4a665415-ed64-4844-8fb3-8db0a36d5487
+:END:
+
+Hey everyone, quick heads up: I'm adding analytics to the blog.
+
+Before you reach for your adblocker, hear me out. I'm using [[https://umami.is/][Umami]], which is open source, privacy-respecting, and doesn't use cookies. It doesn't track you across sites, doesn't collect personal data, and is fully [[https://github.com/umami-software/umami][open source]] so you can verify that yourself.
+
+On top of that, I'm self-hosting it on my own infrastructure, so the data never touches a third party. No Google Analytics, no Cloudflare analytics, no one else sees anything.
+
+I mainly want to know which posts are actually useful to people and which ones are just me yelling into the void. That's it.
+
+If you have any questions or concerns, you know where to find me on the [[/contact][Contact]] page.
 * COMMENT Local Variables
 :PROPERTIES:
 :ID:       4a361a2c-2acc-4cb9-9683-d047323d091b

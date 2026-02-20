@@ -170,19 +170,24 @@ url = "/about/"
 weight = 2
 
 [[menu.main]]
+name = "AI"
+url = "/ai/"
+weight = 3
+
+[[menu.main]]
 name = "Posts"
 url = "/posts/"
-weight = 3
+weight = 4
 
 [[menu.main]]
 name = "Contact"
 url = "/contact/"
-weight = 4
+weight = 5
 
 [[menu.main]]
 name = "Donate"
 url = "/donate/"
-weight = 5
+weight = 6
 
 [markup.goldmark.renderer]
   unsafe = true

@@ -315,7 +315,7 @@ AI isn't just for writing code. Here's where else I use it (and yes, most of thi
 - **Proofreading**: English is not my first language (hola! 🇻🇪), so I use the Claude website a lot for proofreading emails, Slack messages, documentation, you name it.
 - **Research and "searches"**: I use Claude as a faster, friendlier Google. Investigations, quick questions, exploring ideas.
 - **Personal assistant**: I have an [OpenClaw](https://github.com/openclaw/openclaw) agent on my Telegram chats that manages my calendar, contacts, helps me maintain my open source projects, does research, and is just an all-around good guy.
-- **Coding from my phone**: I have a full [mobile coding setup](/2026/02/claude-code-from-the-beach-remote-coding-setup/) using mosh, tmux, and ntfy. The idea is simple: I connect to my work PC from my phone through a WireGuard VPN, give Claude Code a task, pocket the phone, and get a push notification when Claude needs my help or finishes. Async development from the beach, the couch, wherever. It's genuinely a game changer.
+- **Coding from my phone**: I have a full [mobile coding setup](/2026/02/claude-code-from-the-beach-my-remote-coding-setup-with-mosh-tmux-and-ntfy//) using mosh, tmux, and ntfy. The idea is simple: I connect to my work PC from my phone through a WireGuard VPN, give Claude Code a task, pocket the phone, and get a push notification when Claude needs my help or finishes. Async development from the beach, the couch, wherever. It's genuinely a game changer.
 
 ## The before and after
 
@@ -378,7 +378,7 @@ You'll find my OpenCode config (providers, MCP servers, agents), Aider config (m
 Tools and projects I'm currently experimenting with or keeping an eye on:
 
 - **[Vibe Kanban](https://github.com/BloopAI/vibe-kanban)**: A kanban-style approach to AI-assisted development. Interesting alternative to GSD's milestone flow.
-- **Improving my mobile setup**: My [Claude Code from the beach](/2026/02/claude-code-from-the-beach-remote-coding-setup/) setup works great, but I want to make the notification flow smarter and add better tmux window management.
+- **Improving my mobile setup**: My [Claude Code from the beach](/2026/02/claude-code-from-the-beach-my-remote-coding-setup-with-mosh-tmux-and-ntfy//) setup works great, but I want to make the notification flow smarter and add better tmux window management.
 - **[NullClaw](https://github.com/nullclaw/nullclaw)**: A blazing fast alternative to OpenClaw written in Zig. 678 KB binary, ~1 MB RAM. I'm considering migrating my personal assistant setup to it.
 - **[OpenAI Codex](https://github.com/openai/codex)**: OpenAI's agentic coding tool. Another cannon-class option worth evaluating as competition between Claude Code, Codex, and Gemini CLI heats up.
 - **[Gemini CLI](https://github.com/google-gemini/gemini-cli)**: Google's CLI for Gemini models. GSD already supports it, so it might be worth integrating into my workflow for tasks where Gemini's massive context window shines.

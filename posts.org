@@ -2243,6 +2243,7 @@ See you in the next one!
 :EXPORT_FILE_NAME: how-i-deploy-my-projects-to-a-single-vps
 :EXPORT_DATE: 2026-03-15
 :ID:       d7a1b3e5-4f82-4c9a-b6d1-8e3f5a7c9d02
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :skip_webp_rewrite true
 :END:
 
 Hello everyone 👋

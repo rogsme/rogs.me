@@ -2,9 +2,10 @@
 title = "How I deploy my projects to a single VPS with Gitea, NGINX and Docker"
 author = ["Roger Gonzalez"]
 date = 2026-03-15
-lastmod = 2026-03-16T08:05:58-03:00
+lastmod = 2026-03-20T10:15:04-03:00
 tags = ["programming", "selfhosted", "vps", "docker", "nginx", "gitea", "", "devops"]
 draft = false
+skip_webp_rewrite = true
 +++
 
 Hello everyone 👋

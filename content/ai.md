@@ -52,6 +52,44 @@ The GSD flow goes like this:
 
 GSD is basically my old custom planning → execution → review flow on crack. It's open source, maintained by a big community, and advances way faster than anything I could build alone.
 
+### My GSD workflow
+
+Here's my actual step-by-step flow for a typical phase. This is more detailed than the diagram above because it includes my custom patches (the adversarial review, auto-verify, and UI review).
+
+```
+/gsd:discuss-phase N
+        ↓
+/gsd:ui-phase N             ← only for phases with frontend work
+        ↓
+/gsd:plan-phase N --research
+        ↓
+/gsd:review --phase N       ← 6-model adversarial review (my patch)
+        ↓
+/gsd:plan-phase N --reviews --research
+        ↓
+/gsd:review --phase N       ← second review pass if too many concerns remain
+        ↓                     (repeat plan-with-reviews until clean)
+/gsd:execute-phase N
+        ↓
+/gsd:verify-work N --auto   ← auto-verify with Playwright/curl (my patch)
+        ↓
+/gsd:ui-review N            ← cross-AI UI audit (my patch, frontend phases)
+        ↓
+  fix if needed             ← /gsd:fast or /gsd:quick depending on severity
+        ↓
+/gsd:ship N
+```
+
+A few notes on how this plays out in practice:
+
+**The discuss → plan → review loop.** I always start with `/gsd:discuss-phase` to lock in my preferences. If there's UI work, `/gsd:ui-phase` creates the design contract before any planning happens. Then I plan with `--research` to get the domain investigation. After the first plan, I run `/gsd:review --phase N` which triggers my 6-model adversarial review patch. The reviewers produce a `REVIEWS.md` with blockers, concerns, and unique insights. I feed that back into planning with `/gsd:plan-phase N --reviews --research`, and if the second plan still has too many concerns, I review again. Usually one review-plan cycle is enough; occasionally it takes two.
+
+**Verify with `--auto`.** After execution, I run `/gsd:verify-work N --auto` which triggers my auto-verify patch. It classifies tests and runs what it can automatically: Playwright for UI checks (page loads, key elements visible, no console errors), curl for API checks (endpoint reachability, response shape, CRUD operations). Whatever it can't verify automatically (subjective UX, performance feel) falls through to the interactive loop where I test manually. This cuts my UAT time significantly.
+
+**UI review and fixes.** For frontend phases, `/gsd:ui-review N` runs the primary 6-pillar audit plus my cross-AI perspective patch. If the review finds issues, I check the severity. For simple fixes (copy, spacing, color values), I use `/gsd:fast fix the N issues from the phase X UI review`. For structural fixes (layout, component hierarchy), I use `/gsd:quick`. The UI review itself tells you which approach to use based on the score.
+
+**When Claude runs out of budget.** If I hit the usage limit mid-flow, I `/clear`, switch to OpenCode, and continue from wherever I left off. The `.planning/` state carries over. On OpenCode, the GSD commands use a slightly different format (`/gsd-review` instead of `/gsd:review`, `/gsd-verify-work` instead of `/gsd:verify-work`), but the workflow is identical.
+
 ### My Claude Code config
 
 I default to the 1M context Opus model (`opus[1m]`). The extra context is great, but I try to keep actual usage under 40-50% of that window. Going higher burns through tokens faster and invites context rot. Think of it as having a large workshop: you don't need to fill every corner to get work done.

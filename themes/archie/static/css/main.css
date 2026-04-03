@@ -344,7 +344,7 @@ ul span.meta {
 }
 .picture-link:hover {
   background-color: transparent;
-  color: #fff
+  color: inherit;
 }
 .cats {
   width: 50%;

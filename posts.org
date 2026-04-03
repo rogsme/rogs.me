@@ -95,7 +95,7 @@ environmental variables, but since we haven't set those up and we have
 MinIO.
 
 
-And that's it! That's everything you need to have your local S3 development environment. 
+And that's it! That's everything you need to have your local S3 development environment.
 
 *** Testing
 :PROPERTIES:
@@ -175,7 +175,7 @@ See you in the next one!
 Hi everyone!
 
 It's been way too long, I know. In this oportunity, I wanted to talk about
-asynchronicity in Django, but first, lets set up the stage: 
+asynchronicity in Django, but first, lets set up the stage:
 
 Imagine you are working in a library and you have to develop an app that allows
 users to register new books using a barcode scanner. The system has to read the
@@ -183,7 +183,7 @@ ISBN code and use an external resource to fill in the information (title, pages,
 authors, etc.). You don't need the complete book information to continue, so the
 external resource can't hold the request.
 
-*How can you process the external request asynchronously?* 🤔 
+*How can you process the external request asynchronously?* 🤔
 
 For that, we need Celery.
 
@@ -195,7 +195,7 @@ For that, we need Celery.
 
 > Celery is a simple, flexible, and reliable distributed system to process vast
 amounts of messages, while providing operations with the tools required to
-maintain such a system. 
+maintain such a system.
 
 So Celery can get messages from external processes via a broker (like [[https://redis.io/][Redis]]),
 and process them.
@@ -208,7 +208,7 @@ access Django models without any problem. Sweet!
 :ID:       0e6a021e-ab2a-48d0-92a0-39fd4f7c3409
 :END:
 Let's assume our project structure is the following:
-#+begin_src 
+#+begin_src
 - app/
   - manage.py
   - app/
@@ -282,7 +282,7 @@ CELERY_CACHE_BACKEND = "django-cache"
 Here, we can see that the ~CELERY~ prefix is used for all Celery configurations,
 because on ~celery.py~ we told Celery the prefix was ~CELERY~
 
-With this, Celery is fully configured. 🎉 
+With this, Celery is fully configured. 🎉
 
 **** Django
 :PROPERTIES:
@@ -586,7 +586,7 @@ We can check swagger to see all the endpoints created:
 
 [[/2020-11-29-115634.png]]
 
-Now, *how are we going to get all the data?* 🤔 
+Now, *how are we going to get all the data?* 🤔
 
 *** Creating a Celery task
 :PROPERTIES:
@@ -854,7 +854,7 @@ people, and book. This should change depending on how you created your URLs.
 This surely was a *LONG* one, but it has been a very good one in my opinion.
 I've used Celery in the past for multiple things, from sending emails in the
 background to triggering scraping jobs and [[https://docs.celeryproject.org/en/stable/userguide/periodic-tasks.html#using-custom-scheduler-classes][running scheduled tasks]] (like a [[https://en.wikipedia.org/wiki/Cron][unix
-cronjob]]) 
+cronjob]])
 
 You can check the complete project in my GitLab here: https://gitlab.com/rogs/books-app
 
@@ -915,7 +915,7 @@ I divided the work into four parts:
 2) Finding the error message on the site
 3) Sending the message if nothing was found
 4) Deploy the job with a cronjob on my VPS
-  
+
 *** Inspecting the site
 :PROPERTIES:
 :ID:       df519909-0814-435d-9bf2-bf21b27328aa
@@ -927,7 +927,7 @@ Here is the site I needed to inspect:
 - When the button is clicked, it loads a second page that has an error message
   if no appointments are found. The ID of that message is ~form:warnSinCupos~.
   [[/2020-08-02-162205.png]]
- 
+
 *** Using Selenium to find the error message
 :PROPERTIES:
 :ID:       aa6b4101-d8ab-4540-bfad-f6b70feb0e05
@@ -2884,6 +2884,352 @@ probably won't.
 
 If you have questions about any part of this setup, feel free to reach out on
 the [[/contact][Contact]] page. I'm always happy to help people get started with self-hosting.
+
+See you in the next one!
+** OpenCode as a server: AI agents that work while I sleep :opencode::ai::systemd::selfhosted::wireguard:
+:PROPERTIES:
+:EXPORT_FILE_NAME: opencode-as-a-server-ai-agents-that-work-while-i-sleep
+:EXPORT_DATE: 2026-04-02
+:ID:       e8f1a2b3-c4d5-4e6f-a7b8-c9d0e1f2a3b4
+:END:
+
+My main machine is a beast. Ryzen 9 9950X3D, 64 GB of RAM, RX 9060 XT, three
+monitors, the works. It barely ever shuts off. So at some point I started
+thinking: /why isn't this thing working for me when I'm not sitting in front of
+it?/
+
+The answer is now: it does. I'm running [[https://opencode.ai/][OpenCode]] as a persistent server on this
+machine, accessible from anywhere through my WireGuard VPN. I can spin up coding
+sessions from my MacBook Air, my phone, wherever. And the best part? I have
+scheduled jobs that run overnight: adding tests, updating documentation,
+enforcing code conventions. I wake up to PRs waiting for my review.
+
+Here's the full setup.
+
+*** The architecture
+:PROPERTIES:
+:ID:       e8f1a2b3-0001-4e6f-a7b8-000000000001
+:END:
+
+#+begin_src
+  ┌─────────────────────────────────────────────────────────┐
+  │                    roger-beast                          │
+  │              (Ryzen 9 9950X3D / 64GB)                   │
+  │                                                         │
+  │  ┌──────────────────┐      ┌──────────────────────┐     │
+  │  │  opencode serve  │◀─────│ systemd user service │     │
+  │  │   :4096 (web UI) │      │ (auto-start/restart) │     │
+  │  └────────┬─────────┘      └──────────────────────┘     │
+  │           │                                             │
+  │           │            ┌──────────────────────┐         │
+  │           │            │  opencode-scheduler  │         │
+  │           │            │  (systemd timers)    │         │
+  │           │            │ ┌──────────────────┐ │         │
+  │           │            │ │ 2am: add tests   │ │         │
+  │           │            │ │ 3am: update docs │ │         │
+  │           │            │ │ 4am: conventions │ │         │
+  │           │            │ └──────────────────┘ │         │
+  │           │            └──────────────────────┘         │
+  │           │                                             │
+  └───────────┼─────────────────────────────────────────────┘
+              │
+      ┌───────┴──────────────┐
+      │ Nginx Proxy          │
+      │ Manager              │
+      │(opencode.example.com)│
+      └───────┬──────────────┘
+              │
+    ┌─────────┴──────────┐
+    │    WireGuard VPN   │
+    │   / Local Network  │
+    └─────────┬──────────┘
+              │
+     ┌────────┴────────┐
+     │                 │
+  ┌──┴───┐      ┌─────┴──────┐
+  │ 💻   │      │ 📱         │
+  │ MBA  │      │ Phone      │
+  └──────┘      └────────────┘
+#+end_src
+
+The idea is simple: OpenCode runs as a systemd user service, Nginx Proxy Manager
+gives it a nice domain, and WireGuard makes sure only my devices can reach it.
+From any browser on any device, I just go to ~opencode.example.com~ and I'm in.
+
+*** Phase 1: OpenCode server with systemd
+:PROPERTIES:
+:ID:       e8f1a2b3-0002-4e6f-a7b8-000000000002
+:END:
+
+OpenCode has a ~serve~ command that starts a web UI you can access from a
+browser. The trick is making it persistent so it survives reboots and restarts
+itself if it crashes.
+
+First, create a systemd user service. This means it runs as your user, not as
+root, which is important because it needs access to your home directory, your
+API keys, your OpenCode config, everything.
+
+Create the file at =~/.config/systemd/user/opencode.service=:
+
+#+begin_src ini
+[Unit]
+Description=OpenCode headless server
+After=network.target
+
+[Service]
+ExecStart=/home/roger/.opencode/bin/opencode serve --hostname 0.0.0.0 --port 4096
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
+#+end_src
+
+A few things to note:
+
+- ~--hostname 0.0.0.0~ makes it listen on all interfaces, not just localhost.
+  This is necessary so that Nginx Proxy Manager (or other devices on your
+  network) can reach it.
+- ~--port 4096~ is arbitrary. Pick whatever you want, just make sure it doesn't
+  conflict with anything else.
+- ~Restart=on-failure~ with ~RestartSec=5~ means if OpenCode crashes, systemd
+  will bring it back up after 5 seconds. I've never had it crash, but it's
+  nice to know it's there.
+- ~WantedBy=default.target~ means it starts on login. Since this machine
+  barely ever restarts, that's basically "always on."
+
+Enable and start it:
+
+#+begin_src bash
+systemctl --user daemon-reload
+systemctl --user enable opencode.service
+systemctl --user start opencode.service
+#+end_src
+
+Verify it's running:
+
+#+begin_src bash
+systemctl --user status opencode.service
+#+end_src
+
+You should see it active and running. If you want the service to keep running
+even when you're not logged in (which you probably do, since the whole point is
+that it runs when you're away), you need to enable lingering:
+
+#+begin_src bash
+sudo loginctl enable-linger roger
+#+end_src
+
+Replace ~roger~ with your username. This tells systemd to keep your user
+services running even after you log out. Without this, systemd kills your user
+services when your last session closes, which defeats the entire purpose.
+
+At this point, you should be able to open ~http://localhost:4096~ on the machine
+and see the OpenCode web UI.
+
+#+begin_export hugo
+{{< img src="/opencode-server-01.png" caption="Sweet, sweet OpenCode" >}}
+#+end_export
+
+*** Phase 2: Nginx Proxy Manager + WireGuard
+:PROPERTIES:
+:ID:       e8f1a2b3-0003-4e6f-a7b8-000000000003
+:END:
+
+I use [[https://nginxproxymanager.com/][Nginx Proxy Manager]] as my reverse proxy. It's a Docker-based GUI for
+managing Nginx configs, SSL certificates, and proxy hosts. If you prefer raw
+Nginx configs, you can absolutely do that instead, the concept is the same:
+point a domain at the OpenCode port.
+
+In Nginx Proxy Manager, I created a new proxy host:
+
+- *Domain*: ~opencode.example.com~
+- *Scheme*: ~http~
+- *Forward Hostname/IP*: ~192.168.x.x~ (the local IP of my machine)
+- *Forward Port*: ~4096~
+- *Websockets Support*: enabled (OpenCode's web UI uses websockets)
+
+For the access part, I don't need to worry too much about authentication because
+the domain is only accessible from two places:
+
+1. *My local network*: If I'm at home, my devices are already on the same
+   network as the machine.
+2. *My WireGuard VPN*: If I'm remote, I connect to my WireGuard VPN first,
+   which puts me on the same network. My WireGuard setup is the same one I
+   described in my [[/2026/02/claude-code-from-the-beach-remote-coding-setup/][Claude Code from the beach]] post.
+
+The DNS for ~opencode.example.com~ points to the internal IP of the machine
+running Nginx Proxy Manager. This means the domain simply doesn't resolve from
+the public internet. You'd have to be on my network (or VPN) for it to go
+anywhere.
+
+*** Phase 3: Accessing from anywhere
+:PROPERTIES:
+:ID:       e8f1a2b3-0004-4e6f-a7b8-000000000004
+:END:
+
+This is the satisfying part. Once the server is running and the proxy is
+configured, the workflow from any device is:
+
+1. Connect to WireGuard (if I'm not already home)
+2. Open a browser
+3. Go to ~opencode.example.com~
+4. Done. Full OpenCode web UI, all my agents, all my MCP servers, everything.
+
+From my MacBook Air at a coffee shop, from my phone on the couch, doesn't
+matter. The web UI is the same everywhere. I can start a task on my MacBook,
+close the laptop, pick it up on my phone later, and everything is still there
+because the server is running on the beast at home.
+
+This pairs really nicely with my [[/2026/02/claude-code-from-the-beach-remote-coding-setup/][Claude Code from the beach]] setup, but it's way
+friendlier. That setup uses mosh + tmux + SSH bridges through Termux to get a
+terminal on a remote machine. It works great for Claude Code (which is a TUI),
+but it's a lot of moving parts: you need Termux, SSH keys on your phone, a jump
+box, mosh installed everywhere. If something breaks in the chain, you're
+debugging SSH configs from a phone keyboard. I wrote a whole blog post about
+that setup and I'm proud of it, but let's be real: the fact that I needed
+/an entire blog post/ to explain how to use Claude Code from my phone is kind of
+the problem.
+
+With OpenCode, I just open a browser. That's it. Any browser, on any device. No
+Termux, no SSH keys, no jump box, no terminal emulator. My phone's regular
+browser works perfectly. My MacBook's browser works perfectly. If I ever get a
+tablet, that'll work too. The barrier to entry went from "install Termux,
+configure SSH, set up mosh, create fish aliases" to "open Firefox."
+
+Hey Anthropic, if you're reading this: please give Claude Code a web UI. I love
+your tool, I pay $100/month for it, but the fact that OpenCode can do this out
+of the box and Claude Code can't is... not great. I shouldn't need a 600-word
+phase-by-phase guide to use my coding agent from my phone. Just saying. 🙃
+
+I still use the Claude Code + mosh + tmux setup for Claude Code specifically
+(since it's terminal-only), but for OpenCode work, the web UI is a massive
+quality-of-life upgrade for mobile coding.
+
+*** Phase 4: The overnight crew
+:PROPERTIES:
+:ID:       e8f1a2b3-0005-4e6f-a7b8-000000000005
+:END:
+
+This is my favorite part. The server runs 24/7, so why not put it to work while
+I sleep?
+
+I use the [[https://github.com/different-ai/opencode-scheduler][opencode-scheduler]] plugin, which lets you schedule recurring jobs
+using your OS's native scheduler (systemd timers on Linux, launchd on Mac). It's
+an OpenCode plugin, so you set it up directly from the OpenCode UI.
+
+First, add the plugin to your ~opencode.json~:
+
+#+begin_src json
+{
+  "plugin": ["opencode-scheduler"]
+}
+#+end_src
+
+Then, from the OpenCode UI, you just tell it what you want in natural language:
+
+#+begin_src
+Schedule a job that runs every weekday at 2am and runs the test-gap-pr-cronjob skill
+#+end_src
+
+The plugin takes care of creating the systemd timer and service under
+=~/.config/systemd/user/=. You can verify it's installed with:
+
+#+begin_src bash
+systemctl --user list-timers | grep opencode
+#+end_src
+
+**** What my overnight jobs do
+:PROPERTIES:
+:ID:       e8f1a2b3-0006-4e6f-a7b8-000000000006
+:END:
+
+I have three scheduled jobs that run between 1 AM and 6 AM while I'm sleeping.
+Each one uses a custom OpenCode skill (similar to the planning/execution/review
+agents I described on my [[/ai][AI Toolbox]] page):
+
+- *2 AM - Test gap finder*: Scans the codebase for untested or under-tested
+  code, writes the missing tests, and opens a PR.
+- *3 AM - Documentation updater*: Checks for outdated or missing docstrings and
+  README sections, updates them, and opens a PR.
+- *4 AM - Convention enforcer*: Reviews code for style and convention
+  violations that linters don't catch (naming patterns, architectural decisions,
+  etc.), fixes them, and opens a PR.
+
+Each job uses a custom skill that knows the project's conventions, testing
+patterns, and documentation style. The skills are the same kind of custom agents
+I build for my regular OpenCode workflow, just triggered on a schedule instead of
+manually.
+
+**** The morning routine
+:PROPERTIES:
+:ID:       e8f1a2b3-0007-4e6f-a7b8-000000000007
+:END:
+
+When I log in in the morning, I usually have 1-3 PRs waiting for me. Most of
+them are good to go with minor tweaks. Some need more work. Either way, the
+tedious stuff (writing tests for edge cases, updating docstrings, fixing
+inconsistent naming) is already done, and I just need to review it.
+
+It's like having a junior developer who works the night shift. They're not
+perfect, but they're reliable, they don't complain, and they're surprisingly
+good at the boring stuff.
+
+You can check the logs for any job at any time:
+
+#+begin_src bash
+# From the OpenCode UI
+Show logs for test-gap-pr-cronjob
+
+# Or directly on disk
+cat ~/.config/opencode/logs/test-gap-pr-cronjob.log
+#+end_src
+
+*** The specs
+:PROPERTIES:
+:ID:       e8f1a2b3-0008-4e6f-a7b8-000000000008
+:END:
+
+For anyone curious about the machine running all of this:
+
+#+begin_src
+OS: Manjaro Linux 26.0.4
+Host: B850M Pro-A WiFi
+Kernel: 6.12.77-1-MANJARO
+CPU: AMD Ryzen 9 9950X3D (32) @ 5.752GHz
+GPU: AMD ATI Radeon RX 9060 XT GAMING OC 16G
+Memory: 64 GB DDR5
+Network: WiFi 6
+Uptime: usually measured in days, not hours
+#+end_src
+
+The machine is wildly overpowered for this. OpenCode's server uses barely any
+resources when idle, and even during active sessions or scheduled jobs, it
+doesn't break a sweat. If you have a less powerful machine that stays on, this
+setup will work fine for you too.
+
+*** Conclusion
+:PROPERTIES:
+:ID:       e8f1a2b3-0009-4e6f-a7b8-000000000009
+:END:
+
+The whole setup took maybe 30 minutes. A systemd service, a proxy host, and a
+scheduler plugin. That's it.
+
+What I love about this is that it extends my [[/ai][AI Toolbox]] in a way I didn't
+expect. I went from "I use OpenCode when I'm at my desk" to "OpenCode is always
+running and I can use it from anywhere, and it also does work for me while I
+sleep." The scheduled jobs alone have saved me hours of tedious work every week.
+
+If you have a machine that stays on (even a modest home server or an old laptop),
+you can do this. You don't need a Ryzen 9 or 64 GB of RAM. You need a machine
+that doesn't turn off, a way to reach it remotely, and the willingness to let AI
+handle the boring stuff while you're asleep.
+
+All my configs are public in my dotfiles: [[https://git.rogs.me/rogs/dotfiles][git.rogs.me/rogs/dotfiles]]
+
+If you have questions, [[/contact][hit me up]]. And if you set this up and wake up to PRs
+you didn't write, let me know. That first morning is a great feeling.
 
 See you in the next one!
 * Announcements :announcements:

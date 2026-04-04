@@ -1,7 +1,7 @@
 ---
 title: "My AI Toolbox"
 date: 2026-02-19T12:00:00-03:00
-lastmod: 2026-04-02T12:00:00-03:00
+lastmod: 2026-04-04T12:00:00-03:00
 ---
 
 I joined [Lazer Technologies](https://lazertechnologies.com/) in 2021, took a small detour in 2022 (but stayed on Slack and kept helping with things), and came back full-time in early 2024. In the last year or so, AI tools have completely changed how I work. Not in a "robots are coming for your job" way, but in a "I got promoted to team lead and my team is a bunch of really fast, really eager AI agents" way.
@@ -98,7 +98,9 @@ On permissions: I use `skipDangerousModePermissionPrompt: true`. I know this sou
 
 I also have hooks set up: a notification system (ntfy) that pings my phone when Claude needs input or finishes a task, a GSD context monitor that tracks context window usage, a prompt guard, and a statusline that shows GSD state in the terminal. You can see all of these in my [dotfiles](https://git.rogs.me/rogs/dotfiles).
 
-### The usage limit problem
+### Problems with Claude Code
+
+#### The usage limit problem
 
 I need to be honest about this: Claude Code's usage limits have gotten rough.
 
@@ -108,7 +110,19 @@ Anthropic engineer [Thariq Shihipar confirmed on X](https://x.com/trq212/status/
 
 For me, it got bad enough that I've considered canceling my $100/month subscription. Just this week, I hit 50% of my weekly usage by Tuesday, and my usage resets on Friday. That's scary when you depend on the tool for your daily work. It's the single biggest reason I diversified so aggressively into OpenCode. I can't afford to sit around waiting for limits to reset when there's work to do.
 
-### When it goes off the rails
+#### The Anthropic third-party ban
+
+As if the usage limits weren't enough, on April 4, 2026, Anthropic dropped another bomb: third-party harnesses like [OpenClaw](https://openclaw.ai/) can no longer use your Claude Max subscription limits. They emailed subscribers saying these tools "put an outsized strain on our systems" and that they need to "prioritize customers using core products."
+
+Let me translate that: I'm paying $100/month. I _am_ a customer. But apparently I'm not using the product the "right way" because I'm accessing Claude through OpenClaw on Telegram instead of through claude.ai. My OpenClaw setup was running Opus 4.6 for personal tasks: managing my calendar, maintaining my open source projects, doing research. Now if I want to keep using Claude with OpenClaw, I need to pay _extra_ on top of my subscription through their "extra usage" pay-as-you-go option.
+
+This also killed [CLIProxyAPI](/2026/02/use-your-claude-max-subscription-as-an-api-with-cliproxyapi/), which I wrote about just two months ago. That tool let me use my Max subscription with Emacs packages like forge-llm and magit-gptcommit. Dead now. Two months. I wrote an entire blog post about it, shared my config, and now it's useless.
+
+I moved everything to [Lazer's LiteLLM proxy](https://lazertechnologies.com/) (a perk we have as employees) running [GLM-5](https://huggingface.co/zai-org/GLM-5) for OpenClaw and my Emacs tools. GLM-5 is a legitimately great model: it's open source, MIT licensed, and benchmarks competitively with frontier models on agentic tasks. But that's not the point. The point is that I was paying for a service and they changed what I was paying for. If you don't have access to a company proxy, [OpenRouter](https://openrouter.ai/) is a good alternative for routing to multiple models, or you can use API keys directly for whatever model you prefer.
+
+Between the usage limits getting worse and the third-party ban, my relationship with Anthropic as a paying customer has taken a serious hit. The product is still excellent (Claude is the best model for coding, no question) but the business decisions around it are pushing people away. I've gone from enthusiastically recommending Claude Max to actively telling people to have a backup plan.
+
+#### When it goes off the rails
 
 Rarely happens. I've seen it go off the rails maybe twice. When it does, I use GSD's built-in commands to steer it back on track. If it's _really_ far gone, I stop, `git revert`, and restart the GSD process from the top. But honestly, I've always been able to course-correct without a full reset.
 
@@ -304,10 +318,10 @@ Voice input has made me faster at the things I used to dread: writing long Slack
 
 AI isn't just for writing code. Here's where else I use it (and yes, most of this happens from Emacs, because of course it does):
 
-- **PR creation and commits**: I built Claude Code skills (`create-pr` and `commit`) that handle the entire PR pipeline: convention review, linting, type checking, testing, and PR creation with auto-generated descriptions. The `commit` skill analyzes the repo's own commit history to match its conventions, so it works on any project without configuration. These skills work on both Claude Code and OpenCode (OpenCode reads skills from Claude's directory). I still have [forge-llm](https://gitlab.com/rogs/forge-llm) and [magit-gptcommit](https://github.com/douo/magit-gptcommit) in my Emacs setup, but the skills have largely replaced them for day-to-day use.
+- **PR creation and commits**: I built Claude Code skills (`create-pr` and `commit`) that handle the entire PR pipeline: convention review, linting, type checking, testing, and PR creation with auto-generated descriptions. The `commit` skill analyzes the repo's own commit history to match its conventions, so it works on any project without configuration. These skills work on both Claude Code and OpenCode (OpenCode reads skills from Claude's directory). I also have [forge-llm](https://gitlab.com/rogs/forge-llm) and [magit-gptcommit](https://github.com/douo/magit-gptcommit) in my Emacs setup. These used to run through [CLIProxyAPI](/2026/02/use-your-claude-max-subscription-as-an-api-with-cliproxyapi/) (which is now dead), so I moved them to [Lazer's LiteLLM proxy](https://lazertechnologies.com/). forge-llm now defaults to GLM-5, and magit-gptcommit uses Qwen3 Coder 480B Turbo. Both have OpenAI models as fallbacks. If you don't have access to a company proxy like Lazer's, [OpenRouter](https://openrouter.ai/) is a solid alternative, or you can use your own API keys directly for the model you prefer.
 - **Proofreading**: English is not my first language (hola! 🇻🇪), so I use the Claude website a lot for proofreading emails, Slack messages, documentation, you name it.
 - **Research and "searches"**: I use Claude as a faster, friendlier Google. Investigations, quick questions, exploring ideas.
-- **Personal assistant**: I have an [OpenClaw](https://github.com/openclaw/openclaw) agent on my Telegram chats that manages my calendar, contacts, helps me maintain my open source projects, does research, and is just an all-around good guy.
+- **Personal assistant**: I have an [OpenClaw](https://github.com/openclaw/openclaw) agent on my Telegram chats that manages my calendar, contacts, helps me maintain my open source projects, does research, and is just an all-around good guy. It _was_ running on Claude Opus 4.6 through my Max subscription, and it was perfect. Then [Anthropic decided to block third-party harnesses from using subscription limits](https://x.com/bcherny/status/2040206440556826908) (effective April 4, 2026), so I had to rip out the model and replace it with [GLM-5](https://huggingface.co/zai-org/GLM-5) running through [Lazer's LiteLLM proxy](https://lazertechnologies.com/). GLM-5 is a great model, genuinely impressive for agentic tasks, but I shouldn't have had to make this change. I am paying $100/month and Anthropic pulled the rug.
 - **Coding from anywhere**: I have two setups for remote coding. My primary setup is [OpenCode as a server](/2026/04/opencode-as-a-server-ai-agents-that-work-while-i-sleep/), a persistent OpenCode instance on my main machine, accessible from any browser through WireGuard. For Claude Code specifically (since it's terminal-only), I still use my [mosh + tmux + ntfy setup](/2026/02/claude-code-from-the-beach-my-remote-coding-setup-with-mosh-tmux-and-ntfy/). Both connect directly to my main machine through WireGuard; no jump box needed anymore.
 
 ## The before and after
@@ -336,6 +350,7 @@ AI is not perfect. Here's what I've learned the hard way:
 - **Hallucinations happen.** AI is _amazing_ at writing documentation, but every once in a while it will hallucinate stuff that doesn't exist in the codebase. It's rare now, but it does happen.
 - **PR review bots can be annoying.** In my experience, around 60% of AI review suggestions make sense. The AI sometimes lacks full project knowledge, or can't see that something was done a certain way on purpose. I'm looking at you, CursorBot. You're so annoying.
 - **Usage limits can derail your day.** When your tool of choice runs out of budget at 10 AM and doesn't reset for another 3-4 hours, you're stuck. Having a fallback (OpenCode, in my case) is no longer optional; it's essential.
+- **Your provider can change the rules on you.** I learned this the hard way when Anthropic [blocked third-party harnesses from using subscription limits](https://x.com/bcherny/status/2040206440556826908). Tools and workflows I'd built and documented became useless overnight. Always have a provider-agnostic fallback. Don't put all your eggs in one basket.
 
 ## Code review for AI-generated code
 
@@ -383,9 +398,10 @@ Tools and projects I'm currently experimenting with or keeping an eye on:
 
 | Date | Summary |
 |------|---------|
-| April 2026 | Major update: 50/50 Claude/OpenCode split, GSD patches (adversarial review, auto-verify, UI review), usage limits reality check, OpenCode server setup, model landscape overhaul, voice AI with Handy. |
+| April 4, 2026 | Anthropic third-party ban: OpenClaw moved from Opus 4.6 to GLM-5, CLIProxyAPI deprecated, Emacs tools (forge-llm, magit-gptcommit) migrated to Lazer proxy, added provider diversification warnings. |
+| April 2026 | Major update: 50/50 Claude/OpenCode split, GSD patches (adversarial review, auto-verify, UI review), usage limits reality check, OpenCode server setup, model landscape overhaul, voice AI with Handy. [Archive.org capture](https://web.archive.org/web/20260404172912/https://rogs.me/ai/) |
 | February 2026 | Initial version of this page - [Archive.org capture](https://web.archive.org/web/20260311131024/https://rogs.me/ai/) |
 
 ---
 
-_Last updated: April 2026. This page is a living document. I'll keep adding to it as my workflow evolves. If you have questions or want to chat about AI workflows, [hit me up](/contact)!_
+_Last updated: April 4, 2026. This page is a living document. I'll keep adding to it as my workflow evolves. If you have questions or want to chat about AI workflows, [hit me up](/contact)!_

@@ -1854,8 +1854,19 @@ See you in the next one!
 :PROPERTIES:
 :EXPORT_FILE_NAME: use-your-claude-max-subscription-as-an-api-with-cliproxyapi
 :EXPORT_DATE: 2026-02-13
+:LAST_MODIFIED: 2026-04-04
 :ID:       f8a3c1d2-7e4b-4a91-b6d3-2c8e5f9a1b04
 :END:
+
+#+begin_quote
+*⚠️ Deprecated (April 4, 2026):* This post no longer works as described. Anthropic has [[https://x.com/bcherny/status/2040206440556826908][blocked third-party harnesses from using Claude Max subscription limits]] effective April 4, 2026. CLIProxyAPI can no longer access Claude through your subscription without paying extra through Anthropic's new "extra usage" pay-as-you-go option.
+
+I've moved my Emacs tools to [[https://lazertechnologies.com/][Lazer's LiteLLM proxy]] (an employee perk at my company). forge-llm now defaults to GLM-5, and magit-gptcommit uses Qwen3 Coder 480B Turbo. If you don't have access to a company proxy, [[https://openrouter.ai/][OpenRouter]] is a solid alternative, or you can use your own API keys directly for the model you want.
+
+I'm leaving the original post below for reference, but the setup it describes is dead. Two months. That's how long it lasted. Thanks, Anthropic.
+
+For my current AI setup, check out my [[/ai/][AI Toolbox page]].
+#+end_quote
 
 So here's the thing: I'm paying $100/month for Claude Max. I use it a lot, it's
 worth it. But then I wanted to use my subscription with my Emacs packages —

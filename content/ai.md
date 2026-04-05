@@ -164,9 +164,6 @@ OpenCode connects to [Lazer's LiteLLM proxy](https://lazertechnologies.com/), wh
 **Quick tasks and speed demons:**
 - **Qwen3 variants** and **GPT OSS 120B**: Insanely fast. I use these for tiny things like generating commits, asking quick questions, anything where speed matters more than depth. Not my daily drivers, but great to have in the roster.
 
-**On the bench:**
-- **DeepSeek V3.2**: In my config but I haven't found a good use case for it. The other models do everything better for my workflow. I keep it around just in case, but I'm not using it.
-
 **On thin ice:**
 - **Kimi K2.5**: The weakest of the bunch. It's thorough for reviews and I've gotten good feedback from it, but it's slow (probably DeepInfra, not Kimi's fault) and its output is very similar to the other reviewers. It's the one most likely to get dropped.
 - **Gemini 3.1 Pro**: I used to love Gemini 2.5 Pro. It was my planning agent, and it was genuinely great. Then the Gemini 3 upgrade happened and it was terrible for my workflow. Everyone was praising it, but it simply didn't work reliably with my agent setup. Gemini 3.1 improved things, but it never recovered to 2.5 Pro levels. My workflow was demanding enough that I hit the rough edges faster than most; colleagues who were praising Gemini 3 ended up reaching the same conclusions I did, just later. I still keep Gemini in the review panel because it occasionally catches things the others miss, but it's no longer trusted with planning or execution.
@@ -181,11 +178,11 @@ Here's what my `opencode.json` looks like right now:
   "agent": {
     "plan": {
       "model": "openai/gpt-5.4",
-      "reasoningEffort": "medium"
+      "reasoningEffort": "xhigh"
     },
     "build": {
       "model": "openai/gpt-5.3-codex",
-      "reasoningEffort": "medium"
+      "reasoningEffort": "xhigh"
     }
   },
   "provider": {
@@ -197,19 +194,19 @@ Here's what my `opencode.json` looks like right now:
       },
       "models": {
         "deepinfra/MiniMaxAI/MiniMax-M2.5": { "name": "MiniMax-M2.5" },
-        "deepinfra/Qwen/Qwen3-235B-A22B-Instruct-2507": { "name": "Qwen3 235B Instruct" },
         "deepinfra/Qwen/Qwen3-Coder-480B-A35B-Instruct-Turbo": { "name": "Qwen3 Coder 480B Turbo" },
-        "deepinfra/deepseek-ai/DeepSeek-V3.2": { "name": "DeepSeek V3.2" },
-        "deepinfra/moonshotai/Kimi-K2.5": { "name": "Kimi K2.5" },
+        "deepinfra/moonshotai/Kimi-K2.5-Turbo": { "name": "Kimi K2.5" },
         "deepinfra/openai/gpt-oss-120b-Turbo": { "name": "GPT OSS 120B Turbo" },
         "deepinfra/zai-org/GLM-5": { "name": "GLM-5" },
         "gemini/gemini-3.1-pro-preview": { "name": "Gemini 3.1 Pro Preview" },
+        "gemini/gemini-3-flash-preview": { "name": "Gemini 3 Flash Preview" },
         "openai/gpt-5.3-codex": { "name": "GPT 5.3 Codex" },
         "openai/gpt-5.4": { "name": "GPT 5.4" }
+        "openai/gpt-5.4-mini": { "name": "GPT 5.4 Mini" }
       }
     }
   },
-  "plugin": ["opentmux", "opencode-scheduler"]
+  "plugin": ["opencode-scheduler"]
 }
 ```
 

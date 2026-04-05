@@ -120,7 +120,7 @@ This also killed [CLIProxyAPI](/2026/02/use-your-claude-max-subscription-as-an-a
 
 I moved everything to [Lazer's LiteLLM proxy](https://lazertechnologies.com/) (a perk we have as employees) running [GLM-5](https://huggingface.co/zai-org/GLM-5) for OpenClaw and my Emacs tools. GLM-5 is a legitimately great model: it's open source, MIT licensed, and benchmarks competitively with frontier models on agentic tasks. But that's not the point. The point is that I was paying for a service and they changed what I was paying for. If you don't have access to a company proxy, [OpenRouter](https://openrouter.ai/) is a good alternative for routing to multiple models, or you can use API keys directly for whatever model you prefer.
 
-Between the usage limits getting worse and the third-party ban, my relationship with Anthropic as a paying customer has taken a serious hit. The product is still excellent (Claude is the best model for coding, no question) but the business decisions around it are pushing people away. I've gone from enthusiastically recommending Claude Max to actively telling people to have a backup plan.
+Between the usage limits getting worse and the third-party ban, my relationship with Anthropic as a paying customer has taken a serious hit. The product is still excellent (Claude is the best model for coding, no question) but the business decisions around it are pushing people away. I've gone from enthusiastically recommending Claude Max to actively telling people to have a backup plan. I wrote more about this in [Anthropic is pushing away its paying customers](/2026/04/anthropic-is-pushing-away-its-paying-customers/).
 
 #### When it goes off the rails
 

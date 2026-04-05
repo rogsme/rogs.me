@@ -72,11 +72,23 @@ img {
   max-width: 100%;
 }
 
+.body img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 figure {
   box-sizing: border-box;
   display: inline-block;
   margin: 0;
   max-width: 100%;
+}
+
+.body figure {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 figure img {

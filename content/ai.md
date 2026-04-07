@@ -214,7 +214,7 @@ The full config with all experimental models, keybinds, permissions, and MCP ser
 
 ## GSD patches: Making GSD my own
 
-This is the section I'm most proud of. GSD is great out of the box, but I've patched three of its workflows to make them significantly better for my setup. These patches survive GSD updates through a canonical storage system: all source files live in `~/.config/gsd-patches/` and get synced to both Claude Code and OpenCode runtimes.
+This is the section I'm most proud of. GSD is great out of the box, but I've patched three of its workflows to make them significantly better for my setup. These patches survive GSD updates through a canonical storage system: all source files live in `~/.config/gsd-patches/` and get synced to both Claude Code and OpenCode runtimes. I wrote a [dedicated blog post](/2026/04/i-patched-gsd-and-why-you-should-patch-it-too/) about the patches, the philosophy behind them, and how you can make your own.
 
 The patches are maintained in my [dotfiles](https://git.rogs.me/rogs/dotfiles) under `.config/gsd-patches/`. After a `/gsd:update` wipes the runtime files, I just run `~/.config/gsd-patches/bin/sync all` to reapply everything.
 
@@ -268,7 +268,7 @@ UI evaluation is inherently subjective. Different models have different aestheti
 
 ### Patch changelog
 
-I maintain a detailed changelog of all patches in `.config/gsd-patches/gsd-customizations.md` in my [dotfiles](https://git.rogs.me/rogs/dotfiles). It tracks what changed, why, and which GSD version the patch was made against. If you're curious about the evolution or want to adapt the patches for your own setup, that's the place to look.
+I maintain a detailed changelog of all patches in `.config/gsd-patches/gsd-customizations.md` in my [dotfiles](https://git.rogs.me/rogs/dotfiles). It tracks what changed, why, and which GSD version the patch was made against. If you're curious about the evolution or want to adapt the patches for your own setup, that's the place to look. For the full walkthrough (including bugs I found in stock GSD and a guide for making your own patches), see the [blog post](/2026/04/i-patched-gsd-and-why-you-should-patch-it-too/).
 
 ## Aider: The sniper
 
@@ -377,7 +377,7 @@ We all got promoted to team leads. We lead a team of agents that can handle the 
 
 All my configs are public. If you want to see the exact files behind everything described on this page, check out my dotfiles: [git.rogs.me/rogs/dotfiles](https://git.rogs.me/rogs/dotfiles)
 
-You'll find my OpenCode config (providers, models, agents, plugins), Claude Code config (skills, hooks, settings), GSD patches (workflows, commands, sync scripts), and Aider config (model aliases, settings). Feel free to steal whatever is useful to you.
+You'll find my OpenCode config (providers, models, agents, plugins), Claude Code config (skills, hooks, settings), GSD patches (workflows, commands, sync scripts), and Aider config (model aliases, settings). Feel free to steal whatever is useful to you. If you want to understand the GSD patches before diving into the code, start with the [blog post](/2026/04/i-patched-gsd-and-why-you-should-patch-it-too/).
 
 ## What I'm watching
 

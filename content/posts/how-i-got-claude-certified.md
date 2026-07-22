@@ -22,7 +22,7 @@ The exam I took is the **Claude Certified Architect - Foundations**. The single 
 
 {{< img class="beach" src="/claude-cert-notes.jpg" caption="My notebook. Yikes." >}}
 
-The thing I liked most about it is that it teaches you to _recognize_ the pitfalls the exam throws at you, without spoon-feeding you exactly what they are. So instead of memorizing "the answer is X," you build the instinct to spot what's going on. I prefer that. It stuck better.
+The thing I liked most about it is that it teaches you to _recognize_ the pitfalls the exam throws at you, without spoon-feeding you exactly what they are. So instead of memorizing "the answer is X," you build the instinct to spot what's going on. My friend from work, Reed, described this as "instinct training," which nails it. I prefer that. It stuck better.
 
 One warning: don't over-index on practice exams. I did five or ten before the real thing, and the free mock exams floating around out there are way too basic compared to what you'll actually face. The guide's questions are the closest I found, and even those I wouldn't call identical to the real exam. Daniel was studying with a different mock exam site and the questions were so convoluted and samey that he said he fell asleep halfway through. So calibrate your expectations: use the mocks to get familiar with the format, not to predict the exact questions.
 
@@ -61,6 +61,8 @@ Concrete example from the kind of question you'll see: you've got a process that
 
 So when two answers both work, ask yourself: which one leans hardest into letting Claude do the thing? That's usually the "most correct" one.
 
+One important caveat, which Reed pointed out after taking the exam: this is a tie-breaker, not an absolute rule. He remembers questions testing when _not_ to use Claude too. Read the constraints first, and don't blindly pick Claude if the scenario suggests it isn't appropriate. "Let Claude do it" only helps when the remaining answers are otherwise equally sound.
+
 
 ## The exam-day logistics nobody warns you about {#the-exam-day-logistics-nobody-warns-you-about}
 
@@ -83,6 +85,8 @@ Did I learn to take an exam, or did I learn something real? My honest answer is 
 But the other half genuinely changed how I work. I picked up new things while studying and actually changed parts of my workflow afterward. So it's not _just_ a piece of paper. There's real signal in there if you go in wanting to learn and not just wanting to pass.
 
 Would I tell you to get certified? If your company is paying, or you've got the time and 125 bucks to spare, yeah, go for it. You'll come out a bit sharper and you get a shiny badge for LinkedIn. Just go in with clear eyes about which parts are learning and which parts are hoop-jumping.
+
+Thanks to Daniel and Reed for their contributions to this post!
 
 Good luck. If you're studying for this and you get stuck, my inbox is open.
 

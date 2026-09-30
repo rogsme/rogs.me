@@ -1,393 +1,299 @@
 ---
 title: "My AI Toolbox"
 date: 2026-02-19T12:00:00-03:00
-lastmod: 2026-04-04T12:00:00-03:00
+lastmod: 2026-09-30T12:00:00-03:00
 ---
 
-I joined [Lazer Technologies](https://lazertechnologies.com/) in 2021, took a small detour in 2022 (but stayed on Slack and kept helping with things), and came back full-time in early 2024. In the last year or so, AI tools have completely changed how I work. Not in a "robots are coming for your job" way, but in a "I got promoted to team lead and my team is a bunch of really fast, really eager AI agents" way.
+I joined [Lazer Technologies](https://lazertechnologies.com/) in 2020, took a small detour in 2022 (but stayed on Slack and kept helping with things), and came back full-time in early 2024. In the last year or so, AI tools have completely changed how I work. Nobody is coming for my job; it feels more like I got promoted to team lead, and my team is a bunch of really fast, really eager AI agents.
 
-I lead a team of agents that handle most of the heavy lifting. My job is to manage them, steer them in the right direction, and make sure their output actually makes sense. It's not that I'm doing less work, it's that I can do _much_ more with an entire team behind me.
+I lead a team of agents that handle most of the heavy lifting. My job is to manage them, steer them in the right direction, and make sure their output actually makes sense. I work just as hard as before, but with an entire team behind me I get _much_ more done.
 
-This page is a living document. I update it regularly as my workflow evolves (which happens at least twice a week, honestly). If you're curious about how AI-assisted development looks in practice, this is my setup, warts and all.
+This page is a living document. I update it as my workflow evolves, and if you read the April version, almost everything changed. GSD, Aider and tmux are all gone, and the three-weapons setup I used to describe here got replaced by a set of small skills that take a ticket all the way to a reviewed PR. If you're curious about how AI-assisted development looks in practice, this is my setup, warts and all.
 
-## The arsenal
+## The setup at a glance
 
-I use three main tools for coding, and I like to think of them as weapons:
+| Piece | What I use |
+|------|---------|
+| Coding agents | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and [OpenCode](https://opencode.ai/) |
+| Models | Claude Opus 5.5 (Fable now and then), GPT-6 Astra, GPT-6.1 Sol, GLM 5.3 and GLM 5.3 Flash |
+| Workflow | My own skills (ticket, plan, build, address review) plus a dispatcher agent |
+| Code review | A Claude reviewer in GitHub Actions, fed with ticket and PR context |
+| Terminal | [herdr](https://herdr.dev/) for sessions, [worktrunk](https://worktrunk.dev/) for git worktrees |
+| Mobile | [Moshi](https://getmoshi.app/) + herdr, over [Headscale](/2026/08/running-headscale-on-my-own-infra-and-finally-killing-my-wireguard-setup/) |
+| Voice | [Handy](https://handy.computer/) with Parakeet V3 |
+| Docs | A generated [codebase wiki](/2026/09/i-dont-write-codebase-documentation-anymore/) that updates on every push |
 
-| Tool | Analogy | Use case |
-|------|---------|----------|
-| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) + [GSD](https://github.com/gsd-build/get-shit-done) | The cannon | Big end-to-end epics, multi-file features, full milestones |
-| [OpenCode](https://opencode.ai/) + [GSD](https://github.com/gsd-build/get-shit-done) + built-in agents | The arsenal | GSD overflow, medium tasks, overnight jobs, multi-model workflows |
-| [Aider](https://aider.chat/) | The sniper | Precise single-file fixes, docstrings, targeted edits |
+## A normal day: four or five agents at once
 
-My time is split roughly 50/50 between Claude Code and OpenCode, with Aider holding its niche for single-file precision.
+My day starts with the dispatcher (more on it below). I ask it for a frontier ticket, something big or subtle, and I hand that one to Claude Code with Opus 5.5. Then I ask for a second frontier ticket and run it on OpenCode, planning with GPT-6 Astra and executing with GPT-6.1 Sol.
 
-The split exists because of usage limits (more on that below) and because OpenCode has gotten _really_ good. GSD supports both tools natively, so I can run the same workflow on either one. My default flow looks like this: I start the day with Claude Code running GSD using Claude Opus. When I hit the usage limit (which happens way faster than it should; more below), I switch to OpenCode and continue with GPT 5.4 running GSD. For anything that doesn't need GSD (running skills, creating PRs, fixing tests, quick questions), I go straight to OpenCode. This keeps Claude Code dedicated as a GSD machine and stretches my usage across the day.
+Once those two are running, I ask the dispatcher for small tickets that were already marked as safe for a cheaper model, and I spin up two or three GLM sessions on them. So at any given time I have four or five agents working in parallel, each in its own git worktree and its own herdr pane.
 
-## Claude Code + GSD: The cannon
+My job at that point is mostly answering questions, approving plans, and reviewing what comes out.
 
-[GSD (Get Shit Done)](https://github.com/gsd-build/get-shit-done) is a meta-prompting and context engineering system for Claude Code (and now OpenCode too). The way it uses multiple subagents to explore the codebase, investigate, execute and self-review is plain magic. It solves context rot (the quality degradation that happens as Claude fills its context window) by spawning fresh agents with clean contexts for each task.
+## From ticket to reviewed PR
 
-I'm paying $100/month for [Claude Max](https://claude.ai/) because I also use it for my personal projects ([YAMS](https://yams.media/), [ForgeLLM](https://gitlab.com/rogs/forge-llm), [montevideo.restaurant](https://montevideo.restaurant/), [themefetch](https://git.rogs.me/rogs/themefetch), and more). I like to keep my work and personal accounts separate. We get Claude Code for free at Lazer, but I prefer having my own.
+> Blog post incoming! The skills, the dispatcher agent and the CI reviewer workflow live in a client repo, so I can't link them yet. I'm writing a full post about this pipeline with cleaned-up versions you can copy into your own repo. Until then, this section explains what each piece does and why; I'll update it with the link as soon as the post is up.
 
-### How I use it
-
-When I pick up a big ticket, like an entire epic or a feature that touches multiple parts of the codebase, I use GSD milestones. My general rule of thumb is one milestone per ticket. If tickets are small, I group them into a single milestone with phases that fulfill each one.
-
-The GSD flow goes like this:
-
-```
-/gsd:new-project or /gsd:new-milestone
-          ↓
-/gsd:discuss-phase N    ← shape the implementation
-          ↓
-/gsd:plan-phase N       ← research + plan + verify
-          ↓
-/gsd:execute-phase N    ← parallel execution with fresh contexts
-          ↓
-/gsd:verify-work N      ← acceptance testing (now with --auto!)
-          ↓
-        repeat
-```
-
-GSD is basically my old custom planning → execution → review flow on crack. It's open source, maintained by a big community, and advances way faster than anything I could build alone.
-
-### My GSD workflow
-
-Here's my actual step-by-step flow for a typical phase. This is more detailed than the diagram above because it includes my custom patches (the adversarial review, auto-verify, and UI review).
+This is the core of the whole setup. A ticket moves through a handful of skills and one custom agent (the dispatcher). Each skill is a markdown file that lives in the repo (in `.claude/skills/`), and both Claude Code and OpenCode load them. The steps never call each other: each one ends with a status line, and I'm the one who starts the next step.
 
 ```
-/gsd:discuss-phase N
-        ↓
-/gsd:ui-phase N             ← only for phases with frontend work
-        ↓
-/gsd:plan-phase N --research
-        ↓
-/gsd:review --phase N       ← 6-model adversarial review (my patch)
-        ↓
-/gsd:plan-phase N --reviews --research
-        ↓
-/gsd:review --phase N       ← second review pass if too many concerns remain
-        ↓                     (repeat plan-with-reviews until clean)
-/gsd:execute-phase N
-        ↓
-/gsd:verify-work N --auto   ← auto-verify with Playwright/curl (my patch)
-        ↓
-/gsd:ui-review N            ← cross-AI UI audit (my patch, frontend phases)
-        ↓
-  fix if needed             ← /gsd:fast or /gsd:quick depending on severity
-        ↓
-/gsd:ship N
+linear-ticket        write the ticket (after auditing the code)
+      |
+dispatcher           what should I work on next?
+      |
+      |   I create the worktree
+      v
+start-ticket         read-only investigation, then a plan
+      |              Status: AWAITING_APPROVAL
+      |   I approve the plan
+      v
+work-ticket          TDD implementation, browser pass, PR, green CI
+      |              Status: READY_FOR_REVIEW
+      v
+CI reviewer          Claude reviews every push, with ticket context
+      |
+      v
+address-pr-review    verify each comment, fix or push back (max 2 rounds)
+      |
+      |   I run the human verification steps
+      v
+merge                I press the button
 ```
 
-A few notes on how this plays out in practice:
+The skill names say "Linear" because my current project uses Linear, but the idea is tracker-agnostic. On a personal project I use [Kaneo](https://kaneo.app/) with basically the same skills and a few small changes.
 
-**The discuss → plan → review loop.** I always start with `/gsd:discuss-phase` to lock in my preferences. If there's UI work, `/gsd:ui-phase` creates the design contract before any planning happens. Then I plan with `--research` to get the domain investigation. After the first plan, I run `/gsd:review --phase N` which triggers my 6-model adversarial review patch. The reviewers produce a `REVIEWS.md` with blockers, concerns, and unique insights. I feed that back into planning with `/gsd:plan-phase N --reviews --research`, and if the second plan still has too many concerns, I review again. Usually one review-plan cycle is enough; occasionally it takes two.
+A few rules hold the whole thing together:
 
-**Verify with `--auto`.** After execution, I run `/gsd:verify-work N --auto` which triggers my auto-verify patch. It classifies tests and runs what it can automatically: Playwright for UI checks (page loads, key elements visible, no console errors), curl for API checks (endpoint reachability, response shape, CRUD operations). Whatever it can't verify automatically (subjective UX, performance feel) falls through to the interactive loop where I test manually. This cuts my UAT time significantly.
+- The agent that wrote the code never reviews it.
+- The agent that fixes review comments never resolves the threads. The reviewer does.
+- Every claim ("CI is green", "reviewed", "verified") is pinned to an exact commit SHA. A green check on an older commit proves nothing about the current one.
+- A human (me) sits at three gates: I approve the plan, I run the verification steps, and I merge.
 
-**UI review and fixes.** For frontend phases, `/gsd:ui-review N` runs the primary 6-pillar audit plus my cross-AI perspective patch. If the review finds issues, I check the severity. For simple fixes (copy, spacing, color values), I use `/gsd:fast fix the N issues from the phase X UI review`. For structural fixes (layout, component hierarchy), I use `/gsd:quick`. The UI review itself tells you which approach to use based on the score.
+### Writing tickets (`linear-ticket`)
 
-**When Claude runs out of budget.** If I hit the usage limit mid-flow, I `/clear`, switch to OpenCode, and continue from wherever I left off. The `.planning/` state carries over. On OpenCode, the GSD commands use a slightly different format (`/gsd-review` instead of `/gsd:review`, `/gsd-verify-work` instead of `/gsd:verify-work`), but the workflow is identical.
+Tickets are written by an agent too, but only after it audits the code. It checks what's done, what's partial and what's missing, searches the tracker for duplicates (archived ones included), and shows me every ticket before creating anything. Each ticket has a problem statement, acceptance criteria, its dependencies, and a note that the plan is soft: whoever implements it has to look at the current code first.
 
-### My Claude Code config
+Tickets that only make sense together (say, a backend endpoint and the page that renders it) can form a bundle, and one PR delivers the whole bundle. The rule is that a bundle is one piece of functionality a user can see, never a convenience grouping.
 
-I default to the 1M context Opus model (`opus[1m]`). The extra context is great, but I try to keep actual usage under 40-50% of that window. Going higher burns through tokens faster and invites context rot. Think of it as having a large workshop: you don't need to fill every corner to get work done.
+### Picking what's next (the dispatcher)
 
-On permissions: I use `skipDangerousModePermissionPrompt: true`. I know this sounds scary, and I used to be firmly against it. But after months of using GSD, I found that it's extremely disciplined about what it does. It respects `.planning/` boundaries, uses proper git workflows, and I've never had it do something destructive. I'm still vigilant (I review diffs, I watch what it's doing), but the constant permission prompts were slowing me down more than they were protecting me. If you're not comfortable with this, don't do it. I only got here after building a lot of trust with the tool.
+The dispatcher is a custom OpenCode agent, and it's the piece I use the most. It's read-only: it looks at the tracker, the open PRs and the code, builds a dependency graph from the tickets' blocking relations, and ranks candidates by how many other tickets each one unblocks.
 
-I also have hooks set up: a notification system (ntfy) that pings my phone when Claude needs input or finishes a task, a GSD context monitor that tracks context window usage, a prompt guard, and a statusline that shows GSD state in the terminal. You can see all of these in my [dotfiles](https://git.rogs.me/rogs/dotfiles).
+It also lists my own PRs that are waiting for review or merge _before_ recommending anything new, because finishing beats starting. It can't fix anything: its shell access is a tiny allowlist (`git log`, `git status`, `gh pr view`), and it isn't allowed to spawn subagents, since a subagent wouldn't inherit those limits. When I pick a ticket, it writes the prompt I paste into the next session.
 
-### Problems with Claude Code
+### Model routing
 
-#### The usage limit problem
+Not every ticket needs the most expensive model. Tickets can carry a model routing section that says which kind of model should implement them. My rule of thumb: if tests or a browser pass can prove the change is right, a cheaper model can do it. If passing tests doesn't prove correctness (answer quality, streaming failure paths, concurrency), it stays on a frontier model.
 
-I need to be honest about this: Claude Code's usage limits have gotten rough.
+The way I fill this in is a bit of a hack. My Claude weekly limit resets on Saturday mornings, and I usually still have tokens left on Friday. So right before the reset I start one big Claude session at max effort, walk through the whole backlog, and split the tickets into "frontier" and "small model". The dispatcher then uses those labels to hand me the right ticket for each agent. Tokens that would have expired get spent on planning.
 
-Starting around late March 2026, something changed. Sessions that used to last hours started burning through in under 90 minutes. I'd start in the morning with a fresh 5-hour window and hit the limit in about 45 minutes doing the same kind of work that used to last all morning. I'm not alone. Anthropic acknowledged the issue, saying they're "aware people are hitting usage limits in Claude Code way faster than expected" and that it was their "top priority." There's a combination of intentional peak-hours throttling and what appears to be a caching regression causing the problem.
+### Planning (`start-ticket`)
 
-Anthropic engineer [Thariq Shihipar confirmed on X](https://x.com/trq212/status/2037254607001559305) that session limits now drain faster during weekday peak hours (5am-11am PT) to "manage growing demand." The [GitHub issue tracking the bug](https://github.com/anthropics/claude-code/issues/38335) has been accumulating reports since March 23, and threads on [r/ClaudeAI](https://www.reddit.com/r/ClaudeAI/) and [r/ClaudeCode](https://www.reddit.com/r/ClaudeCode/) have been flooded with complaints. One thread titled "20x max usage gone in 19 minutes" accumulated over 330 comments in 24 hours. A user who reverse-engineered the Claude Code binary found two independent bugs that break prompt caching, silently inflating costs by 10-20x.
+I create the worktree myself with worktrunk. The branch and the directory are both named after the ticket, and the skills check that before doing anything. They never create or repair a worktree.
 
-For me, it got bad enough that I've considered canceling my $100/month subscription. Just this week, I hit 50% of my weekly usage by Tuesday, and my usage resets on Friday. That's scary when you depend on the tool for your daily work. It's the single biggest reason I diversified so aggressively into OpenCode. I can't afford to sit around waiting for limits to reset when there's work to do.
+Then `start-ticket` runs a fully read-only investigation. It loads the ticket and all its comments, checks the blockers, reads the architecture notes and decision records for the area, reads my meeting notes on the topic (client decisions often reach my notes before they reach the tracker), and traces the current implementation end to end. The output is a plan where every acceptance criterion maps to a step, plus the browser checks the implementation will run. It doesn't touch the tracker and doesn't write code.
 
-#### The Anthropic third-party ban
+The plan usually comes with two or three questions. I'd much rather answer them here than find the assumptions later in a diff.
 
-As if the usage limits weren't enough, on April 4, 2026, Anthropic dropped another bomb: third-party harnesses like [OpenClaw](https://openclaw.ai/) can no longer use your Claude Max subscription limits. They emailed subscribers saying these tools "put an outsized strain on our systems" and that they need to "prioritize customers using core products."
+### Building (`work-ticket`)
 
-Let me translate that: I'm paying $100/month. I _am_ a customer. But apparently I'm not using the product the "right way" because I'm accessing Claude through OpenClaw on Telegram instead of through claude.ai. My OpenClaw setup was running Opus 4.6 for personal tasks: managing my calendar, maintaining my open source projects, doing research. Now if I want to keep using Claude with OpenClaw, I need to pay _extra_ on top of my subscription through their "extra usage" pay-as-you-go option.
+I say "go". The first thing the agent does is post the approved plan to the ticket and move it to In Progress. Then it implements, and this is the step that takes the longest (anywhere from half an hour to almost two hours).
 
-This also killed [CLIProxyAPI](/2026/02/use-your-claude-max-subscription-as-an-api-with-cliproxyapi/), which I wrote about just two months ago. That tool let me use my Max subscription with Emacs packages like forge-llm and magit-gptcommit. Dead now. Two months. I wrote an entire blog post about it, shared my config, and now it's useless.
+All my agentic work is test-first, backend and frontend. It's a rule in my Claude and OpenCode configs: before an agent changes behavior, it writes a failing unit test, then makes it pass, and builds from there. Frontend changes also get end-to-end tests, but those come at the end, once the feature works. Commits are atomic, the pre-commit hook runs lint, type checks and tests for every touched area, and branches sync by merging `main`, never by rebasing or force-pushing.
 
-I moved everything to [Lazer's LiteLLM proxy](https://lazertechnologies.com/) (a perk we have as employees) running [GLM-5](https://huggingface.co/zai-org/GLM-5) for OpenClaw and my Emacs tools. GLM-5 is a legitimately great model: it's open source, MIT licensed, and benchmarks competitively with frontier models on agentic tasks. But that's not the point. The point is that I was paying for a service and they changed what I was paying for. If you don't have access to a company proxy, [OpenRouter](https://openrouter.ai/) is a good alternative for routing to multiple models, or you can use API keys directly for whatever model you prefer.
+Before opening the PR, the agent also has to prove the product works. For any change a user can see, it starts a signed-in instance of the real app and drives it with [Playwright CLI](https://playwright.dev/) against the real backend, walking every acceptance criterion that has a visible result. It takes a screenshot per criterion and a video per interactive flow, and uploads them to both the ticket and the PR. It also runs one negative check, like opening a page as a user who shouldn't see it.
 
-Between the usage limits getting worse and the third-party ban, my relationship with Anthropic as a paying customer has taken a serious hit. The product is still excellent (Claude is the best model for coding, no question) but the business decisions around it are pushing people away. I've gone from enthusiastically recommending Claude Max to actively telling people to have a backup plan. I wrote more about this in [Anthropic is pushing away its paying customers](/2026/04/anthropic-is-pushing-away-its-paying-customers/).
+The PR includes a "Human verification" section with exact setup commands, numbered steps at exact URLs, the expected result of each, and cleanup. "Open the app and check it works" is not accepted. Then the agent waits for CI on the exact head commit, fixes deterministic failures itself, posts a handoff comment on the ticket, and stops.
 
-#### When it goes off the rails
+### The CI reviewer
 
-Rarely happens. I've seen it go off the rails maybe twice. When it does, I use GSD's built-in commands to steer it back on track. If it's _really_ far gone, I stop, `git revert`, and restart the GSD process from the top. But honestly, I've always been able to course-correct without a full reset.
+Every push to every non-draft PR triggers a GitHub Action that runs Claude Code (Opus 5.5 right now, through [Lazer Proxy](https://lazertechnologies.com/)) as a read-only reviewer.
 
-## OpenCode + GSD: The arsenal
+My biggest complaint about AI PR reviewers has always been context. They see a diff and nothing else, so they can't tell a mistake from a decision someone made on purpose. That's where the old "60% of AI suggestions make sense" number on this page came from (I'm still looking at you, CursorBot).
 
-[OpenCode](https://opencode.ai/) is half my workflow. GSD runs on OpenCode natively, which means I get the same milestone-driven, context-engineered workflow I have with Claude Code, but with any model I want.
+So before the model sees anything, the workflow builds the context itself:
 
-### How I use it
+1. A script collects the PR description, prior reviews, and every review thread with its resolved or open state.
+2. Another script pulls every ticket the PR delivers from the tracker.
+3. Both get injected into the prompt, and the reviewer uses the tickets as the specification.
 
-For GSD work, OpenCode is my overflow. When Claude Code hits usage limits, I switch to OpenCode running GPT 5.4 and pick up right where I left off. The GSD state lives in `.planning/`, so the handoff is seamless: same project files, same milestones, different engine.
+The reviewer can read files, grep, run `git`, and run a focused test against the locked dependencies to reproduce a bug. It can post inline comments. It can't edit, write, browse the web, or spawn subagents. It has to try to refute each finding before posting it, say whether it reproduced it or only traced it, and classify it (blocking, bug, test gap, question, nit). A small cleanup step hides superseded summaries so the PR doesn't fill up with bot noise.
 
-For non-GSD work, OpenCode is my daily driver. Creating PRs, running tests, committing changes, asking quick questions, fixing small bugs. Anything that doesn't need a full GSD orchestration goes straight to OpenCode. This keeps Claude Code's precious usage budget reserved for the big GSD stuff.
+The difference is huge. Of the replies my agents have written to review comments on my current project, 231 accepted the comment, 12 partially accepted it and 4 rejected it. That's a long way from 60%, and what changed was mostly the context.
 
-I also run OpenCode as a [persistent server on my main machine](/2026/04/opencode-as-a-server-ai-agents-that-work-while-i-sleep/), accessible from anywhere through my WireGuard VPN. I can start coding sessions from my MacBook Air at a coffee shop or from my phone on the couch. Just open a browser and go to my OpenCode domain. This is my primary mobile coding setup. I also have a [mosh + tmux + ntfy setup](/2026/02/claude-code-from-the-beach-my-remote-coding-setup-with-mosh-tmux-and-ntfy/) for Claude Code specifically (since it's terminal-only), but for everything else, OpenCode's web UI is a massive quality-of-life upgrade. No Termux, no SSH keys, no jump box. Just a browser.
+The workflow and the context script will be in the upcoming post, too.
 
-### The overnight crew
+### Answering the review (`address-pr-review`)
 
-Since the OpenCode server runs 24/7, I put it to work while I sleep. Using the [opencode-scheduler](https://github.com/different-ai/opencode-scheduler) plugin, I have three jobs that run between 2 AM and 4 AM:
+In a fresh session I say "address the comments on the PR". The skill's first rule is to treat review comments (human or bot) as claims to verify, not instructions to follow. Each comment gets checked; if it's real, the agent fixes the root cause with the smallest change and a regression test, commits, and when every comment is handled, pushes once. CI runs, the reviewer reviews again, and the agent replies to each thread with what it did and the commit that did it.
 
-- **2 AM, Test gap finder**: Scans the codebase for untested or under-tested code, writes the missing tests, and opens a PR.
-- **3 AM, Documentation updater**: Checks for outdated or missing docstrings and README sections, updates them, and opens a PR.
-- **4 AM, Convention enforcer**: Reviews code for style and convention violations that linters don't catch, fixes them, and opens a PR.
+If a comment contradicts a recorded decision, the agent pushes back with the decision record as evidence. It never resolves threads itself; the reviewer does that when it's satisfied.
 
-When I log in the next morning, I usually have 1-3 PRs waiting for me. Most are good to go with minor tweaks. It's like having a junior developer who works the night shift. Not perfect, but reliable, and surprisingly good at the boring stuff.
+And it stops after two rounds, whatever the reviewer says next. If the PR still isn't clear, that's when I step in. That cap exists for a reason: a reviewer that reproduces its findings never runs out of edge cases, and "keep going until the reviewer says clear" once got me a PR with 38 findings across 28 reviewed commits.
 
-This also helps with the Claude Code usage problem. These jobs run on OpenCode with models from Lazer's proxy, so they don't touch my Claude usage at all. More work gets done, less pressure on the limits.
+### Verification and merge
 
-### Models and providers
+When the reviewer is clear, I run the human verification steps myself. More and more, I ask an agent to run them with Playwright first, and then I run them. After that I read the code to make sure it makes sense, and I merge. There's a `finish-ticket` skill that does the whole audit trail (merge, verify parents, post-merge CI, completion comment), but honestly I'm usually the one pressing the button.
 
-OpenCode connects to [Lazer's LiteLLM proxy](https://lazertechnologies.com/), which gives me access to a bunch of models. Here's what I'm actually using:
+After each merge, a CI job regenerates the codebase wiki. I wrote about that in [I don't write codebase documentation anymore](/2026/09/i-dont-write-codebase-documentation-anymore/).
 
-**Primary workhorses (daily drivers for GSD + plan/build):**
-- **GPT 5.4**: My default model. It's verbose and careful; not quite as good as Opus on average, but close. Sometimes it matches Opus, sometimes it falls just short. More than good enough to keep GSD running when Claude is out of budget.
-- **GPT 5.3 Codex**: The build agent for OpenCode's plan/build flow. Around Sonnet-level. Sometimes it's a bit too simple for complex tasks, and I'm considering bumping its reasoning effort from medium to high, but for now it gets the job done.
+## Models and harnesses
 
-**GSD review panel (the 6 reviewers for my adversarial review patches):**
-- GPT 5.4, Gemini 3.1 Pro, MiniMax M2.5, Kimi K2.5, GLM-5 (all via OpenCode through Lazer), plus Claude Opus (via `claude -p`). More on this in the GSD patches section below.
+### Claude Code
 
-**Quick tasks and speed demons:**
-- **Qwen3 variants** and **GPT OSS 120B**: Insanely fast. I use these for tiny things like generating commits, asking quick questions, anything where speed matters more than depth. Not my daily drivers, but great to have in the roster.
+I'm still paying $100/month for [Claude Max](https://claude.ai/). Nine times out of ten I run Opus 5.5; I still reach for Fable now and then. I still skip permission prompts (`skipDangerousModePermissionPrompt: true`). I used to be against it, but after months of watching agents work in isolated worktrees with test-first rules and a pre-commit hook, the prompts slowed me down more than they protected me. If you're not comfortable with it, don't do it.
 
-**On thin ice:**
-- **Kimi K2.5**: The weakest of the bunch. It's thorough for reviews and I've gotten good feedback from it, but it's slow (probably DeepInfra, not Kimi's fault) and its output is very similar to the other reviewers. It's the one most likely to get dropped.
-- **Gemini 3.1 Pro**: I used to love Gemini 2.5 Pro. It was my planning agent, and it was genuinely great. Then the Gemini 3 upgrade happened and it was terrible for my workflow. Everyone was praising it, but it simply didn't work reliably with my agent setup. Gemini 3.1 improved things, but it never recovered to 2.5 Pro levels. My workflow was demanding enough that I hit the rough edges faster than most; colleagues who were praising Gemini 3 ended up reaching the same conclusions I did, just later. I still keep Gemini in the review panel because it occasionally catches things the others miss, but it's no longer trusted with planning or execution.
+Good news on the usage limits: they've gotten a lot better for me. Opus 5.5 is way gentler on tokens than 4.6 or 4.8 were. It still uses plenty, but I rarely hit the limit now, and when I do it resets in an hour or two, and I can keep going on GPT in the meantime. Fable is still hungry, but it doesn't bother me like it used to.
 
-### OpenCode config
+### OpenCode
 
-Here's what my `opencode.json` looks like right now:
+OpenCode is where everything that isn't Claude runs. On top of Claude Max, I now pay for OpenAI's [ChatGPT Pro 100](https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers) plan ($100/month), which OpenCode connects to with OAuth. Having a second subscription is a big part of why the Claude limits stopped hurting.
 
-```json
-{
-  "model": "openai/gpt-5.4",
-  "agent": {
-    "plan": {
-      "model": "openai/gpt-5.4",
-      "reasoningEffort": "xhigh"
-    },
-    "build": {
-      "model": "openai/gpt-5.3-codex",
-      "reasoningEffort": "xhigh"
-    }
-  },
-  "provider": {
-    "lazer": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Lazer",
-      "options": {
-        "baseURL": "https://llm.lazertechnologies.com/v1"
-      },
-      "models": {
-        "deepinfra/MiniMaxAI/MiniMax-M2.5": { "name": "MiniMax-M2.5" },
-        "deepinfra/Qwen/Qwen3-Coder-480B-A35B-Instruct-Turbo": { "name": "Qwen3 Coder 480B Turbo" },
-        "deepinfra/moonshotai/Kimi-K2.5-Turbo": { "name": "Kimi K2.5" },
-        "deepinfra/openai/gpt-oss-120b-Turbo": { "name": "GPT OSS 120B Turbo" },
-        "deepinfra/zai-org/GLM-5": { "name": "GLM-5" },
-        "gemini/gemini-3.1-pro-preview": { "name": "Gemini 3.1 Pro Preview" },
-        "gemini/gemini-3-flash-preview": { "name": "Gemini 3 Flash Preview" },
-        "openai/gpt-5.3-codex": { "name": "GPT 5.3 Codex" },
-        "openai/gpt-5.4": { "name": "GPT 5.4" }
-        "openai/gpt-5.4-mini": { "name": "GPT 5.4 Mini" }
-      }
-    }
-  },
-  "plugin": ["opencode-scheduler"]
-}
-```
+- GPT-6 Astra plans and GPT-6.1 Sol executes the frontier tickets I don't give to Claude. Sol 6.1 came out yesterday, and if the benchmarks hold up I'll probably drop Astra and use Sol for both.
+- GLM 5.3 and GLM 5.3 Flash handle the small tickets, and the odd part is that Flash plans while the big model executes. Everything I've read says the stronger model should plan and the lighter one should code, but with GLM I get better results the other way around, and I honestly don't know why. Flash is very fast and very good at planning; the big model is very good at programming.
 
-The full config with all experimental models, keybinds, permissions, and MCP servers is in my [dotfiles](https://git.rogs.me/rogs/dotfiles).
+So on my machine the routing is simple: Anthropic models go through my Claude subscription, OpenAI models through my ChatGPT subscription, and everything else through [Lazer Proxy](https://lazertechnologies.com/). (CI is the exception: the GitHub Actions jobs use the proxy for everything, Claude included.) The GLM models are served by Fireworks behind the proxy, so they're Chinese models running on North American infrastructure.
 
-## GSD patches: Making GSD my own
+The full OpenCode and Claude Code configs are in my [dotfiles](https://git.rogs.me/rogs/dotfiles).
 
-This is the section I'm most proud of. GSD is great out of the box, but I've patched three of its workflows to make them significantly better for my setup. These patches survive GSD updates through a canonical storage system: all source files live in `~/.config/gsd-patches/` and get synced to both Claude Code and OpenCode runtimes. I wrote a [dedicated blog post](/2026/04/i-patched-gsd-and-why-you-should-patch-it-too/) about the patches, the philosophy behind them, and how you can make your own.
+### The third-party ban still stands
 
-The patches are maintained in my [dotfiles](https://git.rogs.me/rogs/dotfiles) under `.config/gsd-patches/`. After a `/gsd:update` wipes the runtime files, I just run `~/.config/gsd-patches/bin/sync all` to reapply everything.
+In April, Anthropic [blocked third-party harnesses from using subscription limits](https://x.com/bcherny/status/2040206440556826908) with less than a day of notice. That killed [CLIProxyAPI](/2026/02/use-your-claude-max-subscription-as-an-api-with-cliproxyapi/) and forced my personal assistant off Opus. I wrote a whole angry post about it: [Anthropic is pushing away its paying customers](/2026/04/anthropic-is-pushing-away-its-paying-customers/).
 
-### Patch 1: Multi-model adversarial review
+It's still true, and I'm still a little mad. But time has passed, I have other options, and I'm not putting all my eggs in one basket anymore. The lesson from that post still holds: always have a provider-agnostic fallback.
 
-**This is the headline feature.** The stock GSD review runs a single model reviewing its own plans. My patch replaces that with 6 independent AI models reviewing every plan in parallel, using an 8-dimension adversarial framework.
+## The terminal: herdr and worktrunk
 
-The 6 reviewers:
-- GPT 5.4, Gemini 3.1 Pro, MiniMax M2.5, Kimi K2.5, GLM-5 (all via `opencode run -m`)
-- Claude Opus (via `claude -p`)
+I switched from tmux to [herdr](https://herdr.dev/), and I'm not going back.
 
-Each reviewer gets the exact same prompt with the project context, phase plans, and requirements. They independently evaluate the plan across 8 dimensions:
+My first try didn't stick. The keybindings were different, I didn't have time, and I was way too used to tmux. Then my friend Reed (who you might remember from [my certification post](/2026/07/how-i-got-claude-certified-and-how-you-can-too/)) suggested something obvious in hindsight: ask an agent to configure herdr with the same keybindings as my tmux setup. Genius tip. Five or ten minutes later, I was fully used to it.
 
-1. **Goal Alignment**: Does the plan actually solve the stated problem?
-2. **Architecture & Design Coherence**: Does it fit the existing system?
-3. **Failure Mode Analysis**: What happens when things go wrong?
-4. **Dependency & Ordering Risks**: Are there hidden sequencing constraints?
-5. **Security & Data Integrity**: Are new attack surfaces introduced?
-6. **Testing & Verification Strategy**: Will the tests actually catch regressions?
-7. **Operational Readiness**: How will you know if it's broken in production?
-8. **Missing Pieces**: What implicit assumptions need to be explicit?
+herdr works a lot like tmux: I open sessions, attach, detach, and they keep living in the background. But it adds things I used to need plugins for, or couldn't have at all:
 
-Each dimension gets a verdict (PASS / FLAG / BLOCK) with evidence and actionable recommendations. The reviews are combined into a `REVIEWS.md` file with a consensus summary that highlights blockers (issues raised by 2+ reviewers), agreed concerns, divergent views, and (most importantly) unique insights where a single reviewer caught something all others missed. Those blind spots are exactly why multi-model review exists.
+- Sessions survive a reboot. No resurrect plugin needed.
+- A side panel shows every agent I have running, so I can see at a glance who's working and who's waiting for me.
+- Multiple projects open at the same time, out of the box.
+- It's a first-class citizen in Moshi (see below).
 
-All 6 reviewers run in parallel, so the total review time is ~1-2 minutes. A plan that survives adversarial review from 6 independent AI systems is _much_ more robust than one reviewed by a single model.
+It's also a very active open source project, and it's built with AI agents in mind.
 
-### Patch 2: Auto-verify with `--auto`
+Worktrees are still managed by [worktrunk](https://worktrunk.dev/) (`wt`). Every ticket gets its own worktree under `~/code/worktrees/<repo>/<ticket>`, gitignored files like `.env` get copied in by a hook, and that's what lets four or five agents work on the same repo without stepping on each other. If it isn't broken, don't fix it.
 
-The stock `verify-work` workflow is fully manual: you test every single item by hand. My patch adds an `--auto` flag that automates the mechanical checks so you only need to manually verify subjective items.
+## Coding from my phone: Moshi + herdr
 
-When you run `/gsd:verify-work N --auto`, the workflow:
+My mobile setup used to be a whole chain: Termux, mosh, a jump box, tmux, ntfy for notifications, WireGuard to tie it together. I wrote [a full blog post](/2026/02/claude-code-from-the-beach-my-remote-coding-setup-with-mosh-tmux-and-ntfy/) about it, and I'm still proud of it, but it had a lot of moving parts.
 
-1. Checks if `playwright-cli` is available (graceful fallback if not)
-2. Auto-detects the base URL from `.env` or `PROJECT.md`
-3. Pings the URL to confirm the app is running
-4. Checks for auth credentials in `.env` or fixtures
-5. Classifies each test as a **playwright candidate** (UI elements, page loads), **curl candidate** (API endpoints, response shapes), or **interactive** (subjective UX, performance feel)
-6. Runs Playwright smoke checks for UI tests: page loads, key elements visible, no console errors
-7. Runs curl checks for API tests: endpoint reachability, response shape, CRUD with cleanup, error handling
-8. Reports results and falls through to the interactive loop for anything that couldn't be auto-verified
+Now it's just [Moshi](https://getmoshi.app/) with herdr inside it. Moshi speaks mosh, so the connection survives me pocketing the phone, and herdr is a first-class citizen in Moshi, so I land in the same sessions I have on my desk, with the same side panel showing all my agents.
 
-High-confidence failures (wrong status code, missing element, 500 error) get marked as issues automatically. Low-confidence failures (timeouts, flaky selectors) stay pending for manual testing. The result: I typically only need to manually verify 2-3 subjective items instead of 10-15 total tests. It dramatically reduces UAT time while keeping the human in the loop for things that need human judgment.
+It works really well on my Galaxy Fold. Opening the inner screen and having a full terminal on it is invaluable. I can check on four agents, answer a planning question, and approve a plan from the couch.
 
-### Patch 3: Cross-AI UI review
+For connectivity, WireGuard is gone too. I moved to [Headscale](https://headscale.net/), the open source Tailscale control server, running on my own infra (full write-up: [Running Headscale on my own infra](/2026/08/running-headscale-on-my-own-infra-and-finally-killing-my-wireguard-setup/)). It stays on on my phone and my machines, so I can reach them from anywhere with an internet connection.
 
-Similar concept to the adversarial plan review, but for frontend code. After GSD's built-in UI auditor runs a 6-pillar visual audit (Copywriting, Visuals, Color, Typography, Spacing, Experience Design), my patch invokes the same 6 external models to independently score all 6 pillars and challenge the primary auditor's findings.
+The [OpenCode server](/2026/04/opencode-as-a-server-ai-agents-that-work-while-i-sleep/) I set up in April is technically still running, but I don't use it anymore. Moshi and herdr replaced it completely. I should probably turn it off.
 
-The result is a score comparison table showing where models agree and disagree, a list of issues the primary auditor missed (caught by 2+ cross-AI reviewers), and score disagreements that warrant investigation. The workflow then routes you to the appropriate fix command based on severity. If there are many issues or any pillar scores poorly, it tells you to fix before moving on; if things look good, it suggests proceeding to the next phase.
+## Voice AI: talking to my tools
 
-UI evaluation is inherently subjective. Different models have different aesthetic sensibilities. A single auditor will always have blind spots. The multi-model approach makes those blind spots visible.
+I still use [Handy](https://handy.computer/) for local, offline speech-to-text, and I'd estimate 40 to 45% of my work now happens by voice instead of the keyboard. It's not my main input yet, but it's getting close. Most of the answers that went into this page were dictated.
 
-### Patch changelog
+Handy runs NVIDIA's [Parakeet V3](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3), a 600M parameter model that runs on CPU. I tried the newer models Handy offers and didn't see any improvement, only bigger and slower models. Parakeet is extremely fast and extremely accurate.
 
-I maintain a detailed changelog of all patches in `.config/gsd-patches/gsd-customizations.md` in my [dotfiles](https://git.rogs.me/rogs/dotfiles). It tracks what changed, why, and which GSD version the patch was made against. If you're curious about the evolution or want to adapt the patches for your own setup, that's the place to look. For the full walkthrough (including bugs I found in stock GSD and a guide for making your own patches), see the [blog post](/2026/04/i-patched-gsd-and-why-you-should-patch-it-too/).
+The part that matters most to me: it handles two languages properly. I'm a native Spanish speaker, and I switch between Spanish and English all day. Every other multilingual model I tried would hear me speak Spanish and transcribe it in English, or the other way around. Parakeet never does that: if I speak Spanish I get Spanish, and if I speak English I get English.
 
-## Aider: The sniper
+I use two modes, depending on who's going to read the text.
 
-[Aider](https://aider.chat/) is for precision. Let's say Claude Code or OpenCode did a great job on a feature, but missed docstrings in one file. Or left a TODO that needs resolving. Or the formatting is off in a single module. I don't need to fire up an entire agent orchestration system for that, I just point Aider at the file and fix it.
+With post-processing, for anything a human reads (Slack messages, docs, emails), Handy runs the raw transcription through a model that cleans up filler words, fixes grammar, and turns spoken rambling into proper written sentences. On my MacBook Air that's GPT OSS 120B through Lazer Proxy. On my main Linux machine it's Gemma 3, running locally in [Ollama](https://ollama.com/), so nothing leaves the machine.
 
-My Aider config has aliases for all the models I use through Lazer's proxy:
-
-```yaml
-alias:
-  # OpenAI
-  - "lazer-gpt5.3-codex:openai/openai/gpt-5.3-codex"
-  - "lazer-gpt5.4:openai/openai/gpt-5.4"
-  # Gemini
-  - "lazer-gemini-flash:openai/gemini/gemini-3-flash-preview"
-  - "lazer-gemini-pro:openai/gemini/gemini-3.1-pro-preview"
-  # Grok
-  - "lazer-grok:openai/xai/grok-code-fast-1"
-  # Open source
-  - "lazer-qwen3:openai/deepinfra/Qwen/Qwen3-235B-A22B-Instruct-2507"
-  - "lazer-qwen3-coder:openai/deepinfra/Qwen/Qwen3-Coder-480B-A35B-Instruct-Turbo"
-  - "lazer-kimi-k2.5:openai/deepinfra/moonshotai/Kimi-K2.5"
-  - "lazer-minimax-m2.5:openai/deepinfra/MiniMaxAI/MiniMax-M2.5"
-  - "lazer-gpt-oss-120b:openai/deepinfra/openai/gpt-oss-120b-Turbo"
-  - "lazer-glm-5:openai/deepinfra/zai-org/GLM-5"
-```
-
-So I can do `aider --model lazer-gpt5.4` or `aider --model lazer-glm-5` and be off to the races. Aider is still the sniper, and it's still great at what it does.
-
-## Voice AI: Talking to my tools
-
-This is a recent addition to my workflow, and it's been a game changer. I use [Handy](https://handy.computer/) for local, offline speech-to-text. It's free, open source, and runs entirely on my machine. No audio ever leaves my computer.
-
-Handy uses NVIDIA's [Parakeet V3](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3) model for transcription, which is a 600M parameter model that runs on CPU (no GPU required). It works amazingly well on both my main machine (the Ryzen 9 beast) and my MacBook Air M1. The workflow is dead simple: I put my cursor in a text field, press the shortcut to start Handy, speak, press the shortcut again, and the transcribed text gets auto-pasted into whatever I was typing in. No copy-paste needed.
-
-I use two modes depending on the context:
-
-**With post-processing (for written communication):** When I'm writing Slack messages, documentation, emails, or anything that needs to read like polished written text, I enable Handy's built-in post-processing. On my MacBook Air, it sends the raw transcription through GPT OSS 120B Turbo via Lazer's proxy. On my main machine, it uses Gemma 3 through [Ollama](https://ollama.com/) (fully local, no network needed). The post-processor cleans up filler words, fixes grammar, and restructures spoken rambling into proper written sentences.
-
-**Raw transcription (for talking to AI):** When I'm talking to Claude, OpenCode, or any AI tool, I skip post-processing entirely. The AI can handle messy spoken input just fine. I just tell it "this is spoken, not written" and it adjusts. This page you're reading right now? Most of the content was dictated through Handy into Claude, and Claude cleaned it up into proper prose. It's a fantastic way to do brain dumps without the friction of typing everything out.
-
-Voice input has made me faster at the things I used to dread: writing long Slack messages, documenting decisions, explaining context in PRs, and especially communicating with AI tools. English is my second language, and sometimes my thoughts flow better when I speak them than when I type them. Handy bridges that gap.
+Without post-processing, for talking to agents, I use the raw transcription and just tell the agent "this is spoken, not written". Agents handle messy spoken input just fine, and I give way more context when I talk than when I type.
 
 ## Beyond coding
 
-AI isn't just for writing code. Here's where else I use it (and yes, most of this happens from Emacs, because of course it does):
+- Commits and PRs: my agents create them with skills that follow each repo's commit conventions and PR templates. I still have [forge-llm](https://gitlab.com/rogs/forge-llm) and [magit-gptcommit](https://github.com/douo/magit-gptcommit) in Emacs, pointed at the latest models on Lazer Proxy, but I rarely use them now that agents do almost all the work.
+- Documentation: a [generated wiki](/2026/09/i-dont-write-codebase-documentation-anymore/) that rewrites itself from the code on every push to `main`. It replaced the overnight documentation job.
+- Personal assistant: my [OpenClaw](https://github.com/openclaw/openclaw) agent on Telegram runs GLM 5.3, with GLM 5.3 Flash for images (5.3 isn't multimodal). I'm thinking about moving to Hermes, but OpenClaw works perfectly and I don't want to be the guy who breaks a working setup for fun (yet).
+- Proofreading: English is not my first language (hola! 🇻🇪), so I use Claude a lot for emails, Slack messages and docs.
+- Research: Claude is still my faster, friendlier Google.
 
-- **PR creation and commits**: I built Claude Code skills (`create-pr` and `commit`) that handle the entire PR pipeline: convention review, linting, type checking, testing, and PR creation with auto-generated descriptions. The `commit` skill analyzes the repo's own commit history to match its conventions, so it works on any project without configuration. These skills work on both Claude Code and OpenCode (OpenCode reads skills from Claude's directory). I also have [forge-llm](https://gitlab.com/rogs/forge-llm) and [magit-gptcommit](https://github.com/douo/magit-gptcommit) in my Emacs setup. These used to run through [CLIProxyAPI](/2026/02/use-your-claude-max-subscription-as-an-api-with-cliproxyapi/) (which is now dead), so I moved them to [Lazer's LiteLLM proxy](https://lazertechnologies.com/). forge-llm now defaults to GLM-5, and magit-gptcommit uses Qwen3 Coder 480B Turbo. Both have OpenAI models as fallbacks. If you don't have access to a company proxy like Lazer's, [OpenRouter](https://openrouter.ai/) is a solid alternative, or you can use your own API keys directly for the model you prefer.
-- **Proofreading**: English is not my first language (hola! 🇻🇪), so I use the Claude website a lot for proofreading emails, Slack messages, documentation, you name it.
-- **Research and "searches"**: I use Claude as a faster, friendlier Google. Investigations, quick questions, exploring ideas.
-- **Personal assistant**: I have an [OpenClaw](https://github.com/openclaw/openclaw) agent on my Telegram chats that manages my calendar, contacts, helps me maintain my open source projects, does research, and is just an all-around good guy. It _was_ running on Claude Opus 4.6 through my Max subscription, and it was perfect. Then [Anthropic decided to block third-party harnesses from using subscription limits](https://x.com/bcherny/status/2040206440556826908) (effective April 4, 2026), so I had to rip out the model and replace it with [GLM-5](https://huggingface.co/zai-org/GLM-5) running through [Lazer's LiteLLM proxy](https://lazertechnologies.com/). GLM-5 is a great model, genuinely impressive for agentic tasks, but I shouldn't have had to make this change. I am paying $100/month and Anthropic pulled the rug.
-- **Coding from anywhere**: I have two setups for remote coding. My primary setup is [OpenCode as a server](/2026/04/opencode-as-a-server-ai-agents-that-work-while-i-sleep/), a persistent OpenCode instance on my main machine, accessible from any browser through WireGuard. For Claude Code specifically (since it's terminal-only), I still use my [mosh + tmux + ntfy setup](/2026/02/claude-code-from-the-beach-my-remote-coding-setup-with-mosh-tmux-and-ntfy/). Both connect directly to my main machine through WireGuard; no jump box needed anymore.
+## The graveyard
+
+RIP 🪦 to the tools that got me here.
+
+- [GSD](https://github.com/gsd-build/get-shit-done): for months this was the core of my workflow, and my [GSD patches](/2026/04/i-patched-gsd-and-why-you-should-patch-it-too/) were the part of this page I was proudest of. Then development went sideways: the project kept adding things that didn't make sense to me, and the founder [allegedly rug-pulled a crypto token tied to the project](https://intellectia.ai/news/crypto/gsd-token-allegedly-rugpulled-after-founder-exit). I tried forking it and tuning it my way, then realized Claude Code and OpenCode were good enough on their own and I didn't need a framework. I rebuilt what I actually used as a handful of skills. The patches are still in my dotfiles; I just don't use them.
+- The multi-model adversarial review: six models reviewing every plan in parallel. It caught things, but it made more noise than it was worth. One reviewer with the right context beats six reviewers without it. I might revisit the idea someday.
+- [Aider](https://aider.chat/): the sniper. Once every agent works in its own worktree with its own tests, I stopped needing a separate tool for single-file fixes, so it's completely out of my pipeline.
+- tmux, Termux, WireGuard and ntfy: replaced by herdr, Moshi and Headscale.
+- The overnight crew: my scheduled test, docs and convention jobs are paused, not deleted. They're very useful; my current project just doesn't need them, since everything is test-first and the wiki handles docs. The test gap job was the best one, and I might bring it back.
+- The herdr orchestrator: I tried building an agent whose only job was driving herdr panes and taking tickets to PR on its own. It was slow, sluggish, and made a lot of mistakes, so it didn't pan out.
+- Devin: we used it at the company for a while, and I ran some tests with it. It's not part of my setup today.
 
 ## The before and after
 
-Before AI tools, my workflow was: grab a task, study the code, read tons of documentation (internal and external), ask teammates for help, confirm my thought process, then code manually little by little: add something, run it, see if it produces what I expect, add a little more, repeat.
+Before AI tools, my workflow was: grab a task, study the code, read tons of documentation, ask teammates for help, confirm my thought process, then code little by little.
 
-Now? It's hard to quantify exactly, but:
+On my current project, I'm the only developer on a web front end, an API and a data pipeline. Six weeks in:
 
-- Tickets that used to take **1 week** now take a **couple of days**.
-- Tickets that used to take **3 days** can be done in **half a day**.
-- A huge investigation (spike) that would've taken me **3-5 days** was finished in **1 day**, with way more detail than I could've produced myself.
-- On a past project, we were tasked with **3 months of work** that we needed to squeeze into **1 month**. With AI (I was only using my custom OpenCode flow at the time), we finished in **3 weeks**. We even had some buffer days to spare.
+- 128 pull requests, 124 of them merged, about 1,300 commits on `main`.
+- Planning a ticket takes about 12 minutes. Building it, from plan approval to green CI, takes 27 minutes to a bit under two hours.
+- The CI reviewer has reviewed 91 PRs and posted 581 findings (447 of them bugs).
+- The median time from PR open to merge is about 18 hours. The slowest step is me running the verification steps, not the agents.
 
-But the speed isn't even the biggest change. What really shifted is the _type_ of work I do now:
+Some of the older numbers from this page still hold too:
 
-- I take on more ambitious tasks. I'm less anxious about picking up things I've never done before (they do come from time to time! I certainly don't know it all, and in this line of work you never stop learning!).
-- PR reviews are no longer a chore.
-- I spend way more time on **architecture** than on implementation. To me, architecture is more important than code. You can have the prettiest code ever, but if it's poorly architected (for example, can't scale or someone made bad design decisions) it doesn't matter. A well-architected system can endure messy code much better than a poorly-architected one can endure clean code.
+- Tickets that used to take a week take a couple of days.
+- Tickets that used to take three days can be done in half a day.
+- A spike that would have taken me three to five days took one, with way more detail than I could have produced.
+- On a past project, three months of work squeezed into one month got done in three weeks.
+
+Speed is only part of it. The kind of work I do changed too: I take on more ambitious tasks, and I spend way more time on architecture than on implementation. A well-architected system can endure messy code much better than a poorly-architected one can endure clean code, and now I have the time to care about the first part.
 
 ## The honest stuff
 
 AI is not perfect. Here's what I've learned the hard way:
 
-- **AI can't be simple.** If you ask it to keep things simple and not overcomplicate stuff, it sometimes completely misses the mark and goes full steam ahead anyway.
-- **Frontend is still rough.** I'm not a frontend dev, but I've heard colleagues complain about models not being good enough for frontend work. They have to do workarounds like sending screenshots or connecting Puppeteer/Playwright so the AI can "see" what it's doing.
-- **Hallucinations happen.** AI is _amazing_ at writing documentation, but every once in a while it will hallucinate stuff that doesn't exist in the codebase. It's rare now, but it does happen.
-- **PR review bots can be annoying.** In my experience, around 60% of AI review suggestions make sense. The AI sometimes lacks full project knowledge, or can't see that something was done a certain way on purpose. I'm looking at you, CursorBot. You're so annoying.
-- **Usage limits can derail your day.** When your tool of choice runs out of budget at 10 AM and doesn't reset for another 3-4 hours, you're stuck. Having a fallback (OpenCode, in my case) is no longer optional; it's essential.
-- **Your provider can change the rules on you.** I learned this the hard way when Anthropic [blocked third-party harnesses from using subscription limits](https://x.com/bcherny/status/2040206440556826908). Tools and workflows I'd built and documented became useless overnight. Always have a provider-agnostic fallback. Don't put all your eggs in one basket.
+- AI can't be simple. Ask it to keep things simple and it sometimes goes full steam ahead anyway.
+- Frontend got a lot better. This used to say frontend was rough, but now every frontend change gets verified with Playwright CLI and screenshots, so the agent can see what it built, fix itself when something looks wrong, and I can point at a screenshot and say "that". It's in a much better place.
+- A reviewer that reproduces its findings never runs out of findings. On one PR, round after round of new edge cases led an agent to add a heuristic for each one, and one of those heuristics caused a real data-loss bug. That's why address rounds are capped at two and why decision records matter: they're what lets an agent say no with evidence.
+- Bots can bury humans. At one point the reviewer had written about six times more text on our PRs than the humans had. Hiding superseded summaries and teaching it to review like my teammates and I actually review fixed it.
+- A green run can lie. My wiki job reported success eleven times in a row while committing almost nothing. Check that the work actually happened, even when the job exits 0.
+- Parallel agents create parallel problems. At one point I had 22 PRs open at once, and three of them claimed the same database migration number. Git didn't flag it; an agent checking every pair did.
+- Hallucinations still happen, rarely.
+- Your provider can change the rules on you, so always have a fallback.
 
 ## Code review for AI-generated code
 
-I always review AI-generated code myself while also having Claude/OpenCode review it in parallel. I try to find things on my own and see if the AI agrees with me. Then I go through the AI's suggestions and check if they make logical sense. The combination of human + AI review catches way more than either one alone.
+The CI reviewer doesn't replace me reading the code. When a PR is clear, I still read it and check that the logic makes sense. The reviewer catches bugs; I catch "this works, but it's the wrong idea". The combination catches way more than either one alone.
 
 ## The culture at Lazer
 
-We're a very AI-forward company. We have a Slack channel called `#ai-chats` where we discuss our workflows, help each other, and share new tools. It's one of the noisiest channels in our entire Slack (and I've added to that noise a lot haha), and for good reason: there's so much knowledge being shared every day that it's amazing to be a part of. I always share my setups and configs with the team, and they share theirs back. My setup gets updated at least twice a week with stuff I learn from that channel.
+We're a very AI-forward company. We have a Slack channel called `#ai-chats` where we discuss workflows, help each other, and share new tools. It's one of the noisiest channels in our Slack (and I've added to that noise a lot haha). Half of what's on this page came from there, including the herdr tip that finally made me switch.
 
 ## My golden rule
 
-**Never trust AI 100%.** Always verify. Always make sure that whatever it's doing makes sense. It's a tool, not a replacement for your brain.
+**Never trust AI 100%.** Verify everything, and make sure whatever it's doing makes sense. It's a tool, and your brain is still the one in charge.
 
 ## Advice for getting started
 
-It's never too late to start! Here's what I'd say to anyone beginning their AI coding journey:
+Design your own tools, poke around different models, and keep investigating. I went from a big framework to a handful of markdown files, and my workflow got better, because the files do exactly what I need and nothing else.
 
-Design your own tools. Poke around different models. Never stop investigating. We're at a time where we have the incredible capability of designing our own toolbox, exactly the way we like it. Want to use Codex over Claude? Go for it. GSD is not for you? Maybe [Vibe Kanban](https://github.com/BloopAI/vibe-kanban) is better. Do you have a super custom flow that works perfectly for you but might not work for anyone else? Build it yourself! Create your own agents, your own commands, and go for it. The sky is the limit.
+If you want something like my setup but my terminal-heavy approach looks like too much, try [Orca](https://www.onorca.dev/). When people ask me what they should use, nine times out of ten that's my answer. It's much friendlier for beginners, and it does most of what I do with herdr through a much nicer interface. My fiancée is a UX/UI designer, not a programmer, and she uses it every day and loves it. I've tried it too, and it works really well; it's just not my jam, because I prefer the terminal and my Moshi + herdr setup is too powerful to give up.
 
 ## Where this is going
 
-This is going way up. We're just at the beginning, and I don't see it stopping anytime soon. AI is not going to replace developers. But a developer who leverages AI effectively will replace one who doesn't.
+This is going way up. AI is not going to replace developers, but a developer who uses AI well will replace one who doesn't.
 
-We all got promoted to team leads. We lead a team of agents that can handle the bulk of the implementation. Our job is to manage them, give them clear direction, and verify their work makes sense. The developers who thrive in this new world aren't the ones who type the fastest; they're the ones who think the clearest, architect the best, and review the most carefully.
+We all got promoted to team leads. We lead a team of agents that handles the bulk of the implementation, and our job is to give them clear direction and verify their work. The developers who thrive here think clearly, architect well, and review carefully. Typing speed stopped mattering a while ago.
 
 ## Show me the dotfiles
 
-All my configs are public. If you want to see the exact files behind everything described on this page, check out my dotfiles: [git.rogs.me/rogs/dotfiles](https://git.rogs.me/rogs/dotfiles)
-
-You'll find my OpenCode config (providers, models, agents, plugins), Claude Code config (skills, hooks, settings), GSD patches (workflows, commands, sync scripts), and Aider config (model aliases, settings). Feel free to steal whatever is useful to you. If you want to understand the GSD patches before diving into the code, start with the [blog post](/2026/04/i-patched-gsd-and-why-you-should-patch-it-too/).
+My general configs are public: [git.rogs.me/rogs/dotfiles](https://git.rogs.me/rogs/dotfiles). You'll find my OpenCode and Claude Code configs, rules, hooks, and the old GSD patches for historical purposes. The ticket skills and the review workflow live inside my client's repo, so they're not in there yet; cleaned-up versions are coming in the pipeline post (see the note in [From ticket to reviewed PR](#from-ticket-to-reviewed-pr)).
 
 ## What I'm watching
 
-Tools and projects I'm currently experimenting with or keeping an eye on:
-
-- **[GSD 2](https://github.com/gsd-build/gsd-2)**: The next generation of GSD, rebuilt as a standalone CLI on the Pi SDK instead of injected prompts. I've been using it for personal projects on weekends, and the potential is huge: direct control over context windows, sessions, crash recovery, auto-advance through milestones. But the development has been rough. The main developer releases things fast and breaks things frequently. GSD 1 is still way more reliable for client work. I'm watching GSD 2 closely and I've had good conversations with the developer through GitHub issues. He seems responsive and passionate. But it needs to reach a stable version before I'd trust it for production work.
-- **Improving my mobile setup**: My [OpenCode server](/2026/04/opencode-as-a-server-ai-agents-that-work-while-i-sleep/) setup works great, but I want to make the notification flow smarter and add better tmux window management for Claude Code.
-- **[NullClaw](https://github.com/nullclaw/nullclaw)**: A blazing fast alternative to OpenClaw written in Zig. 678 KB binary, ~1 MB RAM. I'm considering migrating my personal assistant setup to it.
-- **MiniMax M2.7**: Waiting for DeepInfra to add it. MiniMax M2.5 has been great in my review panel, and 2.7 is supposed to be a significant upgrade.
-- **Whatever shows up in `#ai-chats` next week**: Honestly, half my discoveries come from that channel. The pace of innovation right now is insane.
+- GPT-6.1 Sol for everything. If it holds up, it replaces Astra for planning too.
+- A test gap reviewer, either as a dedicated reviewer in CI or as the old overnight test job coming back.
+- Multi-model review again. It's shelved for now, but I haven't ruled it out.
+- Hermes, as a possible replacement for OpenClaw, once I'm brave enough.
+- Whatever shows up in `#ai-chats` next week.
 
 ---
 
@@ -395,10 +301,11 @@ Tools and projects I'm currently experimenting with or keeping an eye on:
 
 | Date | Summary |
 |------|---------|
-| April 4, 2026 | Anthropic third-party ban: OpenClaw moved from Opus 4.6 to GLM-5, CLIProxyAPI deprecated, Emacs tools (forge-llm, magit-gptcommit) migrated to Lazer proxy, added provider diversification warnings. |
+| September 30, 2026 | Full rewrite. GSD, Aider, tmux, Termux, WireGuard and ntfy retired. New ticket-to-PR skills pipeline with a dispatcher agent, context-fed CI reviewer, model routing, herdr + worktrunk, Moshi + Headscale for mobile, Opus 5.5 / GPT-6 / GLM 5.3 lineup, new numbers, and a graveyard section. |
+| April 4, 2026 | Anthropic third-party ban: OpenClaw moved from Opus 4.6 to GLM-5, CLIProxyAPI deprecated, Emacs tools (forge-llm, magit-gptcommit) migrated to Lazer proxy, added provider diversification warnings. [Archive.org capture](https://web.archive.org/web/20260930133823/https://rogs.me/ai/) |
 | April 2026 | Major update: 50/50 Claude/OpenCode split, GSD patches (adversarial review, auto-verify, UI review), usage limits reality check, OpenCode server setup, model landscape overhaul, voice AI with Handy. [Archive.org capture](https://web.archive.org/web/20260404172912/https://rogs.me/ai/) |
 | February 2026 | Initial version of this page - [Archive.org capture](https://web.archive.org/web/20260311131024/https://rogs.me/ai/) |
 
 ---
 
-_Last updated: April 4, 2026. This page is a living document. I'll keep adding to it as my workflow evolves. If you have questions or want to chat about AI workflows, [hit me up](/contact)!_
+_Last updated: September 30, 2026. This page is a living document. I'll keep adding to it as my workflow evolves. If you have questions or want to chat about AI workflows, [hit me up](/contact)!_
